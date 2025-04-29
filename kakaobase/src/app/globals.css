@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 애니메이션 키프레임 정의 */
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/*그라데이션 배경*/
+.bg-animated-gradient {
+  background: linear-gradient(32deg, #e5e5fd 24%, #edfcfb 58%, #f8f6fc 76%);
+  background-size: 200% 200%;
+  animation: gradient-move 2s linear infinite;
+}
