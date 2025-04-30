@@ -14,11 +14,6 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
       colors: {
         bgColor: 'var(--bgColor)',
         containerColor: 'var(--containerColor)',
@@ -28,7 +23,7 @@ const config: Config = {
         textOnLight: 'var(--textOnLight)',
         textColor: 'var(--textColor)',
         redHeart: 'var(--redHeart)',
-        filledIcon: 'var(--filledIcon)',
+        iconColor: 'var(--iconColor)',
         innerContainerColor: 'var(--innerContainerColor)',
       },
       fontFamily: {

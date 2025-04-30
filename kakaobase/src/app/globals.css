@@ -32,7 +32,7 @@
   --textOnLight: #202632;
   --textColor: #202632;
   --redHeart: #ff465c;
-  --filledIcon: #bcbec1;
+  --iconColor: #bcbec1;
   --innerContainerColor: #e9e9ea;
 }
 
@@ -46,6 +46,6 @@
   --textOnLight: #202632;
   --textColor: #f5f6f8;
   --redHeart: #ff465c;
-  --filledIcon: #636770;
+  --iconColor: #636770;
   --innerContainerColor: #4d515b;
 }
