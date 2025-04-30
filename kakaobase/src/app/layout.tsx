@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { pretendard } from './fonts';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Kakaobase',
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body
         className={`bg-animated-gradient sm:bg-animated-gradient ${pretendard.className}`}
       >
-        <div className="mx-auto min-h-screen max-w-[390px] bg-white text-foreground shadow-md">
-          {children}
-        </div>
+        <Providers>
+          <div className="mx-auto min-h-screen max-w-[390px] bg-bgColor text-textColor shadow-md">
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
