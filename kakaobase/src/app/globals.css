@@ -34,6 +34,7 @@
   --redHeart: #ff465c;
   --iconColor: #bcbec1;
   --innerContainerColor: #e9e9ea;
+  --textOpacity50: #20263250;
 }
 
 /* 다크 모드 색상 세팅*/
@@ -48,4 +49,5 @@
   --redHeart: #ff465c;
   --iconColor: #636770;
   --innerContainerColor: #4d515b;
+  --textOpacity50: #f5f6f850;
 }

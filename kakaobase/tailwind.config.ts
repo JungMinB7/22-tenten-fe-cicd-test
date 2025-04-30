@@ -25,6 +25,7 @@ const config: Config = {
         redHeart: 'var(--redHeart)',
         iconColor: 'var(--iconColor)',
         innerContainerColor: 'var(--innerContainerColor)',
+        textOpacity50: 'var(--textOpacity50)',
       },
       fontFamily: {
         sans: ['Pretendard', 'S-CoreDream', 'Noto Sans KR', 'sans-serif'],
