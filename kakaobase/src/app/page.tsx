@@ -1,4 +1,4 @@
-import HeaderMain from '@/components/common/HeaderMain';
+import HeaderMain from '@/components/common/header/HeaderMain';
 import NavBar from '@/components/common/NavBar';
 
 export default function Home() {
