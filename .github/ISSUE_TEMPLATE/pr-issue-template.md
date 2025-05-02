@@ -2,7 +2,7 @@
 name: PR issue template
 about: PR 이슈 템플릿입니다.
 title: "[FEAT] 기능명"
-labels: PR
+labels: ''
 assignees: okiidokim
 
 ---

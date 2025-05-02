@@ -2,7 +2,7 @@
 name: Commit issue template
 about: 커밋 이슈 템플릿입니다.
 title: "[FEAT] 기능명"
-labels: 커밋
+labels: ''
 assignees: okiidokim
 
 ---
