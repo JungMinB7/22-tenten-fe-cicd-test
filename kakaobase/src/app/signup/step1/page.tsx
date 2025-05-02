@@ -1,7 +1,11 @@
+import Header from '@/components/common/header/Header';
+import SignupStep1Form from '@/components/user/SignupStep1Form';
+
 export default function Page() {
   return (
     <div>
-      <div>회원가입 1단계 페이지입니다.</div>
+      <Header label="회원가입" />
+      <SignupStep1Form />
     </div>
   );
 }
