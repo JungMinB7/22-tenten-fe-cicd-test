@@ -2,13 +2,16 @@ export default function SubmitButtonSmall({
   label,
   disabled,
   onClick,
+  type = 'submit',
 }: {
   label: string;
   disabled?: boolean;
   onClick?: () => void;
+  type?: 'submit' | 'button';
 }) {
   return (
     <button
+      type={type}
       onClick={() => {
         if (!disabled) onClick?.();
       }}

@@ -37,6 +37,7 @@ export default function EmailAuthStep() {
           label="전송"
           disabled={!isEmailValid}
           onClick={sendCode}
+          type="button"
         />
       </div>
       <div className="flex items-center gap-4">
@@ -56,6 +57,7 @@ export default function EmailAuthStep() {
           label={codeButtonLabel}
           onClick={verifyCode}
           disabled={!isCodeValid}
+          type="button"
         />
       </div>
     </div>
