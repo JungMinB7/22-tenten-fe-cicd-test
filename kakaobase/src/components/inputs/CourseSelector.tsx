@@ -16,12 +16,17 @@ const CourseSelector = forwardRef<HTMLSelectElement, UserInputProps>(
           ref={ref}
           {...props}
           className="w-full bg-innerContainerColor focus:outline-none text-xs rounded-full py-1 px-4 appearance-"
+          defaultValue=""
         >
-          <option disabled selected value="">
+          <option disabled value="">
             수강 과정을 선택해 주세요.
           </option>
           {courseEnum.options.map((option) => (
-            <option value={option} className="hover:bg-myLightBlue w-full">
+            <option
+              value={option}
+              key={option}
+              className="hover:bg-myLightBlue w-full"
+            >
               {option}
             </option>
           ))}
