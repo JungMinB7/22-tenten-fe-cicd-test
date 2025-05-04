@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="flex flex-col h-screen">
       <HeaderMain />
-      <div className="flex flex-col overflow-y-auto pb-20">
+      <div className="flex flex-col overflow-y-auto">
         <PostCard />
         <PostCard />
         <PostCard />
