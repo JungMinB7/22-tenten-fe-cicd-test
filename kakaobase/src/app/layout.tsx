@@ -22,7 +22,7 @@ export default function RootLayout({
         className={`bg-animated-gradient sm:bg-animated-gradient ${pretendard.className}`}
       >
         <Providers>
-          <div className="mx-auto min-h-screen max-w-[390px] bg-bgColor text-textColor shadow-md">
+          <div className="flex flex-col mx-auto h-screen scrollbar-hide max-w-[390px] bg-bgColor text-textColor shadow-md">
             {children}
           </div>
         </Providers>

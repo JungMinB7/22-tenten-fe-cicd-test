@@ -54,7 +54,7 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <div className="flex justify-between py-5 px-8 items-end absolute bottom-0 left-0 right-0 mx-auto max-w-[390px] z-100 bg-bgColor">
+    <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full">
       <div className="flex gap-12">
         <NavItem icon={House} path="/" />
         <NavItem icon={MessageCircle} path="/chat" />
@@ -63,7 +63,7 @@ export default function NavBar() {
         onClick={() => {
           router.push('/post/new');
         }}
-        className="absolute left-1/2 -translate-x-1/2 -top-8 w-16 h-16 rounded-full flex items-center justify-center bg-myBlue shadow-[0_4px_16px_rgba(44,102,255,0.6)]"
+        className="mb-2 w-16 h-16 rounded-full flex items-center justify-center bg-myBlue shadow-[0_4px_16px_rgba(44,102,255,0.6)]"
       >
         <Plus className="w-8 h-16 text-textOnBlue align-middle" />
       </button>
