@@ -1,8 +1,8 @@
 ---
 name: PR issue template
-about: PR 이슈 템플릿입니다.
-title: "[FEAT] 기능명"
-labels: ''
+about: "[ \U0001F4CC FEAT] 기능명 (PR 이슈 템플릿입니다.)"
+title: "[ \U0001F4CC FEAT] 기능명"
+labels: FEAT
 assignees: okiidokim
 
 ---
@@ -14,18 +14,10 @@ assignees: okiidokim
 - [ ] 기타 사소한 수정
 
 ## ❗️ 관련 이슈 링크
-Close #
-
-## 📌 개요
-- 
+Closes #
 
 ## 🔁 변경 사항
+- 
 
 ## 👀 기타 더 이야기해볼 점
-
-## ✅ 체크 리스트
-- [ ] PR 템플릿에 맞추어 작성했어요.
-- [ ] 변경 내용에 대한 테스트를 진행했어요.
-- [ ] 프로그램이 정상적으로 동작해요.
-- [ ] PR에 적절한 라벨을 선택했어요.
-- [ ] 불필요한 코드는 삭제했어요.
+-

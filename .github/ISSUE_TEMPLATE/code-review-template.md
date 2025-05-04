@@ -1,9 +1,9 @@
 ---
 name: Code Review Template
-about: 코드리뷰 템플릿입니다.
-title: "[코드리뷰] FE -"
-labels: ''
-assignees: 1026hz
+about: "[ \U0001F49B FE - REVIEW ] 코드리뷰 템플릿입니다."
+title: "[ \U0001F49B FE - REVIEW ] 리뷰 제목"
+labels: REVIEW, 질문
+assignees: ''
 
 ---
 
