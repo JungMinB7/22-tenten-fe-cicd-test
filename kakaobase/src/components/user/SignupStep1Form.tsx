@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/emailAuthStore';
 import SubmitButton from '../common/SubmitButton';
 import EmailAuthStep from './EmailAuthStep';
 import PasswordStep from './PasswordStep';
-import { usePasswordStep } from '@/hooks/usePasswordStep';
+import { usePasswordStep } from '@/hooks/user/usePasswordStep';
 import { useSignupStore } from '@/stores/signupStore';
 import { useRouter } from 'next/navigation';
 

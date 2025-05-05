@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { PostState } from '@/stores/postStore';
 import formatDate from '@/lib/formatDate';
-import { useLikeToggle } from '@/hooks/useLikeHook';
+import { useLikeToggle } from '@/hooks/user/useLikeHook';
 
 export default function PostCard({ post }: { post: PostState }) {
   const router = useRouter();
@@ -20,6 +20,10 @@ export default function PostCard({ post }: { post: PostState }) {
   const summary =
     '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
   const [summaryButton, setSummaryButton] = useState('요약 보기');
+
+  function navDetail() {
+    router.push(`/post/${post.id}`);
+  }
 
   function showSummary() {
     setOpen((prev) => !prev);
@@ -44,6 +48,7 @@ export default function PostCard({ post }: { post: PostState }) {
               height={32}
               alt="프로필"
               className="rounded-lg"
+              priority
             />
           ) : (
             <User className="text-textColor" width={20} height={20} />
@@ -84,8 +89,8 @@ export default function PostCard({ post }: { post: PostState }) {
             </div>
           </div>
           <div
-            className="w-full text-sm line-clamp-2 overflow-hidden text-ellipsis cursor-pointer"
-            onClick={() => router.push(`/post/${post.id}`)}
+            className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis"
+            onClick={navDetail}
           >
             {post.content}
           </div>
@@ -98,6 +103,7 @@ export default function PostCard({ post }: { post: PostState }) {
                   height={144}
                   width={152}
                   className="rounded-lg"
+                  priority
                 />
               ) : null
             ) : (
@@ -105,9 +111,11 @@ export default function PostCard({ post }: { post: PostState }) {
                 width="256"
                 height="144"
                 loading="lazy"
-                src={`https://www.youtube-nocookie.com/embed/${post.youtubeUrl}`}
+                src={`https://www.youtube-nocookie.com/embed/${post.youtubeUrl}?autoplay=1`}
                 title="유튜브 영상"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="rounded-lg"
               ></iframe>
             )}
           </div>
@@ -127,7 +135,7 @@ export default function PostCard({ post }: { post: PostState }) {
               <MessageCircle
                 width={24}
                 height={24}
-                onClick={() => router.push(`/post/${post.id}`)}
+                onClick={navDetail}
                 className="cursor-pointer"
               />
               <div className="w-12 self-center">{post.commentCount}</div>

@@ -34,7 +34,8 @@ export const dummyPosts: PostState[] = [
     userProfileUrl: '',
     isMine: false,
     type: 'post',
-    content: 'React Server Components로 LCP 개선하는 법 공유합니다!',
+    content:
+      'React Server Components로 LCP 개선하는 법 공유합니다! 두 줄 컨텐츠에서 왜 느려지는 걸까요?',
     ImageUrl: undefined,
     youtubeUrl: undefined,
     youtubeSummary: undefined,

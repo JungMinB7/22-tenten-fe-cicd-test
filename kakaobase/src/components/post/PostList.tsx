@@ -1,5 +1,5 @@
 'use client';
-import usePosts from '@/hooks/usePostCardHook';
+import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
 
 export default function PostList() {
