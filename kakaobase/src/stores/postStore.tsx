@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
-interface PostState {
+export interface PostState {
   id: number;
   userId: number;
-  userName: string;
+  nickname: string;
   userProfileUrl: string;
   isMine: boolean;
   type: 'post' | 'comment' | 'recomment';
@@ -14,13 +14,14 @@ interface PostState {
   commentCount: number;
   likeCount: number;
   isFollowing: boolean;
+  isLiked: boolean;
   createdAt: string;
   onClickFollow: () => void;
   onClickReport: () => void;
   onClickUser: () => void;
   onClickPostCard: () => void;
   onClickDelete: () => void;
-  onClickMoreInfo: () => void;
+  onClickLike: () => void;
   onClickYoutubeSummary: () => void;
   setPostCardInfo: (post: Partial<PostState>) => void;
 }
@@ -28,7 +29,7 @@ interface PostState {
 export const usePostStore = create<PostState>((set) => ({
   id: 1,
   userId: 1,
-  userName: '',
+  nickname: '',
   userProfileUrl: '',
   isMine: false,
   type: 'post',
@@ -39,13 +40,14 @@ export const usePostStore = create<PostState>((set) => ({
   commentCount: 0,
   likeCount: 0,
   isFollowing: false,
+  isLiked: false,
   createdAt: Date.now().toString(),
   onClickFollow: () => {},
   onClickReport: () => {},
   onClickUser: () => {},
   onClickPostCard: () => {},
   onClickDelete: () => {},
-  onClickMoreInfo: () => {},
+  onClickLike: () => {},
   onClickYoutubeSummary: () => {},
   setPostCardInfo: (post) => set((state) => ({ ...state, ...post })),
 }));
