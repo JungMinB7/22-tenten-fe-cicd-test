@@ -17,7 +17,7 @@ export default function PostCard({ post }: { post: PostState }) {
 
   return (
     <div className="flex">
-      <div className="flex w-full bg-containerColor mx-8 my-4 p-4 gap-2 rounded-2xl">
+      <div className="flex w-full bg-containerColor mx-6 my-4 p-4 gap-2 rounded-2xl">
         <UserProfile post={post} />
         <div className="w-full flex flex-col gap-2 text-textColor">
           <UserInfo post={post} />
@@ -31,7 +31,7 @@ export default function PostCard({ post }: { post: PostState }) {
             </div>
           ) : null}
 
-          <div className="w-64 flex justify-center content-center">
+          <div className="w-68 flex justify-center content-center">
             {!post.youtubeUrl ? (
               post.ImageUrl ? (
                 <Image
@@ -45,7 +45,7 @@ export default function PostCard({ post }: { post: PostState }) {
               ) : null
             ) : (
               <iframe
-                width="256"
+                width="268"
                 height="144"
                 loading="lazy"
                 src={`https://www.youtube-nocookie.com/embed/${post.youtubeUrl}`}

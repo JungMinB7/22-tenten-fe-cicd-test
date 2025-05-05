@@ -3,7 +3,7 @@ import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
 
 export default function PostList() {
-  const { posts, loading, error } = usePosts({ limits: 5 });
+  const { posts } = usePosts({ limits: 5 });
 
   return (
     <div className="flex flex-col overflow-y-auto">
