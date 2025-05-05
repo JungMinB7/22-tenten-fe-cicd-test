@@ -11,7 +11,7 @@ export default function FollowButtonSmall() {
   return (
     <button
       onClick={controlFollow}
-      className={`h-4 w-12 align-center rounded-full ${
+      className={`h-4 w-12 align-center rounded-full flex justify-center ${
         !isFollowed
           ? 'bg-myLightBlue text-textOnLight'
           : 'bg-myBlue text-textOnBlue'
