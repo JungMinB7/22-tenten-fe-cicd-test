@@ -1,16 +1,15 @@
 import HeaderMain from '@/components/common/header/HeaderMain';
 import NavBar from '@/components/common/NavBar';
-import PostCard from '@/components/post/PostCard';
+import PostCourseSelector from '@/components/post/PostCourseSelector';
+import PostList from '@/components/post/PostList';
 
 export default function Home() {
   return (
-    <main className="flex flex-col h-screen">
+    <main className="flex flex-col h-screen scroll-none ">
       <HeaderMain />
-      <div className="flex flex-col overflow-y-auto">
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+      <PostCourseSelector />
+      <div className="flex overflow-y-auto flex-grow">
+        <PostList />
       </div>
       <NavBar />
     </main>

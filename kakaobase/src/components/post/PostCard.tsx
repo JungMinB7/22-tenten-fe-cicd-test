@@ -1,36 +1,25 @@
 'use client';
-import { Heart, MessageCircle, ShieldAlert, User } from 'lucide-react';
+import { Heart, MessageCircle, ShieldAlert, Trash2, User } from 'lucide-react';
 import FollowButtonSmall from '../user/FollowButtonSmall';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { PostState } from '@/stores/postStore';
+import formatDate from '@/lib/formatDate';
+import { useLikeToggle } from '@/hooks/useLikeHook';
 
-export default function PostCard() {
+export default function PostCard({ post }: { post: PostState }) {
   const router = useRouter();
 
-  const [isLiked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(12);
-  const youtubeId = '';
-  const profileUrl = '/test_profile.jpg';
-  const imageUrl = '/test_profile.jpg';
-  const content =
-    '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
-  const nickname = 'daisy.kim';
-  const createdAt = '오전 11:24';
+  const { isLiked, likeCount, toggleLike } = useLikeToggle(
+    post.isLiked,
+    post.likeCount
+  );
 
   const [isOpen, setOpen] = useState(false);
   const summary =
     '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
   const [summaryButton, setSummaryButton] = useState('요약 보기');
-
-  function controlLike() {
-    setLiked((prev) => !prev);
-    if (isLiked) {
-      setLikeCount((prev) => prev - 1);
-    } else {
-      setLikeCount((prev) => prev + 1);
-    }
-  }
 
   function showSummary() {
     setOpen((prev) => !prev);
@@ -46,11 +35,11 @@ export default function PostCard() {
       <div className="flex w-full bg-containerColor mx-8 my-4 p-4 gap-2 rounded-2xl">
         <div
           className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
-          onClick={() => router.push('/profile/1')}
+          onClick={() => router.push(`/profile/${post.userId}`)}
         >
-          {profileUrl ? (
+          {post.userProfileUrl ? (
             <Image
-              src={profileUrl}
+              src={post.userProfileUrl}
               width={32}
               height={32}
               alt="프로필"
@@ -64,34 +53,47 @@ export default function PostCard() {
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
               <div
-                className="cursor-pointer"
-                onClick={() => router.push('/profile/1')}
+                className="cursor-pointer font-bold text-sm"
+                onClick={() => router.push(`/profile/${post.userId}`)}
               >
-                {nickname}
+                {post.nickname}
               </div>
-              <FollowButtonSmall />
+              {post.isMine ? null : (
+                <FollowButtonSmall isFollowing={post.isFollowing} />
+              )}
             </div>
             <div className="flex gap-2 align-center justify-center">
-              <div className="flex self-center text-xs">{createdAt}</div>
-              <ShieldAlert
-                width={16}
-                height={16}
-                className="self-center cursor-pointer"
-                onClick={() => router.push('/report')}
-              />
+              <div className="flex self-center text-xs">
+                {formatDate(post.createdAt)}
+              </div>
+              {post.isMine ? (
+                <Trash2
+                  width={16}
+                  height={16}
+                  className="self-center cursor-pointer"
+                  onClick={() => router.push('/report')}
+                />
+              ) : (
+                <ShieldAlert
+                  width={16}
+                  height={16}
+                  className="self-center cursor-pointer"
+                  onClick={() => router.push('/report')}
+                />
+              )}
             </div>
           </div>
           <div
             className="w-full text-sm line-clamp-2 overflow-hidden text-ellipsis cursor-pointer"
-            onClick={() => router.push('post/1')}
+            onClick={() => router.push(`/post/${post.id}`)}
           >
-            {content}
+            {post.content}
           </div>
           <div className="w-64 flex justify-center content-center">
-            {!youtubeId ? (
-              imageUrl ? (
+            {!post.youtubeUrl ? (
+              post.ImageUrl ? (
                 <Image
-                  src={imageUrl}
+                  src={post.ImageUrl}
                   alt="이미지"
                   height={144}
                   width={152}
@@ -103,13 +105,13 @@ export default function PostCard() {
                 width="256"
                 height="144"
                 loading="lazy"
-                src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+                src={`https://www.youtube-nocookie.com/embed/${post.youtubeUrl}`}
                 title="유튜브 영상"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               ></iframe>
             )}
           </div>
-          {youtubeId ? (
+          {post.youtubeUrl ? (
             <div className="text-xs text-textColor">
               <div
                 className="font-semibold cursor-pointer"
@@ -125,16 +127,16 @@ export default function PostCard() {
               <MessageCircle
                 width={24}
                 height={24}
-                onClick={() => router.push('post/[id]')}
+                onClick={() => router.push(`/post/${post.id}`)}
                 className="cursor-pointer"
               />
-              <div className="w-12 self-center">140.2k</div>
+              <div className="w-12 self-center">{post.commentCount}</div>
             </div>
             <div className="flex gap-1">
               <Heart
                 width={24}
                 height={24}
-                onClick={controlLike}
+                onClick={toggleLike}
                 fill={isLiked ? '#ff465c' : 'transparent'}
                 strokeWidth={isLiked ? 0 : 2}
                 className="cursor-pointer"
