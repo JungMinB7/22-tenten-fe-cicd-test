@@ -1,4 +1,3 @@
-// src/hooks/usePosts.ts
 import { useEffect, useState } from 'react';
 import getPost from '@/apis/postList';
 import { PostState } from '@/stores/postStore';
