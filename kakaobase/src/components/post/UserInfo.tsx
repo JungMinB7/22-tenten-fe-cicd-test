@@ -7,17 +7,21 @@ import Image from 'next/image';
 import { useDeleteHook } from '@/hooks/post/useDeleteHook';
 import DeleteModal from './DeleteModal';
 
-function navProfile(id: number) {
+function nav({ id }: { id: number }) {
   const router = useRouter();
-
-  router.push(`/profile/${id}`);
+  function navProfile() {
+    router.push(`/profile/${id}`);
+  }
+  return { router, navProfile };
 }
 
 export function UserProfile({ post }: { post: PostState }) {
+  const userId = Number(post.userId);
+  const { navProfile } = nav({ id: userId });
   return (
     <div
       className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
-      onClick={() => navProfile(post.id)}
+      onClick={navProfile}
     >
       {post.userProfileUrl ? (
         <Image
@@ -36,16 +40,13 @@ export function UserProfile({ post }: { post: PostState }) {
 }
 
 export function UserInfo({ post }: { post: PostState }) {
-  const router = useRouter();
+  const { router, navProfile } = nav({ id: post.userId });
   const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
 
   return (
     <div className="flex justify-between">
       <div className="flex gap-2 items-center">
-        <div
-          className="cursor-pointer font-bold text-sm"
-          onClick={() => navProfile(post.id)}
-        >
+        <div className="cursor-pointer font-bold text-sm" onClick={navProfile}>
           {post.nickname}
         </div>
         {post.isMine ? null : (
