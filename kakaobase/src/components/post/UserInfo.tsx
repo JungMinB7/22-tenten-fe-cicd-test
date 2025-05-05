@@ -4,6 +4,8 @@ import FollowButtonSmall from '../user/FollowButtonSmall';
 import formatDate from '@/lib/formatDate';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useDeleteHook } from '@/hooks/post/useDeleteHook';
+import DeleteModal from './DeleteModal';
 
 function navProfile(id: number) {
   const router = useRouter();
@@ -35,6 +37,7 @@ export function UserProfile({ post }: { post: PostState }) {
 
 export function UserInfo({ post }: { post: PostState }) {
   const router = useRouter();
+  const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
 
   return (
     <div className="flex justify-between">
@@ -58,7 +61,7 @@ export function UserInfo({ post }: { post: PostState }) {
             width={16}
             height={16}
             className="self-center cursor-pointer"
-            onClick={() => router.push('/report')}
+            onClick={openModal}
           />
         ) : (
           <ShieldAlert
@@ -69,6 +72,9 @@ export function UserInfo({ post }: { post: PostState }) {
           />
         )}
       </div>
+      {isOpened ? (
+        <DeleteModal closeFunction={closeModal} okFunction={deletePost} />
+      ) : null}
     </div>
   );
 }
