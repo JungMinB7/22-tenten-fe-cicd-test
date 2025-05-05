@@ -54,7 +54,7 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full">
+    <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full z-50">
       <div className="flex gap-12">
         <NavItem icon={House} path="/" />
         <NavItem icon={MessageCircle} path="/chat" />

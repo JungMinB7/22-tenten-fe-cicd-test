@@ -1,4 +1,4 @@
-import { useEmailAuth } from '@/hooks/useEmailAuth';
+import { useEmailAuth } from '@/hooks/auth/useEmailAuth';
 import SubmitButtonSmall from '../common/SubmitButtonSmall';
 import UserInput from '../inputs/UserInput';
 

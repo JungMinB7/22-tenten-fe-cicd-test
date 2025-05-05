@@ -2,7 +2,7 @@
 
 import UserInput from '../inputs/UserInput';
 import SubmitButton from '../common/SubmitButton';
-import useLoginForm from '@/hooks/useLoginForm';
+import useLoginForm from '@/hooks/user/useLoginForm';
 import { useState } from 'react';
 
 export default function LoginForm() {
