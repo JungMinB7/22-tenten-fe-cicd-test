@@ -6,15 +6,22 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function PostCard() {
+  const router = useRouter();
+
   const [isLiked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(12);
-  const youtubeId = 'GLSzQceXAbI';
+  const youtubeId = '';
   const profileUrl = '/test_profile.jpg';
   const imageUrl = '/test_profile.jpg';
   const content =
     '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
   const nickname = 'daisy.kim';
   const createdAt = '오전 11:24';
+
+  const [isOpen, setOpen] = useState(false);
+  const summary =
+    '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
+  const [summaryButton, setSummaryButton] = useState('요약 보기');
 
   function controlLike() {
     setLiked((prev) => !prev);
@@ -25,10 +32,17 @@ export default function PostCard() {
     }
   }
 
-  const router = useRouter();
+  function showSummary() {
+    setOpen((prev) => !prev);
+    if (isOpen) {
+      setSummaryButton('요약 보기');
+    } else {
+      setSummaryButton('닫기');
+    }
+  }
 
   return (
-    <div className="flex animate-slide-in">
+    <div className="flex">
       <div className="flex w-full bg-containerColor mx-8 my-4 p-4 gap-2 rounded-2xl">
         <div
           className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
@@ -69,29 +83,43 @@ export default function PostCard() {
           </div>
           <div
             className="w-full text-sm line-clamp-2 overflow-hidden text-ellipsis cursor-pointer"
-            onClick={() => router.push('post/[id]')}
+            onClick={() => router.push('post/1')}
           >
             {content}
           </div>
           <div className="w-64 flex justify-center content-center">
-            {youtubeId === null ? (
-              <Image
-                src={imageUrl}
-                alt="이미지"
-                height={144}
-                width={152}
-                className="rounded-lg"
-              />
+            {!youtubeId ? (
+              imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt="이미지"
+                  height={144}
+                  width={152}
+                  className="rounded-lg"
+                />
+              ) : null
             ) : (
               <iframe
                 width="256"
                 height="144"
-                src={`https://www.youtube.com/embed/${youtubeId}`}
+                loading="lazy"
+                src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
                 title="유튜브 영상"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               ></iframe>
             )}
           </div>
+          {youtubeId ? (
+            <div className="text-xs text-textColor">
+              <div
+                className="font-semibold cursor-pointer"
+                onClick={showSummary}
+              >
+                {summaryButton}
+              </div>
+              {isOpen ? <div>{summary}</div> : null}
+            </div>
+          ) : null}
           <div className="flex gap-4 text-sm">
             <div className="flex gap-1 justify-center">
               <MessageCircle
