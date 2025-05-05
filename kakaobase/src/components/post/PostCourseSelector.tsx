@@ -1,6 +1,6 @@
 export default function PostCourseSelector() {
   return (
-    <div className="border-b-[0.5px] border-b-textColor px-10 py-6 bg-bgColor">
+    <div className="border-b-[1px] border-textOpacity50 px-10 py-6 bg-bgColor">
       <select
         name="post-course"
         className="bg-transparent focus:outline-none font-bold"
