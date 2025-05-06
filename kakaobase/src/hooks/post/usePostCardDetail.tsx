@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import getPost from '@/apis/postList';
+import getPosts from '@/apis/postList';
 import { PostState } from '@/stores/postStore';
 
 export default function usePostDetail({ id }: { id: number }) {
@@ -13,7 +13,7 @@ export default function usePostDetail({ id }: { id: number }) {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const data = await getPost({});
+        const data = await getPosts({});
         setPost(data.find((post) => post.id === id));
       } catch (err) {
         setError(err as Error);
