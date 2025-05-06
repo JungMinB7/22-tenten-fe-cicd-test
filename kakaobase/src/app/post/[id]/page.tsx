@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { id: number } }) {
     <div className="flex flex-col h-screen">
       <Header label="게시글 상세" />
       <PostCard post={post} />
-      <MiddleBar id={id} />
+      <MiddleBar />
       <div className="overflow-y-auto flex flex-grow">
         <PostList />
       </div>
