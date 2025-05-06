@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import getPost from '@/apis/postList';
+import getPosts from '@/apis/postList';
 import { PostState } from '@/stores/postStore';
 
 interface UsePostsOptions {
@@ -17,7 +17,7 @@ export default function usePosts(options?: UsePostsOptions) {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const data = await getPost(options ?? {});
+        const data = await getPosts(options ?? {});
         setPosts(data);
       } catch (err) {
         setError(err as Error);

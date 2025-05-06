@@ -7,7 +7,7 @@ interface GetPostParams {
   createdAt?: string;
 }
 
-export default async function getPost({
+export default async function getPosts({
   limits,
   cursor,
   createdAt,
@@ -36,7 +36,7 @@ export default async function getPost({
     // );
     // return response.data;
   } catch (e) {
-    console.log('getPost() error:', e);
+    console.log('getPosts() error:', e);
     return [];
   }
 }
