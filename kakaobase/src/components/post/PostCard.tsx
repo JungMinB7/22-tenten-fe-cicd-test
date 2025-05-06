@@ -1,20 +1,18 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { PostState } from '@/stores/postStore';
 import { useYoutubeHook } from '@/hooks/post/useYoutubeHook';
 import CountsInfo from './CountsInfo';
 import { UserProfile, UserInfo } from './UserInfo';
+import usePostDetail from '@/hooks/post/usePostCardDetail';
+import { useRouter } from 'next/navigation';
 
 export default function PostCard({ post }: { post: PostState }) {
   const router = useRouter();
-
-  const { isOpen, summary, summaryButton, showSummary } = useYoutubeHook();
-
+  const { isOpen, summaryButton, showSummary } = useYoutubeHook();
   function navDetail() {
     router.push(`/post/${post.id}`);
   }
-
   return (
     <div className="flex">
       <div className="flex w-full bg-containerColor mx-6 my-4 p-4 gap-2 rounded-2xl">
@@ -61,7 +59,7 @@ export default function PostCard({ post }: { post: PostState }) {
               <div className="cursor-pointer" onClick={showSummary}>
                 {summaryButton}
               </div>
-              {isOpen ? <div>{summary}</div> : null}
+              {isOpen ? <div>{post.youtubeSummary}</div> : null}
             </div>
           ) : null}
           <CountsInfo post={post} />

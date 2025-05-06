@@ -61,10 +61,12 @@ export default function CountsInfo({ post }: { post: PostState }) {
 
   return (
     <div className="flex gap-4 text-sm">
-      <CommentInfo
-        onClickFunction={navDetail}
-        commentCount={post.commentCount}
-      />
+      {post.type !== 'recomment' && (
+        <CommentInfo
+          onClickFunction={navDetail}
+          commentCount={post.commentCount}
+        />
+      )}
       <LikeInfo
         likeCount={likeCount}
         condition={isLiked}
