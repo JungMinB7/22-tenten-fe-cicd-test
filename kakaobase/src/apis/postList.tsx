@@ -1,7 +1,7 @@
 import { dummyPosts } from '@/data/dummyPosts';
 import { PostState } from '@/stores/postStore';
 
-interface GetPostParams {
+interface GetPostsParams {
   limits?: number;
   cursor?: number;
   createdAt?: string;
@@ -11,12 +11,11 @@ export default async function getPosts({
   limits,
   cursor,
   createdAt,
-}: GetPostParams): Promise<PostState[]> {
+}: GetPostsParams): Promise<PostState[]> {
   try {
-    let filtered = [...dummyPosts];
 
     if (cursor !== undefined) {
-      filtered = filtered.filter((post) => post.id < cursor);
+      filtered = filtered.filter((post) => post.id < cursor); // 이전보다 작은 ID만 가져옴
     }
 
     if (createdAt !== undefined) {
@@ -28,7 +27,7 @@ export default async function getPosts({
     }
 
     return await new Promise((resolve) => {
-      setTimeout(() => resolve(filtered), 300); // 300ms 지연
+      setTimeout(() => resolve(filtered), 300); // 300ms 지연 로딩 테스트하려고 일부러 함
     });
 
     // const response = await api.get(
