@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import getPosts from '@/apis/postList';
 import { PostState } from '@/stores/postStore';
-import { useRouter } from 'next/navigation';
+import { newDummyPost } from '@/data/newDummyPost';
 
 export default function usePostDetail({ id }: { id: number }) {
-  const router = useRouter();
-
   const [post, setPost] = useState<PostState>();
   //const postType = 'pangyo_2';
 
@@ -15,6 +13,10 @@ export default function usePostDetail({ id }: { id: number }) {
   const fetchPosts = async () => {
     try {
       setLoading(true);
+      if (id == 100) {
+        setPost(newDummyPost);
+        return;
+      }
       const data = await getPosts({});
       setPost(data.find((post) => post.id === id));
     } catch (err) {
