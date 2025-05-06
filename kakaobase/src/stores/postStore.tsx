@@ -26,12 +26,24 @@ export interface PostState {
   setPostCardInfo: (post: Partial<PostState>) => void;
 }
 
-export const usePostStore = create<PostState>((set) => ({
+interface PostEditorState {
+  content?: string;
+  youtubeUrl?: string;
+  imageUrl?: string;
+  setEditorData: (data: {
+    content: string;
+    youtubeUrl: string;
+    imageUrl: string;
+  }) => void;
+  resetEditor: () => void;
+}
+
+export const usePostStore = create<PostState & PostEditorState>((set) => ({
   id: 1,
   userId: 1,
   nickname: '',
   userProfileUrl: '',
-  isMine: false,
+  isMine: true,
   type: 'post',
   content: '',
   ImageUrl: '',
@@ -50,4 +62,12 @@ export const usePostStore = create<PostState>((set) => ({
   onClickLike: () => {},
   onClickYoutubeSummary: () => {},
   setPostCardInfo: (post) => set((state) => ({ ...state, ...post })),
+  setEditorData: (data) => set((state) => ({ ...state, ...data })),
+  resetEditor: () =>
+    set((state) => ({
+      ...state,
+      content: '',
+      youtubeUrl: '',
+      imageUrl: '',
+    })),
 }));
