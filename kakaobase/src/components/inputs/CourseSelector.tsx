@@ -36,4 +36,6 @@ const CourseSelector = forwardRef<HTMLSelectElement, UserInputProps>(
   }
 );
 
+CourseSelector.displayName = 'CourseSelector';
+
 export default CourseSelector;
