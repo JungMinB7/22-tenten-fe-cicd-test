@@ -7,17 +7,11 @@ import Image from 'next/image';
 import { useDeleteHook } from '@/hooks/post/useDeleteHook';
 import DeleteModal from './DeleteModal';
 
-function nav({ id }: { id: number }) {
+export function UserProfile({ post }: { post: PostState }) {
   const router = useRouter();
   function navProfile() {
-    router.push(`/profile/${id}`);
+    router.push(`/profile/${post.id}`);
   }
-  return { router, navProfile };
-}
-
-export function UserProfile({ post }: { post: PostState }) {
-  const userId = Number(post.userId);
-  const { navProfile } = nav({ id: userId });
   return (
     <div
       className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
@@ -40,7 +34,10 @@ export function UserProfile({ post }: { post: PostState }) {
 }
 
 export function UserInfo({ post }: { post: PostState }) {
-  const { router, navProfile } = nav({ id: post.userId });
+  const router = useRouter();
+  function navProfile() {
+    router.push(`/profile/${post.id}`);
+  }
   const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
 
   return (
