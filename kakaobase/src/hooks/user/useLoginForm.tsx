@@ -3,40 +3,63 @@ import { loginSchema } from '@/schemas/loginSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/stores/userStore';
+// import { useUserStore } from '@/stores/userStore';
+// import { v4 as uuidv4 } from 'uuid';
+// import login from '@/apis/login';
 
 type LoginFormData = z.infer<typeof loginSchema>;
-//로그인 스키마의 타입을 추론하여 로그인 폼 데이터 자료형을 정의하겠다는 뜻
 
 export default function useLoginForm() {
   const router = useRouter();
+  //const setUserInfo = useUserStore((state) => state.setUserInfo);
 
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
-
-  const methods = useForm<LoginFormData>({
-    //LoginFormData 자료형의 폼을 사용하겠다.
+  const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'all', //첫 유효성 검사가 발생하는 시점
-    reValidateMode: 'onChange', //유효성 재검사가 발생하는 시점 - 입력이 바뀔 때마다
+    mode: 'all',
+    reValidateMode: 'onChange',
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (data: LoginFormData, autoLogin: boolean) => {
-    setUserInfo({
-      userId: 'mock-id',
-      email: data.email,
-      nickname: 'mock-nick',
-      profileImageUrl: '/default-profile.png',
-      autoLogin: autoLogin,
-    });
-    router.push('/');
+  const onSubmit = async (data: LoginFormData, autoLogin: boolean) => {
+    // const deviceId = localStorage.getItem('deviceId') || uuidv4();
+    // localStorage.setItem('deviceId', deviceId);
+    // const userAgent = navigator.userAgent;
+
+    // const requestBody = {
+    //   email: data.email,
+    //   password: data.password,
+    //   device_id: deviceId,
+    //   user_agent: userAgent,
+    // };
+
+    // try {
+    //   const response = await login(requestBody);
+    //   document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
+    //   document.cookie = `course=${response.data.class_name}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기
+    //   document.cookie = `course=${response.data.nickname}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기
+    //   document.cookie = `course=${response.data.nickname}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기
+    //   if (autoLogin) {
+    //     document.cookie = `autoLogin=true; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기
+    //   } else {
+    //     document.cookie = `autoLogin=false; path=/; max-age=0`; // 삭제
+    //   }
+    //   setUserInfo({
+    //     course: response.data.class_name,
+    //     nickname: response.data.nickname,
+    //     autoLogin: autoLogin,
+    //   });
+    //   router.push('/');
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    router.push('/'); // 실제 api 연결 후 지우기
   };
 
   return {
-    ...methods,
+    ...loginForm,
     onSubmit,
     goToSignup: () => {
       router.push('/signup/step1');

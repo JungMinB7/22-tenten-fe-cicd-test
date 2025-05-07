@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export interface UserState {
-  userId: string;
+  userId: number;
   email: string;
   name: string;
   nickname: string;
@@ -14,7 +14,7 @@ export interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  userId: '',
+  userId: 0,
   email: '',
   name: '',
   nickname: '',
@@ -24,9 +24,8 @@ export const useUserStore = create<UserState>((set) => ({
   autoLogin: false,
   setUserInfo: (user) => set((state) => ({ ...state, ...user })),
   reset: () =>
-    //로그아웃 때 사용하는 함수
     set({
-      userId: '',
+      userId: 0,
       email: '',
       name: '',
       nickname: '',
