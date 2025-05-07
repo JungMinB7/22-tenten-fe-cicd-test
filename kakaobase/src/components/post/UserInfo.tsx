@@ -36,7 +36,7 @@ export function UserProfile({ post }: { post: PostState }) {
 export function UserInfo({ post }: { post: PostState }) {
   const router = useRouter();
   function navProfile() {
-    router.push(`/profile/${post.id}`);
+    router.push(`/profile/${post.userId}`);
   }
   const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
 
