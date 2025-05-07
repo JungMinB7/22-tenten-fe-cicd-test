@@ -16,9 +16,12 @@ interface LoginResponse {
   };
 }
 
-export default async function login(
-  payload: LoginRequest
-): Promise<LoginResponse> {
+export async function login(payload: LoginRequest): Promise<LoginResponse> {
   const response = await api.post('/auth/tokens', payload);
+  return response.data;
+}
+
+export async function refreshLogin() {
+  const response = await api.post('auth/tokens/refresh');
   return response.data;
 }
