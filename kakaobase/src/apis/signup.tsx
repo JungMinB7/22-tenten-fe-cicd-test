@@ -1,6 +1,6 @@
 import api from './api';
 
-interface LoginRequest {
+interface SignupRequest {
   email: string;
   password: string;
   name: string;
@@ -9,26 +9,12 @@ interface LoginRequest {
   github_url: string;
 }
 
-export default async function signup({
-  email: string,
-  password,
-  name,
-  nickname,
-  class_name,
-  github_url,
-}: LoginRequest) {
+export default async function signup(payload: SignupRequest): Promise<void> {
   try {
-    const response = await api.post('/users', {
-      email: string,
-      password,
-      name,
-      nickname,
-      class_name,
-      github_url,
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
+    await api.post('/users', payload);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      throw e.message;
+    }
   }
 }
