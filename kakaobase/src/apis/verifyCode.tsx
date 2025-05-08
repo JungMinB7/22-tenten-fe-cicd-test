@@ -1,11 +1,14 @@
 import api from './api';
 
-export default async function verifyCode({ code }: { code: number }) {
+interface codeVerification {
+  email: string;
+  code: string;
+}
+
+export default async function verifyCode({ email, code }: codeVerification) {
   try {
-    const response = await api.post('/users/email/verification', { code });
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
+    await api.post('/users/email/verification', { email, code });
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e.message;
   }
 }

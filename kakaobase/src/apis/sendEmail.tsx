@@ -1,13 +1,19 @@
 import api from './api';
 
-export default async function sendEmail({ email }: { email: string }) {
+interface EmailVerification {
+  email: string;
+  purpose: 'sign-up' | 'password-reset';
+}
+
+export default async function sendEmail({ email, purpose }: EmailVerification) {
   try {
-    const response = await api.post('/users/email/verification-requests', {
+    await api.post('/users/email/verification-requests', {
       email,
+      purpose,
     });
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      throw e.message;
+    }
   }
 }
