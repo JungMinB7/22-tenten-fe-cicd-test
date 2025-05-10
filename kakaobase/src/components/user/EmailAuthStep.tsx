@@ -4,18 +4,18 @@ import UserInput from '../inputs/UserInput';
 
 export default function EmailAuthStep() {
   const {
-    codeInput,
-    setCodeInput,
-    emailInput,
-    setEmailInput,
+    code,
+    setCode,
+    email,
+    setEmail,
     error,
     isEmailValid,
     validateEmail,
     sendCode,
     verifyCode,
+    isCodeValid,
     codeError,
     timer,
-    isCodeValid,
     codeButtonLabel,
   } = useEmailAuth();
 
@@ -27,9 +27,9 @@ export default function EmailAuthStep() {
           placeholder="이메일을 입력하세요."
           type="text"
           errorMessage={timer.isRunning ? timer.formatted : error}
-          value={emailInput}
+          value={email}
           onChange={(e) => {
-            setEmailInput(e.target.value);
+            setEmail(e.target.value);
             validateEmail(e.target.value);
           }}
         />
@@ -45,12 +45,12 @@ export default function EmailAuthStep() {
           label="인증번호"
           placeholder="인증번호를 입력하세요.(6자리)"
           type="number"
-          value={codeInput}
+          value={code}
           errorMessage={codeError}
           maxLength={6}
           onChange={(e) => {
             const onlyNumbers = e.target.value.replace(/\D/g, '');
-            if (onlyNumbers.length <= 6) setCodeInput(onlyNumbers);
+            if (onlyNumbers.length <= 6) setCode(onlyNumbers);
           }}
         />
         <SubmitButtonSmall

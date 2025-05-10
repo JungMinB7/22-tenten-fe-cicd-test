@@ -8,8 +8,6 @@ import postCodeVerification from '@/apis/verifyCode';
 
 export const useEmailAuth = () => {
   const pathName = usePathname();
-  const [codeInput, setCodeInput] = useState('');
-  const [emailInput, setEmailInput] = useState('');
   const [error, setError] = useState('');
   const [codeError, setCodeError] = useState('');
   const [isEmailValid, setEmailValid] = useState(false);
@@ -21,6 +19,9 @@ export const useEmailAuth = () => {
 
   const {
     verificationAttempts,
+    email,
+    code,
+    isVerified,
     setCode,
     setEmail,
     setVerified,
@@ -28,7 +29,7 @@ export const useEmailAuth = () => {
   } = useAuthStore();
 
   const timer = useAuthTimer(() => {
-    setCodeValid(false);
+    setVerified(false);
   });
 
   const validateEmail = (email: string) => {
@@ -39,12 +40,13 @@ export const useEmailAuth = () => {
   };
 
   const sendCode = async () => {
-    setEmail(emailInput);
+    setEmail(email);
     if (pathName.includes('signup')) {
       setPurpose('sign-up');
       try {
         timer.start();
-        await sendEmail({ email: emailInput, purpose });
+        await sendEmail({ email, purpose });
+        setEmailValid(true);
         setCodeValid(true);
       } catch (e: any) {
         console.log(e.response.data);
@@ -61,15 +63,15 @@ export const useEmailAuth = () => {
   };
 
   const verifyCode = async () => {
-    if (codeInput.length !== 6) return;
+    if (code.length !== 6) return;
 
     try {
-      await postCodeVerification({ email: emailInput, code: codeInput });
-      setCode(codeInput);
+      await postCodeVerification({ email, code });
+      setCode(code);
       setVerified(true);
       setCodeError('');
-      setCodeValid(false);
       setEmailValid(false);
+      setCodeValid(false);
       setCodeButtonLabel('완료');
       timer.stop();
     } catch (e: any) {
@@ -82,16 +84,16 @@ export const useEmailAuth = () => {
         return;
       } else if (e.response.data.error === 'email_code_fail_logout') {
         setCodeError(`*인증에 실패하였습니다. 잠시 후 시도해 주세요.`);
-        setCodeValid(false);
+        setVerified(false);
       }
     }
   };
 
   return {
-    codeInput,
-    setCodeInput,
-    emailInput,
-    setEmailInput,
+    email,
+    code,
+    setEmail,
+    setCode,
     error,
     isEmailValid,
     validateEmail,
@@ -99,7 +101,8 @@ export const useEmailAuth = () => {
     verifyCode,
     codeError,
     timer,
-    isCodeValid,
+    isVerified,
     codeButtonLabel,
+    isCodeValid,
   };
 };
