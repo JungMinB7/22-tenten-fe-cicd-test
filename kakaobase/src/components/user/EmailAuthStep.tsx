@@ -4,8 +4,8 @@ import UserInput from '../inputs/UserInput';
 
 export default function EmailAuthStep() {
   const {
-    code,
-    setCode,
+    codeInput,
+    setCodeInput,
     emailInput,
     setEmailInput,
     error,
@@ -45,12 +45,12 @@ export default function EmailAuthStep() {
           label="인증번호"
           placeholder="인증번호를 입력하세요.(6자리)"
           type="number"
-          value={code}
+          value={codeInput}
           errorMessage={codeError}
           maxLength={6}
           onChange={(e) => {
             const onlyNumbers = e.target.value.replace(/\D/g, '');
-            if (onlyNumbers.length <= 6) setCode(onlyNumbers);
+            if (onlyNumbers.length <= 6) setCodeInput(onlyNumbers);
           }}
         />
         <SubmitButtonSmall
