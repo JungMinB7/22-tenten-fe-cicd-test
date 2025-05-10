@@ -3,7 +3,7 @@
 import SubmitButton from '../common/SubmitButton';
 import CourseSelector from '../inputs/CourseSelector';
 import UserInput from '../inputs/UserInput';
-import { useSignupForm } from '@/hooks/user/useSingupForm';
+import { useSignupForm } from '@/hooks/user/useSingupStep2';
 
 export default function SignupStep2Form() {
   const {
