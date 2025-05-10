@@ -13,7 +13,7 @@ export default function usePosts(options?: UsePostsOptions) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  const [cursor, setCursor] = useState<number | null>(null);
+  const [cursor, setCursor] = useState(0);
 
   const fetchPosts = useCallback(async () => {
     //로딩 중이거나 더이상 데이터가 없으면 관두기
@@ -22,6 +22,7 @@ export default function usePosts(options?: UsePostsOptions) {
     try {
       setLoading(true);
       const data = await getPosts({ ...options, cursor: cursor ?? undefined });
+      console.log(data);
       //커서는 숫자이거나 undefined
 
       //데이터가 없으면 더이상 데이터가 없다고 표시하기
