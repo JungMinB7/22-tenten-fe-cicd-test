@@ -19,17 +19,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
-  const autoLogin = cookieStore.get('autoLogin')?.value;
+  // const cookieStore = cookies();
+  // const accessToken = cookieStore.get('accessToken')?.value;
+  // const autoLogin = cookieStore.get('autoLogin')?.value;
 
-  if (!accessToken && autoLogin === 'true') {
-    try {
-      await refreshLogin();
-    } catch (e) {
-      redirect('/login');
-    }
-  }
+  // if (!accessToken && autoLogin === 'true') {
+  //   try {
+  //     await refreshLogin();
+  //   } catch (e) {
+  //     redirect('/login');
+  //   }
+  // }
 
   return (
     <html lang="ko">

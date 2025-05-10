@@ -1,4 +1,18 @@
+import { useEffect, useState } from 'react';
+
 export default function formatDate(createdAt: string): string {
+  const [isNarrow, setIsNarrow] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsNarrow(window.innerWidth < 340);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const date = new Date(createdAt);
   const now = new Date();
 
@@ -20,6 +34,7 @@ export default function formatDate(createdAt: string): string {
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    return `${year}년 ${month}월 ${day}일`;
+    if (isNarrow) return `${month}월 ${day}일`;
+    else return `${year}년 ${month}월 ${day}일`;
   }
 }

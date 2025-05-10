@@ -9,7 +9,7 @@ export default function FollowButtonSmall({
   return (
     <button
       onClick={toggleFollow}
-      className={`h-4 w-12 align-center rounded-full flex justify-center ${
+      className={`h-4 px-2 min-w-fit align-center rounded-full flex justify-center ${
         !following
           ? 'bg-myLightBlue text-textOnLight'
           : 'bg-myBlue text-textOnBlue'
