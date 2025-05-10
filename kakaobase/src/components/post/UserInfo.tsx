@@ -41,16 +41,19 @@ export function UserInfo({ post }: { post: PostState }) {
   const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
 
   return (
-    <div className="flex justify-between">
-      <div className="flex gap-2 items-center">
-        <div className="cursor-pointer font-bold text-sm" onClick={navProfile}>
+    <div className="flex justify-between gap-2">
+      <div className="flex gap-2 items-center min-w-0">
+        <div
+          className="cursor-pointer font-bold text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+          onClick={navProfile}
+        >
           {post.nickname}
         </div>
         {post.isMine ? null : (
           <FollowButtonSmall isFollowing={post.isFollowing} />
         )}
       </div>
-      <div className="flex gap-2 align-center justify-center">
+      <div className="flex gap-2 align-center justify-center flex-shrink-0">
         <div className="flex self-center text-xs">
           {formatDate(post.createdAt)}
         </div>
