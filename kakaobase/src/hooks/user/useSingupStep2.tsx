@@ -52,7 +52,6 @@ export const useSignupForm = () => {
         class_name: courseMap[step2Info.course],
         github_url: step2Info.githubUrl,
       };
-      console.log(request);
 
       const response = await signup(request);
       console.log(response);
