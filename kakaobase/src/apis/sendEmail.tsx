@@ -13,7 +13,7 @@ export default async function sendEmail({ email, purpose }: EmailVerification) {
     });
   } catch (e: unknown) {
     if (e instanceof Error) {
-      throw e.message;
+      throw e;
     }
   }
 }

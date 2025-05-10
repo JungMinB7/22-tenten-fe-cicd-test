@@ -6,16 +6,16 @@ export default function EmailAuthStep() {
   const {
     code,
     setCode,
-    emailInput,
-    setEmailInput,
+    email,
+    setEmail,
     error,
     isEmailValid,
     validateEmail,
     sendCode,
     verifyCode,
+    isCodeValid,
     codeError,
     timer,
-    isCodeValid,
     codeButtonLabel,
   } = useEmailAuth();
 
@@ -27,9 +27,9 @@ export default function EmailAuthStep() {
           placeholder="이메일을 입력하세요."
           type="text"
           errorMessage={timer.isRunning ? timer.formatted : error}
-          value={emailInput}
+          value={email}
           onChange={(e) => {
-            setEmailInput(e.target.value);
+            setEmail(e.target.value);
             validateEmail(e.target.value);
           }}
         />

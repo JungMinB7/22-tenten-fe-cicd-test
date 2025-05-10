@@ -14,7 +14,7 @@ export default async function signup(payload: SignupRequest): Promise<void> {
     await api.post('/users', payload);
   } catch (e: unknown) {
     if (e instanceof Error) {
-      throw e.message;
+      throw e;
     }
   }
 }

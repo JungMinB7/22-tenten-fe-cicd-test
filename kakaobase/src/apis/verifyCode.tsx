@@ -5,10 +5,13 @@ interface codeVerification {
   code: string;
 }
 
-export default async function verifyCode({ email, code }: codeVerification) {
+export default async function postCodeVerification({
+  email,
+  code,
+}: codeVerification) {
   try {
     await api.post('/users/email/verification', { email, code });
   } catch (e: unknown) {
-    if (e instanceof Error) throw e.message;
+    if (e instanceof Error) throw e;
   }
 }
