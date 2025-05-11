@@ -22,7 +22,11 @@ export async function login(payload: LoginRequest): Promise<LoginResponse> {
 }
 
 export async function refreshLogin() {
-  const response = await api.post('auth/tokens/refresh');
-  document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
-  return response.data;
+  try {
+    const response = await api.post('auth/tokens/refresh');
+    document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
+    return response.data;
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e;
+  }
 }
