@@ -1,4 +1,5 @@
 import signup from '@/apis/signup';
+import { courseMap } from '@/lib/courseMap';
 import { signupStep2Schema } from '@/schemas/signupStep2Schema';
 import { useSignupStore } from '@/stores/signupStore';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,15 +8,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export type SignupStep2Data = z.infer<typeof signupStep2Schema>;
-
-const courseMap: Record<string, string> = {
-  '클라우드 네이티브 제주 1기': 'JEJU_1',
-  '클라우드 네이티브 제주 2기': 'JEJU_2',
-  '카카오테크 부트캠프 1기': 'PANGYO_1',
-  '카카오테크 부트캠프 2기': 'PANGYO_2',
-  'KDT 관계자': 'KDT_STAFF',
-  '기타 사용자': 'OTHER',
-};
 
 export const useSignupForm = () => {
   const router = useRouter();
