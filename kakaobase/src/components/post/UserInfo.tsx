@@ -15,7 +15,7 @@ export function UserProfile({ post }: { post: PostState }) {
   return (
     <div
       className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
-      onClick={navProfile}
+      //onClick={navProfile}
     >
       {post.userProfileUrl ? (
         <Image
@@ -34,18 +34,21 @@ export function UserProfile({ post }: { post: PostState }) {
 }
 
 export function UserInfo({ post }: { post: PostState }) {
+  const id = Number(post.id);
   const router = useRouter();
   function navProfile() {
     router.push(`/profile/${post.userId}`);
   }
-  const { isOpened, openModal, closeModal, deletePost } = useDeleteHook();
+  const { isOpened, openModal, closeModal, deletePostExecute } = useDeleteHook({
+    id,
+  });
 
   return (
     <div className="flex justify-between gap-2">
       <div className="flex gap-2 items-center min-w-0">
         <div
           className="cursor-pointer font-bold text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-          onClick={navProfile}
+          // onClick={navProfile}
         >
           {post.nickname}
         </div>
@@ -74,7 +77,10 @@ export function UserInfo({ post }: { post: PostState }) {
         null}
       </div>
       {isOpened ? (
-        <DeleteModal closeFunction={closeModal} okFunction={deletePost} />
+        <DeleteModal
+          closeFunction={closeModal}
+          okFunction={deletePostExecute}
+        />
       ) : null}
     </div>
   );

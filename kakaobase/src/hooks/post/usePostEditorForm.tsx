@@ -16,7 +16,6 @@ export const usePostEditorForm = () => {
   const content = usePostStore((state) => state.content);
   const youtubeUrl = usePostStore((state) => state.youtubeUrl);
   const imageUrl = usePostStore((state) => state.imageUrl);
-  const setEditorData = usePostStore((state) => state.setEditorData);
 
   const methods = useForm<NewPostData>({
     resolver: zodResolver(postSchema),

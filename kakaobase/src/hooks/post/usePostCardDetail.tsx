@@ -10,7 +10,7 @@ export default function usePostDetail({ id }: { id: number }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const fetchPosts = async () => {
+  const fetchPost = async () => {
     let postType = getClientCookie('course') as PostType;
     if (!postType) postType = 'ALL';
 
@@ -26,7 +26,7 @@ export default function usePostDetail({ id }: { id: number }) {
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchPost();
   }, [id]);
 
   return {
