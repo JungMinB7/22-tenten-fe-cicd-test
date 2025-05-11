@@ -11,7 +11,11 @@ interface postParams {
 //게시글 삭제
 export async function deletePost({ postType, id }: postParams) {
   try {
-    const response = await api.delete(`posts/${postType}/${id}`);
+    const response = await api.delete(`posts/${postType}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
+      },
+    });
     console.log(response.data);
     return response.data;
   } catch (e) {
@@ -53,8 +57,12 @@ export async function postPost(
 //게시글 상세 조회
 export async function getPost({ postType, id }: postParams) {
   try {
-    const response = await api.get(`/posts/${postType}/${id}`);
-    return response.data;
+    const response = await api.get(`/posts/${postType}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
+      },
+    });
+    return response.data.data;
   } catch (e) {
     console.log(e);
   }
