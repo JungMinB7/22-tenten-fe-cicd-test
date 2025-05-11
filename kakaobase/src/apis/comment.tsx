@@ -1,4 +1,5 @@
 import api from './api';
+import { getClientCookie } from '@/lib/getClientCookie';
 
 //댓글 삭제
 export async function deleteComment({ id }: { id: number }) {
@@ -6,8 +7,8 @@ export async function deleteComment({ id }: { id: number }) {
     const response = await api.delete(`comments/${id}`);
     console.log(response.data);
     return response.data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e;
   }
 }
 
@@ -20,33 +21,20 @@ export async function postComment({
   content: string;
 }) {
   try {
-    const response = await api.post(`/posts/${postId}/comments`, { content });
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-//게시글 목록 조회
-export async function getComment({
-  postId,
-  limits,
-  cursor,
-  createdAt,
-}: {
-  postId: number;
-  limits: number;
-  cursor: number;
-  createdAt: string;
-}) {
-  try {
-    const response = await api.get(
-      `/posts/${postId}/comments?limits=${limits}&cursor=${cursor}&created_at=${createdAt}`
+    const response = await api.post(
+      `/posts/${postId}/comments`,
+      {
+        content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getClientCookie('accessToken')}`,
+        },
+      }
     );
     console.log(response.data);
     return response.data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e;
   }
 }
