@@ -5,6 +5,7 @@ import { useYoutubeHook } from '@/hooks/post/useYoutubeHook';
 import CountsInfo from './CountsInfo';
 import { UserProfile, UserInfo } from './UserInfo';
 import { useRouter } from 'next/navigation';
+import { extractYoutubeVideoId } from '@/lib/formatYoutube';
 
 export default function PostCard({ post }: { post: PostState }) {
   const router = useRouter();
@@ -43,7 +44,9 @@ export default function PostCard({ post }: { post: PostState }) {
               ) : null
             ) : (
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${post.youtubeUrl}`}
+                src={`https://www.youtube-nocookie.com/embed/${extractYoutubeVideoId(
+                  post.youtubeUrl
+                )}`}
                 title="유튜브 영상"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
