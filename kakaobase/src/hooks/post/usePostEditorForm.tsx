@@ -1,13 +1,11 @@
 import postToS3 from '@/apis/imageS3';
 import { postPost } from '@/apis/post';
-import { courseMap } from '@/lib/courseMap';
 import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { postSchema } from '@/schemas/postSchema';
 import { usePostStore } from '@/stores/postStore';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { cookies } from 'next/headers';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -32,9 +30,8 @@ export const usePostEditorForm = () => {
   });
 
   const onSubmit = async (data: NewPostData) => {
-    const course = getClientCookie('course');
-    if (!course) return;
-    const postType = courseMap[course] as PostType;
+    let postType = getClientCookie('course') as PostType;
+    if (!postType) postType = 'ALL';
 
     try {
       let imageUrl = '';
@@ -43,7 +40,7 @@ export const usePostEditorForm = () => {
       }
 
       const response = await postPost(
-        { postType: postType },
+        { postType },
         {
           content: data.content,
           image_url: imageUrl,
@@ -51,9 +48,9 @@ export const usePostEditorForm = () => {
         }
       );
 
-      router.push(`/post/${response.data.data.id}`);
+      router.push(`/post/${response.data.id}`);
     } catch (e: any) {
-      console.log(e);
+      console.log('게시글 업로드 실패:', e);
     }
   };
 
