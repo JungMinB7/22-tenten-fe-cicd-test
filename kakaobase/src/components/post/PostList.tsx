@@ -60,12 +60,13 @@ export default function PostList() {
         <div ref={observerRef} className="h-px" /> // 바닥 1px로 sentinel 감지
       ) : (
         <div className="text-center text-xs font-bold mb-8">
+          마지막&nbsp;
           {path.includes('comment')
             ? '대댓글'
             : path.includes('post')
             ? '댓글'
             : '게시글'}
-          이 더이상 존재하지 않습니다.
+          입니다.
         </div>
       )}
 
