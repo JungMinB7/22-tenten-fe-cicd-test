@@ -6,8 +6,8 @@ export default function DeleteModal({
   okFunction: () => void;
 }) {
   return (
-    <div className="flex fixed items-center justify-center z-[100] w-full h-full bg-transparent right-0 top-0">
-      <div className="absolute bg-bgColor opacity-50 max-w-[390px] w-full h-full"></div>
+    <div className="flex fixed items-center justify-center z-[100] w-full h-full bg-transparent right-[-14rem] top-0">
+      <div className="absolute bg-bgColor opacity-50 max-w-[420px] w-full h-full"></div>
       <div className="relative px-12 py-6 z-200 bg-innerContainerColor flex items-center flex-col gap-6 rounded-xl">
         <div className="text-lg text-textColor">삭제하시겠습니까?</div>
         <div className="flex gap-6">

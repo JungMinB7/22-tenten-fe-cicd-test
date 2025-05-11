@@ -7,8 +7,8 @@ import PostList from '@/components/post/PostList';
 import usePostDetail from '@/hooks/post/usePostCardDetail';
 import { LoaderCircle } from 'lucide-react';
 
-export default function Page({ params }: { params: { id: number } }) {
-  const id = Number(params.id);
+export default function Page({ params }: { params: { commentId: number } }) {
+  const id = Number(params.commentId);
   const { post, loading, error } = usePostDetail({ id });
 
   if (loading)
@@ -27,7 +27,7 @@ export default function Page({ params }: { params: { id: number } }) {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header label="게시글 상세" />
+      <Header label="답글 상세" />
       <PostCard post={post} />
       <MiddleBar />
       <div className="overflow-y-auto flex flex-grow">

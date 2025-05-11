@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-import getPosts from '@/apis/postList';
 import { PostState } from '@/stores/postStore';
-import { newDummyPost } from '@/data/newDummyPost';
+import { getPost } from '@/apis/post';
+import { getClientCookie } from '@/lib/getClientCookie';
+import { PostType } from '@/lib/postType';
+import { mapToPostState } from '@/lib/mapPost';
 
 export default function usePostDetail({ id }: { id: number }) {
   const [post, setPost] = useState<PostState>();
-  //const postType = 'pangyo_2';
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchPosts = async () => {
+    let postType = getClientCookie('course') as PostType;
+    if (!postType) postType = 'ALL';
+
     try {
       setLoading(true);
-      if (id == 100) {
-        setPost(newDummyPost);
-        return;
-      }
-      const data = await getPosts({});
-      setPost(data.find((post) => post.id === id));
+      const response = await getPost({ postType, id });
+      setPost(mapToPostState(response));
     } catch (err) {
       setError(err as Error);
     } finally {

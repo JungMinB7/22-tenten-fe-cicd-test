@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { pretendard } from './fonts';
 import { Providers } from './providers';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { refreshLogin } from '@/apis/login';
+import Image from 'next/image';
+import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Kakaobase',
@@ -37,8 +38,26 @@ export default async function RootLayout({
         className={`bg-animated-gradient sm:bg-animated-gradient ${pretendard.className}`}
       >
         <Providers>
-          <div className="flex flex-col mx-auto h-screen scrollbar-hide max-w-[390px] bg-bgColor text-textColor shadow-md">
-            {children}
+          <div className="flex w-screen">
+            <div className="hidden lg:flex flex-col items-center justify-center w-[48%] animate-bounce">
+              <Image
+                src="/logo_square.svg"
+                alt="로고"
+                width={0}
+                height={0}
+                className="w-[20rem] h-auto"
+              />
+              <Image
+                src="/logo_title.svg"
+                alt="로고"
+                width={0}
+                height={0}
+                className="w-[24rem] h-auto"
+              />
+            </div>
+            <div className="flex flex-col h-screen scrollbar-hide w-full max-w-[420px] mx-auto lg:ml-12 lg:self-start bg-bgColor text-textColor shadow-md">
+              {children}
+            </div>
           </div>
         </Providers>
       </body>
