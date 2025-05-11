@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 애니메이션 키프레임 정의 */
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 그라데이션 배경 */
+.bg-animated-gradient {
+  background: linear-gradient(32deg, #e5e5fd 24%, #edfcfb 58%, #f8f6fc 76%);
+  background-size: 200% 200%;
+  animation: gradient-move 2s linear infinite;
+}
+
+/* 라이트 모드 색상 세팅 */
+:root {
+  --bgColor: #ffffff;
+  --containerColor: #f5f6f8;
+  --myBlue: #4880ee;
+  --myLightBlue: #e1eaf7;
+  --textOnBlue: #f5f6f8;
+  --textOnLight: #202632;
+  --textColor: #202632;
+  --redHeart: #ff465c;
+  --iconColor: #bcbec1;
+  --innerContainerColor: #e9e9ea;
+  --textOpacity50: #20263250;
+}
+
+/* 다크 모드 색상 세팅*/
+.dark {
+  --bgColor: #202632;
+  --containerColor: #2b313c;
+  --myBlue: #4880ee;
+  --myLightBlue: #e1eaf7;
+  --textOnBlue: #f5f6f8;
+  --textOnLight: #202632;
+  --textColor: #f5f6f8;
+  --redHeart: #ff465c;
+  --iconColor: #636770;
+  --innerContainerColor: #4d515b;
+  --textOpacity50: #f5f6f850;
+}
