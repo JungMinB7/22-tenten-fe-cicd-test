@@ -1,17 +1,27 @@
+import { postComment } from '@/apis/comment';
 import { Send } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 export default function CommentInput() {
   const [comment, setComment] = useState('');
+  const param = useParams();
+  const id = Number(param.id);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!comment.trim()) return;
-    //댓글 전송 api 호출 param : comment
-    setComment('');
+    try {
+      const response = await postComment({ postId: id, content: comment });
+      console.log(response);
+    } catch (e: any) {
+      console.log(e);
+    } finally {
+      setComment('');
+    }
   };
 
   return (
