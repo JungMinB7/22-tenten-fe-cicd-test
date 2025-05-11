@@ -16,7 +16,7 @@ export default function usePosts(limit: number) {
   const fetchPosts = useCallback(async () => {
     //로딩 중이거나 더이상 데이터가 없으면 관두기
     if (loading || !hasMore) return;
-    const id = Number(param.id);
+    const id = Number(param.postId);
 
     try {
       setLoading(true);

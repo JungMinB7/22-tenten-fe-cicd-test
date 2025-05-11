@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function CommentInput() {
   const [comment, setComment] = useState('');
   const param = useParams();
-  const id = Number(param.id);
+  const id = Number(param.postId);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
