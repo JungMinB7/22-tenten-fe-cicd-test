@@ -10,11 +10,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import Image from 'next/image';
-
-const mockUser = {
-  isLoggined: false,
-  profileImg: '/test_profile.jpg',
-};
+import { getClientCookie } from '@/lib/getClientCookie';
 
 function NavItem({ icon: Icon, path }: { icon: LucideIcon; path: string }) {
   const pathName = usePathname();
@@ -38,26 +34,30 @@ function NavItem({ icon: Icon, path }: { icon: LucideIcon; path: string }) {
 function LoginProfile({ path }: { path: string }) {
   const router = useRouter();
   return (
-    <button onClick={() => router.push(path)}>
-      <Image
-        src={mockUser.profileImg}
+    <button
+    // onClick={() => router.push(path)}
+    >
+      <div className="w-6 h-6 rounded-md cursor-pointer bg-myBlue"></div>
+      {/* <Image
+        src={user.profileImg}
         width={12}
         height={12}
         alt="profile"
         className="w-6 h-6 rounded-md transition-colors cursor-pointer"
-      />
+      /> */}
     </button>
   );
 }
 
 export default function NavBar() {
   const router = useRouter();
+  const accessToken = getClientCookie('accessToken');
 
   return (
     <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full z-50">
       <div className="flex gap-12">
         <NavItem icon={House} path="/" />
-        <NavItem icon={MessageCircle} path="/chat" />
+        {/* <NavItem icon={MessageCircle} path="/chat" /> */}
       </div>
       <button
         onClick={() => {
@@ -68,8 +68,8 @@ export default function NavBar() {
         <Plus className="w-8 h-16 text-textOnBlue align-middle" />
       </button>
       <div className="flex gap-12">
-        <NavItem icon={Bell} path="/alarm" />
-        {mockUser.isLoggined ? (
+        {/* <NavItem icon={Bell} path="/alarm" /> */}
+        {accessToken ? (
           <LoginProfile path="/profile/[id]" />
         ) : (
           <NavItem icon={User} path="/login" />

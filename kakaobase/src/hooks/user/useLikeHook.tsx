@@ -36,7 +36,6 @@ export function useLikeToggle(
         }
       }
       setLiked(!isLiked);
-      console.log(reponse);
     } catch (e) {
       console.error('팔로우 토글 실패', e);
     }
