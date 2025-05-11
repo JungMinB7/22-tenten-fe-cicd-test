@@ -16,7 +16,6 @@ export async function deletePost({ postType, id }: postParams) {
         Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (e) {
     console.log(e);

@@ -35,12 +35,14 @@ export function UserProfile({ post }: { post: PostState }) {
 
 export function UserInfo({ post }: { post: PostState }) {
   const id = Number(post.id);
+  const type = post.type;
   const router = useRouter();
   function navProfile() {
     router.push(`/profile/${post.userId}`);
   }
   const { isOpened, openModal, closeModal, deletePostExecute } = useDeleteHook({
     id,
+    type,
   });
 
   return (

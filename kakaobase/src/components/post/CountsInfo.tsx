@@ -52,7 +52,9 @@ export default function CountsInfo({ post }: { post: PostState }) {
 
   const { isLiked, likeCount, toggleLike } = useLikeToggle(
     post.isLiked,
-    post.likeCount
+    post.likeCount,
+    post.id,
+    post.type
   );
 
   function navDetail() {
