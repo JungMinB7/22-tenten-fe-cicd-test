@@ -4,7 +4,6 @@ import { Image, Youtube } from 'lucide-react';
 import SubmitButton from '../common/SubmitButton';
 import { NewPostData, usePostEditorForm } from '@/hooks/post/usePostEditorForm';
 import { useEffect, useState } from 'react';
-import SubmitButtonSmall from '../common/SubmitButtonSmall';
 import {
   FieldErrors,
   UseFormRegister,
@@ -90,23 +89,28 @@ function ImageInput({
   }, [imageFile]);
   return (
     <div className="w-full">
-      <label className="flex gap-2 items-center cursor-pointer">
-        <Image />
+      <label
+        htmlFor="image-upload"
+        className="flex gap-2 items-center cursor-pointer"
+      >
+        <Image className="w-4 h-4" />
         <div className="text-xs px-4 py-1 bg-myLightBlue w-40 text-center rounded-full text-textOnLight">
           이미지 업로드
         </div>
-        <input
-          type="file"
-          accept="image/png, image/jpeg, image/jpg, image/webp"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-              setValue('imageFile', file, { shouldValidate: true });
-            }
-          }}
-        />
       </label>
+
+      <input
+        id="image-upload"
+        type="file"
+        accept="image/png, image/jpeg, image/jpg, image/webp"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            setValue('imageFile', file, { shouldValidate: true });
+          }
+        }}
+      />
 
       {/* 이미지 미리보기 */}
       {previewUrl && (
