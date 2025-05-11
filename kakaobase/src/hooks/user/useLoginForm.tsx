@@ -38,11 +38,10 @@ export default function useLoginForm() {
     try {
       const response = await login(requestBody);
       document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
-      document.cookie = `course=${response.data.class_name}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 or 1일
-      document.cookie = `course=${response.data.nickname}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기 or 1일
-      document.cookie = `course=${response.data.nickname}; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기 or 1일
+      document.cookie = `course=${response.data.class_name}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 or 1일
+      document.cookie = `nickname=${response.data.nickname}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 하기 or 1일
       if (autoLogin) {
-        document.cookie = `autoLogin=true; path=/; max-age=86400`; //refresh Token이랑 기간 동일하게 하기 or 1일
+        document.cookie = `autoLogin=true; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 하기 or 1일
       } else {
         document.cookie = `autoLogin=false; path=/; max-age=0`; // 삭제
       }
