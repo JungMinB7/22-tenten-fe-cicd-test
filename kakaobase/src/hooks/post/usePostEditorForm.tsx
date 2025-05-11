@@ -1,28 +1,17 @@
+import postToS3 from '@/apis/imageS3';
+import { postPost } from '@/apis/post';
+import { courseMap } from '@/lib/courseMap';
+import { getClientCookie } from '@/lib/getClientCookie';
+import { PostType } from '@/lib/postType';
 import { postSchema } from '@/schemas/postSchema';
 import { usePostStore } from '@/stores/postStore';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export type NewPostData = z.infer<typeof postSchema>;
-
-// async function uploadToS3(file: File): Promise<string> {
-//   const res = await fetch('/api/presigned-url', {
-//     method: 'POST',
-//     body: JSON.stringify({ filename: file.name, type: file.type }),
-//     headers: { 'Content-Type': 'application/json' },
-//   });
-//   const { url } = await res.json();
-
-//   await fetch(url, {
-//     method: 'PUT',
-//     headers: { 'Content-Type': file.type },
-//     body: file,
-//   });
-
-//   return url.split('?')[0];
-// }
 
 export const usePostEditorForm = () => {
   const router = useRouter();
@@ -43,20 +32,29 @@ export const usePostEditorForm = () => {
   });
 
   const onSubmit = async (data: NewPostData) => {
-    let uploadedUrl = '';
-    // if (data.imageFile) {
-    //   uploadedUrl = await uploadToS3(data.imageFile);
-    // }
+    const course = getClientCookie('course');
+    if (!course) return;
+    const postType = courseMap[course] as PostType;
 
-    const newPostId = 100;
+    try {
+      let imageUrl = '';
+      if (data.imageFile) {
+        imageUrl = await postToS3(data.imageFile, 'post_image');
+      }
 
-    setEditorData({
-      content: data.content ?? '',
-      youtubeUrl: data.youtubeUrl ?? '',
-      imageUrl: uploadedUrl,
-    });
+      const response = await postPost(
+        { postType: postType },
+        {
+          content: data.content,
+          image_url: imageUrl,
+          youtube_url: data.youtubeUrl,
+        }
+      );
 
-    router.push(`/post/${newPostId}`);
+      router.push(`/post/${response.data.data.id}`);
+    } catch (e: any) {
+      console.log(e);
+    }
   };
 
   return {
