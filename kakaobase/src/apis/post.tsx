@@ -1,7 +1,8 @@
+import { PostType } from '@/lib/postType';
 import api from './api';
 
 interface postParams {
-  postType: 'all' | 'pangyo_1' | 'jeju_1' | 'pangyo_2' | 'jeju_2';
+  postType: PostType;
   id?: number;
 }
 
@@ -18,25 +19,24 @@ export async function deletePost({ postType, id }: postParams) {
 
 interface postBody {
   content?: string;
-  imageUrl?: string;
-  youtubeUrl?: string;
+  image_url?: string;
+  youtube_url?: string;
 }
 
 //게시글 생성
 export async function postPost(
   { postType }: postParams,
-  { content, imageUrl, youtubeUrl }: postBody
+  { content, image_url, youtube_url }: postBody
 ) {
   try {
     const response = await api.post(`/posts/${postType}`, {
       content,
-      imageUrl,
-      youtubeUrl,
+      image_url,
+      youtube_url,
     });
-    console.log(response.data);
     return response.data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e;
   }
 }
 
@@ -44,7 +44,6 @@ export async function postPost(
 export async function getPost({ postType, id }: postParams) {
   try {
     const response = await api.get(`/posts/${postType}/${id}`);
-    console.log(response.data);
     return response.data;
   } catch (e) {
     console.log(e);
