@@ -19,50 +19,49 @@ export default function PostCard({ post }: { post: PostState }) {
         <UserProfile post={post} />
         <div className="w-full flex flex-col gap-2 text-textColor">
           <UserInfo post={post} />
-
-          {post.content ? (
-            <div
-              className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis"
-              onClick={navDetail}
-            >
-              {post.content}
-            </div>
-          ) : null}
-
-          <div className="flex justify-center content-center w-full overflow-hidden rounded-lg">
-            {!post.youtubeUrl ? (
-              post.ImageUrl ? (
-                <Image
-                  src={post.ImageUrl}
-                  alt="이미지"
-                  className="w-full h-auto object-cover rounded-lg"
-                  width={0}
-                  height={0}
-                  priority
-                  sizes="100vw"
-                />
-              ) : null
-            ) : (
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${extractYoutubeVideoId(
-                  post.youtubeUrl
-                )}`}
-                title="유튜브 영상"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full aspect-video"
-              ></iframe>
-            )}
-          </div>
-          {post.youtubeUrl ? (
-            <div className="text-xs text-textColor">
-              <div className="cursor-pointer" onClick={showSummary}>
-                {summaryButton}
+          <div onClick={navDetail}>
+            {post.content ? (
+              <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis">
+                {post.content}
               </div>
-              {isOpen ? <div>{post.youtubeSummary}</div> : null}
+            ) : null}
+
+            <div className="flex justify-center content-center w-full overflow-hidden rounded-lg">
+              {!post.youtubeUrl ? (
+                post.ImageUrl ? (
+                  <Image
+                    src={post.ImageUrl}
+                    alt="이미지"
+                    className="w-full h-auto object-cover rounded-lg"
+                    width={0}
+                    height={0}
+                    priority
+                    sizes="100vw"
+                    unoptimized
+                  />
+                ) : null
+              ) : (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${extractYoutubeVideoId(
+                    post.youtubeUrl
+                  )}`}
+                  title="유튜브 영상"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  loading="lazy"
+                  className="w-full h-full aspect-video"
+                ></iframe>
+              )}
             </div>
-          ) : null}
+            {/* {post.youtubeUrl ? (
+              <div className="text-xs text-textColor">
+                <div className="cursor-pointer" onClick={showSummary}>
+                  {summaryButton}
+                </div>
+                {isOpen ? <div>{post.youtubeSummary}</div> : null}
+              </div>
+            ) : null} */}
+          </div>
           <CountsInfo post={post} />
         </div>
       </div>

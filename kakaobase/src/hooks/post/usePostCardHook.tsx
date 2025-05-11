@@ -42,7 +42,7 @@ export default function usePosts(limit: number) {
         });
 
         const lastId = data[data.length - 1].id; //데이터의 마지막 게시글의 id를 lastId로 정의
-        setCursor(lastId - 1); // 커서 업데이트
+        setCursor(lastId); // 커서 업데이트
       }
     } catch (err) {
       setError(err as Error);
