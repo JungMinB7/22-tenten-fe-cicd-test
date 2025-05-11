@@ -49,9 +49,9 @@ export function UserInfo({ post }: { post: PostState }) {
         >
           {post.nickname}
         </div>
-        {post.isMine ? null : (
+        {/* {post.isMine ? null : (
           <FollowButtonSmall isFollowing={post.isFollowing} />
-        )}
+        )} */}
       </div>
       <div className="flex gap-2 align-center justify-center flex-shrink-0">
         <div className="flex self-center text-xs">
@@ -64,14 +64,14 @@ export function UserInfo({ post }: { post: PostState }) {
             className="self-center cursor-pointer"
             onClick={openModal}
           />
-        ) : (
-          <ShieldAlert
-            width={16}
-            height={16}
-            className="self-center cursor-pointer"
-            onClick={() => router.push('/report')}
-          />
-        )}
+        ) : // <ShieldAlert
+        //   width={16}
+        //   height={16}
+        //   className="self-center cursor-pointer"
+        //   onClick={() => router.push('/report')}
+        // />
+        //mvp 때 신고 페이지를 구현하지 않아 주석 처리
+        null}
       </div>
       {isOpened ? (
         <DeleteModal closeFunction={closeModal} okFunction={deletePost} />

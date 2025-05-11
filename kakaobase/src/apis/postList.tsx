@@ -16,15 +16,18 @@ export default async function getPosts({
   cursor,
 }: GetPostsParams): Promise<PostState[]> {
   try {
-    // let course = getClientCookie('course');
-    // if (!course) course = '기타 사용자';
-    // const postType = courseMap[course] as PostType;
-    const postType = 'PANGYO_2';
+    let postType = getClientCookie('course');
+    if (!postType) postType = 'ALL';
 
     const params: Record<string, any> = {};
     if (limit !== undefined) params.limit = limit;
     if (cursor !== undefined) params.cursor = cursor;
-    const response = await api.get(`/posts/${postType}`, { params });
+    const response = await api.get(`/posts/${postType}`, {
+      params,
+      headers: {
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
+      },
+    });
     const rawPosts = response.data.data;
     return rawPosts.map(mapToPostState);
   } catch (e: unknown) {

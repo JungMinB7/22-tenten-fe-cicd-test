@@ -24,13 +24,10 @@ export default function usePosts(limit: number) {
       if (path.includes('comment')) {
         data = await getComments(id, { limit, cursor }); //댓글 상세 페이지
       } else if (path.includes('post')) {
-        console.log('게시글 상세 페이지');
         data = await getComments(id, { limit, cursor }); //게시글 상세 페이지
-        console.log(data);
       } else {
         data = await getPosts({ limit, cursor }); //메인 페이지
       }
-      //커서는 숫자이거나 undefined
 
       //데이터가 없으면 더이상 데이터가 없다고 표시하기
       if (data.length === 0) {

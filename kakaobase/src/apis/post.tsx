@@ -1,5 +1,7 @@
 import { PostType } from '@/lib/postType';
 import api from './api';
+import { headers } from 'next/headers';
+import { getClientCookie } from '@/lib/getClientCookie';
 
 interface postParams {
   postType: PostType;
@@ -29,11 +31,19 @@ export async function postPost(
   { content, image_url, youtube_url }: postBody
 ) {
   try {
-    const response = await api.post(`/posts/${postType}`, {
-      content,
-      image_url,
-      youtube_url,
-    });
+    const response = await api.post(
+      `/posts/${postType}`,
+      {
+        content,
+        image_url,
+        youtube_url,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getClientCookie('accessToken')}`,
+        },
+      }
+    );
     return response.data;
   } catch (e: unknown) {
     if (e instanceof Error) throw e;

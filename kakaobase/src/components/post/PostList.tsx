@@ -4,8 +4,10 @@ import { useEffect, useRef } from 'react';
 import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
 import { LoaderCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function PostList() {
+  const path = usePathname();
   const { posts, loading, error, hasMore, fetchPosts } = usePosts(6);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -58,7 +60,12 @@ export default function PostList() {
         <div ref={observerRef} className="h-px" /> // 바닥 1px로 sentinel 감지
       ) : (
         <div className="text-center text-xs font-bold mb-8">
-          게시글이 더이상 존재하지 않습니다.
+          {path.includes('comment')
+            ? '대댓글'
+            : path.includes('post')
+            ? '댓글'
+            : '게시글'}
+          이 더이상 존재하지 않습니다.
         </div>
       )}
 
