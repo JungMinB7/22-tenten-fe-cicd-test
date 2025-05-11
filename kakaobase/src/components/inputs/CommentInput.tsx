@@ -21,6 +21,7 @@ export default function CommentInput() {
       console.log(e);
     } finally {
       setComment('');
+      window.location.reload(); // 나중에 바꿔야 함
     }
   };
 
