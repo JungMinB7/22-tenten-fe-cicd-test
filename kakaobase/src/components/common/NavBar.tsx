@@ -34,18 +34,16 @@ function NavItem({ icon: Icon, path }: { icon: LucideIcon; path: string }) {
 function LoginProfile({ path }: { path: string }) {
   const router = useRouter();
   return (
-    <button
-    // onClick={() => router.push(path)}
-    >
-      <div className="w-6 h-6 rounded-md cursor-pointer bg-myBlue"></div>
-      {/* <Image
+    // <button onClick={() => router.push(path)}>
+    <div className="w-6 h-6 rounded-md cursor-pointer bg-myBlue"></div>
+    /* <Image
         src={user.profileImg}
         width={12}
         height={12}
         alt="profile"
         className="w-6 h-6 rounded-md transition-colors cursor-pointer"
-      /> */}
-    </button>
+      /> */
+    // </button>
   );
 }
 
