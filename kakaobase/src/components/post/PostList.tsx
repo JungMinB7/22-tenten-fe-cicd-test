@@ -4,13 +4,14 @@ import { useEffect, useRef } from 'react';
 import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
 import { LoaderCircle } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function PostList() {
   const path = usePathname();
   const { posts, loading, error, hasMore, fetchPosts } = usePosts(6);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   // 마운트 시 한 번만 호출
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function PostList() {
     };
   }, [loading, hasMore, fetchPosts]);
 
-  if (error) return <div>게시글을 불러올 수 없습니다.</div>;
+  if (error) router.push('/login');
 
   return (
     <div
