@@ -1,18 +1,7 @@
-import { useEffect, useState } from 'react';
-
-export default function formatDate(createdAt: string): string {
-  const [isNarrow, setIsNarrow] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsNarrow(window.innerWidth < 340);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+export default function formatDate(
+  createdAt: string,
+  isNarrow: boolean
+): string {
   const date = new Date(createdAt);
   const now = new Date();
 

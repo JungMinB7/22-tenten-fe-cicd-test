@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useDeleteHook } from '@/hooks/post/useDeleteHook';
 import DeleteModal from './DeleteModal';
+import { useEffect, useState } from 'react';
 
 export function UserProfile({ post }: { post: PostState }) {
   const router = useRouter();
@@ -45,6 +46,18 @@ export function UserInfo({ post }: { post: PostState }) {
     type,
   });
 
+  const [isNarrow, setIsNarrow] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsNarrow(window.innerWidth < 340);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="flex justify-between gap-2">
       <div className="flex gap-2 items-center min-w-0">
@@ -60,7 +73,7 @@ export function UserInfo({ post }: { post: PostState }) {
       </div>
       <div className="flex gap-2 align-center justify-center flex-shrink-0">
         <div className="flex self-center text-xs">
-          {formatDate(post.createdAt)}
+          {formatDate(post.createdAt, isNarrow)}
         </div>
         {post.isMine ? (
           <Trash2
