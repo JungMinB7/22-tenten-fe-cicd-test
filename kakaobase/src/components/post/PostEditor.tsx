@@ -10,6 +10,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
+import { getClientCookie } from '@/lib/getClientCookie';
 
 function HelperText({ errorMessage }: { errorMessage: string }) {
   return <div className="text-redHeart text-xs h-4">{errorMessage}</div>;
@@ -22,8 +23,7 @@ function ContentInput({
   register: UseFormRegister<NewPostData>;
   errors: FieldErrors<NewPostData>;
 }) {
-  //로그인을 가정한 임시 사용자
-  const nickname = 'daisy.kim';
+  const nickname = getClientCookie('nickname');
 
   return (
     <div className="w-full">
