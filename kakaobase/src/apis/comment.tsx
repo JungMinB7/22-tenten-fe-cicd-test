@@ -1,12 +1,12 @@
 import api from './api';
-import { getAccessToken } from '@/lib/getClientCookie';
+import { getClientCookie } from '@/lib/getClientCookie';
 
 //댓글 삭제
 export async function deleteComment({ id }: { id: number }) {
   try {
     const response = await api.delete(`comments/${id}`, {
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
     return response.data;
@@ -19,7 +19,7 @@ export async function getComment({ id }: { id: number }) {
   try {
     const response = await api.get(`/comments/${id}`, {
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
     return response.data;
@@ -47,7 +47,7 @@ export async function postComment({
       },
       {
         headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
+          Authorization: `Bearer ${getClientCookie('accessToken')}`,
         },
       }
     );

@@ -1,4 +1,4 @@
-import { getAccessToken } from '@/lib/getClientCookie';
+import { getClientCookie } from '@/lib/getClientCookie';
 import api from './api';
 
 export default async function postToS3(
@@ -9,7 +9,7 @@ export default async function postToS3(
     `/images/presigned-url?fileName=${file.name}&fileSize=${file.size}&mimeType=${file.type}&type=${type}`,
     {
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     }
   );
