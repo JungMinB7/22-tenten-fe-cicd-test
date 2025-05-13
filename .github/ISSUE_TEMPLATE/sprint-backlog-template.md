@@ -2,7 +2,7 @@
 name: Sprint backlog template
 about: "[ \U0001F5A4 Sprint #3 ] 스프린트 백로그 템플릿"
 title: "[ \U0001F5A4 Sprint #3 ] 메인 제목"
-labels: 스프린트-백로그, Main
+labels: 스프린트-백로그, FE, Main
 assignees: okiidokim
 
 ---
