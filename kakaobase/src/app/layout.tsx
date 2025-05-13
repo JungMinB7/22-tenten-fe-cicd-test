@@ -2,10 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { pretendard } from './fonts';
 import { Providers } from './providers';
-import { redirect } from 'next/navigation';
-import { refreshLogin } from '@/apis/login';
 import Image from 'next/image';
-import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Kakaobase',
@@ -20,18 +17,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const cookieStore = cookies();
-  // const accessToken = cookieStore.get('accessToken')?.value;
-  // const autoLogin = cookieStore.get('autoLogin')?.value;
-
-  // if (!accessToken && autoLogin === 'true') {
-  //   try {
-  //     await refreshLogin();
-  //   } catch (e) {
-  //     redirect('/login');
-  //   }
-  // }
-
   return (
     <html lang="ko">
       <body

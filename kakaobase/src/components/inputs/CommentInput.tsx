@@ -1,5 +1,4 @@
 import { postComment } from '@/apis/comment';
-import { postRecomment } from '@/apis/recomment';
 import { Send } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation';
 import { useState } from 'react';

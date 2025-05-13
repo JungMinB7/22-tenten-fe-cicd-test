@@ -1,6 +1,5 @@
 import { PostType } from '@/lib/postType';
 import api from './api';
-import { headers } from 'next/headers';
 import { getClientCookie } from '@/lib/getClientCookie';
 
 interface postParams {
