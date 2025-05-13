@@ -1,4 +1,4 @@
-import { getClientCookie } from '@/lib/getClientCookie';
+import { getAccessToken } from '@/lib/getClientCookie';
 import api from './api';
 
 export default async function postToS3(
@@ -9,12 +9,12 @@ export default async function postToS3(
     `/images/presigned-url?fileName=${file.name}&fileSize=${file.size}&mimeType=${file.type}&type=${type}`,
     {
       headers: {
-        Authorization: `Bearer ${getClientCookie('accessToken')}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     }
   );
 
-  const url = response.data.data.presingedUrl;
+  const url = response.data.data.presinged_url;
 
   await fetch(url, {
     method: 'PUT',
@@ -26,5 +26,5 @@ export default async function postToS3(
     throw error;
   });
 
-  return response.data.data.imageUrl;
+  return response.data.data.image_url;
 }
