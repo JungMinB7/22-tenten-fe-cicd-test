@@ -19,9 +19,9 @@ export default function PostCard({ post }: { post: PostEntity }) {
 
   const path = usePathname();
   function navDetail() {
-    if (!path.includes('commment') && !path.includes('post')) {
+    if (post.type === 'post') {
       router.push(`/post/${post.id}`);
-    } else if (path.includes('post')) {
+    } else if (post.type === 'comment') {
       router.push(`/post/${postId}/comment/${post.id}`);
     }
   }

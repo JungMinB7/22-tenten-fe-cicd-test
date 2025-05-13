@@ -14,7 +14,7 @@ export default async function postToS3(
     }
   );
 
-  const url = response.data.data.presinged_url;
+  const url = response.data.data.presigned_url;
 
   await fetch(url, {
     method: 'PUT',
