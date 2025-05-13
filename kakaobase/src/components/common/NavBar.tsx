@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { getClientCookie } from '@/lib/getClientCookie';
+import { getAccessToken, getClientCookie } from '@/lib/getClientCookie';
 
 function NavItem({ icon: Icon, path }: { icon: LucideIcon; path: string }) {
   const pathName = usePathname();
@@ -49,7 +49,7 @@ function LoginProfile({ path }: { path: string }) {
 
 export default function NavBar() {
   const router = useRouter();
-  const accessToken = getClientCookie('accessToken');
+  const accessToken = getAccessToken();
 
   return (
     <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full z-50">
