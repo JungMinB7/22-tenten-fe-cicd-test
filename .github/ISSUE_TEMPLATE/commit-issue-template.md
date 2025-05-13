@@ -2,7 +2,7 @@
 name: Commit issue template
 about: "[ \U0001F49C FE - FEAT ] 커밋 이슈 템플릿입니다."
 title: "[ \U0001F49C FE - FEAT] 기능명"
-labels: 스프린트-백로그, FEAT, Sub
+labels: FE, FEAT
 assignees: okiidokim
 
 ---

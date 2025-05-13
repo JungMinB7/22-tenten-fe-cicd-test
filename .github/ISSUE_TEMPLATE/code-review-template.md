@@ -2,7 +2,7 @@
 name: Code Review Template
 about: "[ \U0001F49B FE - REVIEW ] 코드리뷰 템플릿입니다."
 title: "[ \U0001F49B FE - REVIEW ] 리뷰 제목"
-labels: REVIEW, 질문
+labels: REVIEW
 assignees: ''
 
 ---
