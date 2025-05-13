@@ -21,7 +21,7 @@ export default function usePostDetail({ id }: { id: number }) {
       setLoading(true);
       if (path.includes('comment')) {
         response = await getComment({ id });
-        setPost(mapToPostEntity(response, 'comment'));
+        setPost(mapToPostEntity(response.data.data, 'comment'));
       } else {
         response = await getPost({ postType, id });
         setPost(mapToPostEntity(response, 'post'));

@@ -33,7 +33,7 @@ export function mapToPostEntity(post: any, type: PostType): PostEntity {
   if (type === 'comment') {
     return {
       ...base,
-      commentCount: post.comment_count,
+      commentCount: post.recomment_count,
     } as Comment;
   }
 

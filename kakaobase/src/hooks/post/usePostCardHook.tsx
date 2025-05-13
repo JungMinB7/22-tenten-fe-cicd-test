@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import getPosts from '@/apis/postList';
 import { useParams, usePathname } from 'next/navigation';
 import getComments from '@/apis/commentList';
-import getRecomments from '@/apis/recomment';
+import { getRecomments } from '@/apis/recomment';
 import type { PostEntity } from '@/stores/postType';
 
 export default function usePosts(limit: number) {
@@ -16,16 +16,17 @@ export default function usePosts(limit: number) {
 
   const fetchPosts = useCallback(async () => {
     if (loading || !hasMore) return;
-    const id = Number(param.postId);
+    const postId = Number(param.postId);
+    const commentId = Number(param.commentId);
 
     try {
       setLoading(true);
       let data: PostEntity[] = [];
 
       if (path.includes('comment')) {
-        data = await getRecomments(id, { limit, cursor });
+        data = await getRecomments(commentId, { limit, cursor });
       } else if (path.includes('post')) {
-        data = await getComments(id, { limit, cursor });
+        data = await getComments(postId, { limit, cursor });
       } else {
         data = await getPosts({ limit, cursor });
       }
