@@ -1,68 +1,69 @@
 import { create } from 'zustand';
+import type { Post, Comment, Recomment } from '@/stores/postType';
 
-export interface PostState {
-  id: number;
-  userId: number;
-  nickname: string;
-  userProfileUrl: string;
-  isMine: boolean;
-  type: 'post' | 'comment' | 'recomment';
-  content?: string;
-  ImageUrl?: string;
-  youtubeUrl?: string;
-  youtubeSummary?: string;
-  commentCount: number;
-  likeCount: number;
-  isFollowing: boolean;
-  isLiked: boolean;
-  createdAt: string;
-  onClickFollow: () => void;
-  onClickReport: () => void;
-  onClickUser: () => void;
-  onClickPostCard: () => void;
-  onClickDelete: () => void;
-  onClickLike: () => void;
-  onClickYoutubeSummary: () => void;
-  setPostCardInfo: (post: Partial<PostState>) => void;
-}
+interface PostStore {
+  // 게시글/댓글/대댓글 전역 상태
+  postDetail: Post | null;
+  postList: Post[];
+  commentDetail: Comment | null;
+  commentList: Comment[];
+  recommentList: Record<number, Recomment[]>;
 
-interface PostEditorState {
-  content?: string;
+  // 에디터 상태
+  content: string;
   youtubeUrl?: string;
   imageUrl?: string;
+
+  // Setter
+  setPostDetail: (post: Post) => void;
+  setPostList: (posts: Post[]) => void;
+  setCommentDetail: (comment: Comment) => void;
+  setCommentList: (comments: Comment[]) => void;
+  setRecommentList: (commentId: number, recomments: Recomment[]) => void;
+
+  // 에디터 Setter
   setEditorData: (data: {
     content: string;
-    youtubeUrl: string;
-    imageUrl: string;
+    youtubeUrl?: string;
+    imageUrl?: string;
   }) => void;
   resetEditor: () => void;
+
+  // 기타 유틸
+  clearDetail: () => void;
 }
 
-export const usePostStore = create<PostState & PostEditorState>((set) => ({
-  id: 1,
-  userId: 1,
-  nickname: '',
-  userProfileUrl: '',
-  isMine: true,
-  type: 'post',
+export const usePostStore = create<PostStore>((set) => ({
+  // 전역 상태
+  postDetail: null,
+  postList: [],
+  commentDetail: null,
+  commentList: [],
+  recommentList: {},
+
+  // 에디터 상태
   content: '',
-  ImageUrl: '',
   youtubeUrl: '',
-  youtubeSummary: '',
-  commentCount: 0,
-  likeCount: 0,
-  isFollowing: false,
-  isLiked: false,
-  createdAt: Date.now().toString(),
-  onClickFollow: () => {},
-  onClickReport: () => {},
-  onClickUser: () => {},
-  onClickPostCard: () => {},
-  onClickDelete: () => {},
-  onClickLike: () => {},
-  onClickYoutubeSummary: () => {},
-  setPostCardInfo: (post) => set((state) => ({ ...state, ...post })),
-  setEditorData: (data) => set((state) => ({ ...state, ...data })),
+  imageUrl: '',
+
+  // Setter
+  setPostDetail: (post) => set({ postDetail: post }),
+  setPostList: (posts) => set({ postList: posts }),
+  setCommentDetail: (comment) => set({ commentDetail: comment }),
+  setCommentList: (comments) => set({ commentList: comments }),
+  setRecommentList: (commentId, recomments) =>
+    set((state) => ({
+      recommentList: { ...state.recommentList, [commentId]: recomments },
+    })),
+
+  setEditorData: ({ content, youtubeUrl, imageUrl }) =>
+    set((state) => ({
+      ...state,
+      content,
+      youtubeUrl,
+      imageUrl,
+    })),
+
   resetEditor: () =>
     set((state) => ({
       ...state,
@@ -70,4 +71,10 @@ export const usePostStore = create<PostState & PostEditorState>((set) => ({
       youtubeUrl: '',
       imageUrl: '',
     })),
+
+  clearDetail: () =>
+    set({
+      postDetail: null,
+      commentDetail: null,
+    }),
 }));

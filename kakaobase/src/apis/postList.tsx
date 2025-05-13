@@ -1,9 +1,7 @@
-import { PostState } from '@/stores/postStore';
 import api from './api';
-import { getClientCookie } from '@/lib/getClientCookie';
-import { courseMap } from '@/lib/courseMap';
-import { PostType } from '@/lib/postType';
-import { mapToPostState } from '@/lib/mapPost';
+import type { Post } from '@/stores/postType';
+import { getAccessToken, getClientCookie } from '@/lib/getClientCookie';
+import { mapToPostEntity } from '@/lib/mapPost';
 
 export interface GetPostsParams {
   limit?: number;
@@ -14,7 +12,7 @@ export interface GetPostsParams {
 export default async function getPosts({
   limit,
   cursor,
-}: GetPostsParams): Promise<PostState[]> {
+}: GetPostsParams): Promise<Post[]> {
   try {
     let postType = getClientCookie('course');
     if (!postType) postType = 'ALL';
@@ -25,11 +23,10 @@ export default async function getPosts({
     const response = await api.get(`/posts/${postType}`, {
       params,
       headers: {
-        Authorization: `Bearer ${getClientCookie('accessToken')}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
-    const rawPosts = response.data.data;
-    return rawPosts.map(mapToPostState);
+    return response.data.data.map((p: any) => mapToPostEntity(p, 'post'));
   } catch (e: unknown) {
     if (e instanceof Error) throw e;
     return [];
