@@ -1,4 +1,4 @@
-import { getAccessToken } from '@/lib/getClientCookie';
+import { getClientCookie } from '@/lib/getClientCookie';
 import api from './api';
 import { GetPostsParams } from './postList';
 import { Post } from '@/stores/postType';
@@ -16,7 +16,7 @@ export async function getRecomments(
     const response = await api.get(`/comments/${commentId}/recomments`, {
       params,
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
     return response.data.data.recomments.map((p: any) =>
@@ -33,7 +33,7 @@ export async function deleteRecomment({ id }: { id: number }) {
   try {
     const response = await api.delete(`recomments/${id}`, {
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
     return response.data;
@@ -58,7 +58,7 @@ export async function postRecomment({
       },
       {
         headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
+          Authorization: `Bearer ${getClientCookie('accessToken')}`,
         },
       }
     );

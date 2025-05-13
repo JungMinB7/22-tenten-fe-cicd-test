@@ -1,6 +1,6 @@
 import { Post } from '@/stores/postType';
 import api from './api';
-import { getAccessToken, getClientCookie } from '@/lib/getClientCookie';
+import { getClientCookie } from '@/lib/getClientCookie';
 import { mapToPostEntity } from '@/lib/mapPost';
 import { GetPostsParams } from './postList';
 
@@ -19,7 +19,7 @@ export default async function getComments(
     const response = await api.get(`/posts/${id}/comments`, {
       params,
       headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
+        Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },
     });
 
