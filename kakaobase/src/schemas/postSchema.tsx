@@ -10,7 +10,8 @@ export const postSchema = z
       .string()
       .optional()
       .refine((val) => !val || val.startsWith('https://www.youtube.com/'), {
-        message: '유튜브 링크 형식이 올바르지 않습니다.',
+        message:
+          '유튜브 링크 형식이 올바르지 않습니다.(https://www.youtube.com/)',
       }),
     imageFile: z
       .instanceof(File)
