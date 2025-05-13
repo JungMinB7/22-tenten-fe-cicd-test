@@ -1,8 +1,10 @@
 import {
   deleteCommentLike,
   deletePostLike,
+  deleteRecommentLike,
   likeComment,
   likePost,
+  likeRecomment,
 } from '@/apis/like';
 import { useState } from 'react';
 
@@ -32,6 +34,15 @@ export function useLikeToggle(
           setLikeCount((prev) => prev - 1);
         } else {
           const reponse = await likeComment({ id });
+          setLikeCount((prev) => prev + 1);
+        }
+      } else {
+        if (isLiked) {
+          const reponse = await deleteRecommentLike({ id });
+
+          setLikeCount((prev) => prev - 1);
+        } else {
+          const reponse = await likeRecomment({ id });
           setLikeCount((prev) => prev + 1);
         }
       }
