@@ -6,6 +6,7 @@ import { UserProfile, UserInfo } from './UserInfo';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { extractYoutubeVideoId } from '@/lib/formatYoutube';
 import { PostEntity } from '@/stores/postType';
+import { LoaderCircle } from 'lucide-react';
 
 export default function PostCard({ post }: { post: PostEntity }) {
   const router = useRouter();
@@ -13,9 +14,8 @@ export default function PostCard({ post }: { post: PostEntity }) {
 
   const postId = Number(params.postId);
 
-  const { isOpen, summaryButton, summary, showSummary } = useYoutubeHook(
-    post.id
-  );
+  const { loading, isOpen, summaryButton, summary, showSummary } =
+    useYoutubeHook(post.id);
 
   const path = usePathname();
   function navDetail() {
@@ -71,7 +71,18 @@ export default function PostCard({ post }: { post: PostEntity }) {
           {post.type === 'post' && 'youtubeUrl' in post && post.youtubeUrl && (
             <div className="text-xs text-textColor">
               <div className="cursor-pointer" onClick={showSummary}>
-                {summaryButton}
+                {loading ? (
+                  <div className="text-xs flex text-center items-center gap-4">
+                    <LoaderCircle
+                      width={12}
+                      height={12}
+                      className="animate-spin text-textColor"
+                    />{' '}
+                    로딩 중...
+                  </div>
+                ) : (
+                  summaryButton
+                )}
               </div>
               {isOpen ? <div>{summary}</div> : null}
             </div>
