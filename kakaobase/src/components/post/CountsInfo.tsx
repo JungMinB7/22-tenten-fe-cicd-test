@@ -1,5 +1,5 @@
 import { useLikeToggle } from '@/hooks/user/useLikeHook';
-import { PostState } from '@/stores/postStore';
+import { PostEntity } from '@/stores/postType';
 import { Heart, MessageCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -47,7 +47,7 @@ function LikeInfo({
   );
 }
 
-export default function CountsInfo({ post }: { post: PostState }) {
+export default function CountsInfo({ post }: { post: PostEntity }) {
   const router = useRouter();
 
   const { isLiked, likeCount, toggleLike } = useLikeToggle(
@@ -63,12 +63,13 @@ export default function CountsInfo({ post }: { post: PostState }) {
 
   return (
     <div className="flex gap-4 text-sm">
-      {post.type !== 'recomment' && (
+      {(post.type === 'post' || post.type === 'comment') && (
         <CommentInfo
           onClickFunction={navDetail}
-          commentCount={post.commentCount}
+          commentCount={'commentCount' in post ? post.commentCount : 0}
         />
       )}
+
       <LikeInfo
         likeCount={likeCount}
         condition={isLiked}

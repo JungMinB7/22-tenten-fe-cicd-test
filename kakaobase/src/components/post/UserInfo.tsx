@@ -1,4 +1,3 @@
-import { PostState } from '@/stores/postStore';
 import { ShieldAlert, Trash2, User } from 'lucide-react';
 import FollowButtonSmall from '../user/FollowButtonSmall';
 import formatDate from '@/lib/formatDate';
@@ -7,8 +6,9 @@ import Image from 'next/image';
 import { useDeleteHook } from '@/hooks/post/useDeleteHook';
 import DeleteModal from './DeleteModal';
 import { useEffect, useState } from 'react';
+import { PostEntity } from '@/stores/postType';
 
-export function UserProfile({ post }: { post: PostState }) {
+export function UserProfile({ post }: { post: PostEntity }) {
   const router = useRouter();
   function navProfile() {
     router.push(`/profile/${post.id}`);
@@ -34,7 +34,7 @@ export function UserProfile({ post }: { post: PostState }) {
   );
 }
 
-export function UserInfo({ post }: { post: PostState }) {
+export function UserInfo({ post }: { post: PostEntity }) {
   const id = Number(post.id);
   const type = post.type;
   const router = useRouter();
