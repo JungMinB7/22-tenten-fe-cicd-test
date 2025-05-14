@@ -22,6 +22,7 @@ export default function useLoginForm() {
       password: '',
     },
   });
+  const { setError } = loginForm;
 
   const onSubmit = async (data: LoginFormData, autoLogin: boolean) => {
     const deviceId = localStorage.getItem('deviceId') || uuidv4();
@@ -52,8 +53,14 @@ export default function useLoginForm() {
         autoLogin: autoLogin,
       });
       router.push('/');
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      console.log(e.response.data);
+      if (e.response.data.error === 'invalid_password') {
+        setError('password', {
+          type: 'manual',
+          message: '이메일 또는 비밀번호를 확인해 주세요.',
+        });
+      }
     }
   };
 
