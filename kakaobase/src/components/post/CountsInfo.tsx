@@ -1,7 +1,7 @@
 import { useLikeToggle } from '@/hooks/user/useLikeHook';
 import { PostEntity } from '@/stores/postType';
 import { Heart, MessageCircle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 function CommentInfo({
   commentCount,
@@ -49,6 +49,8 @@ function LikeInfo({
 
 export default function CountsInfo({ post }: { post: PostEntity }) {
   const router = useRouter();
+  const params = useParams();
+  const postId = params.postId;
 
   const { isLiked, likeCount, toggleLike } = useLikeToggle(
     post.isLiked,
@@ -58,7 +60,11 @@ export default function CountsInfo({ post }: { post: PostEntity }) {
   );
 
   function navDetail() {
-    router.push(`/post/${post.id}`);
+    if (post.type === 'comment') {
+      router.push(`/post/${postId}/comment/${post.id}`);
+    } else {
+      router.push(`/post/${post.id}`);
+    }
   }
 
   return (
