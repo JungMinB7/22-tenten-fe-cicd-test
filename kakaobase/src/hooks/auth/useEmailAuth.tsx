@@ -50,6 +50,10 @@ export const useEmailAuth = () => {
         setCodeValid(true);
       } catch (e: any) {
         console.log(e.response.data);
+        timer.stop();
+        if (e.response.data.error === 'resource_alread_exists') {
+          setError('*이미 가입된 이메일입니다.');
+        }
       }
     }
     // } else {
