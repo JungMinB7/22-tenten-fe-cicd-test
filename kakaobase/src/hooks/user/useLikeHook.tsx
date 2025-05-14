@@ -19,30 +19,28 @@ export function useLikeToggle(
 
   const toggleLike = async () => {
     try {
-      let reponse = {};
       if (type === 'post') {
         if (isLiked) {
-          reponse = await deletePostLike({ id });
+          await deletePostLike({ id });
           setLikeCount((prev) => prev - 1);
         } else {
-          reponse = await likePost({ id });
+          await likePost({ id });
           setLikeCount((prev) => prev + 1);
         }
       } else if (type === 'comment') {
         if (isLiked) {
-          const reponse = await deleteCommentLike({ id });
+          await deleteCommentLike({ id });
           setLikeCount((prev) => prev - 1);
         } else {
-          const reponse = await likeComment({ id });
+          await likeComment({ id });
           setLikeCount((prev) => prev + 1);
         }
       } else {
         if (isLiked) {
-          const reponse = await deleteRecommentLike({ id });
-
+          await deleteRecommentLike({ id });
           setLikeCount((prev) => prev - 1);
         } else {
-          const reponse = await likeRecomment({ id });
+          await likeRecomment({ id });
           setLikeCount((prev) => prev + 1);
         }
       }

@@ -24,7 +24,7 @@ export default async function RootLayout({
       >
         <Providers>
           <div className="flex w-screen">
-            <div className="hidden lg:flex flex-col items-center justify-center w-[48%] animate-bounce">
+            <div className="hidden lg:flex flex-col items-center justify-center w-[48%] active:animate-bounce">
               <Image
                 src="/logo_square.svg"
                 alt="로고"
