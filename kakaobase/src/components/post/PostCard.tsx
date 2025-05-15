@@ -33,12 +33,17 @@ export default function PostCard({ post }: { post: PostEntity }) {
         <div className="w-full flex flex-col gap-2 text-textColor">
           <UserInfo post={post} />
           <div onClick={navDetail}>
-            {post.content ? (
-              <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis">
-                {post.content}
-              </div>
-            ) : null}
-
+            {!path.includes('post')
+              ? post.content && (
+                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis">
+                    {post.content}
+                  </div>
+                )
+              : post.content && (
+                  <div className="w-full text-sm overflow-hidden cursor-pointer">
+                    {post.content}
+                  </div>
+                )}
             <div className="flex justify-center content-center w-full overflow-hidden rounded-lg">
               {post.type === 'post' && 'imageUrl' in post && post.imageUrl && (
                 <Image
