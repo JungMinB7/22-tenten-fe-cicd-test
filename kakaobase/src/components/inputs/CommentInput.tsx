@@ -1,12 +1,14 @@
 import { postComment } from '@/apis/comment';
 import { Send } from 'lucide-react';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 export default function CommentInput() {
   const [comment, setComment] = useState('');
+  const path = usePathname();
   const param = useParams();
-  const id = Number(param.postId);
+  const postId = Number(param.postId);
+  const commentId = Number(param.commentId);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -14,8 +16,18 @@ export default function CommentInput() {
 
   const handleSubmit = async () => {
     if (!comment.trim()) return;
+    let response = {};
     try {
-      const response = await postComment({ postId: id, content: comment });
+      if (path.includes('comment')) {
+        response = await postComment({
+          postId,
+          content: comment,
+          parent_id: commentId,
+        });
+        console.log(response);
+      } else {
+        response = await postComment({ postId, content: comment });
+      }
       console.log(response);
     } catch (e: any) {
       console.log(e);

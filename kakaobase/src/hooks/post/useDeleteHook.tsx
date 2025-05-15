@@ -1,5 +1,6 @@
 import { deleteComment } from '@/apis/comment';
 import { deletePost } from '@/apis/post';
+import { deleteRecomment } from '@/apis/recomment';
 import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { usePathname, useRouter } from 'next/navigation';
@@ -16,7 +17,7 @@ export function useDeleteHook({ id, type }: { id: number; type: string }) {
     try {
       if (type === 'post') await deletePost({ postType, id });
       else if (type === 'comment') await deleteComment({ id });
-      // else await deleteRecomment({id}); // 대댓글 삭제
+      else await deleteRecomment({ id }); // 대댓글 삭제
       setOpen(false);
       if (path.includes('post') && type === 'post')
         router.push('/'); //게시글 상세에서 게시글 지우기

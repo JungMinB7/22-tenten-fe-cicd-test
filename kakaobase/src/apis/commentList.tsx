@@ -1,13 +1,13 @@
-import { PostState } from '@/stores/postStore';
+import { Post } from '@/stores/postType';
 import api from './api';
 import { getClientCookie } from '@/lib/getClientCookie';
-import { mapToPostState } from '@/lib/mapPost';
+import { mapToPostEntity } from '@/lib/mapPost';
 import { GetPostsParams } from './postList';
 
 export default async function getComments(
   id: number,
   { limit, cursor }: GetPostsParams
-): Promise<PostState[]> {
+): Promise<Post[]> {
   try {
     let postType = getClientCookie('course');
     if (!postType) postType = '기타 사용자';
@@ -23,8 +23,9 @@ export default async function getComments(
       },
     });
 
-    const rawPosts = response.data.data.comments;
-    return rawPosts.map(mapToPostState);
+    return response.data.data.comments.map((p: any) =>
+      mapToPostEntity(p, 'comment')
+    );
   } catch (e: unknown) {
     if (e instanceof Error) throw e;
     return [];

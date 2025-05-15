@@ -36,9 +36,10 @@ export const usePostEditorForm = () => {
       let imageUrl = '';
       if (data.imageFile) {
         imageUrl = await postToS3(data.imageFile, 'post_image');
+        console.log('이미지 받음', imageUrl);
       }
 
-      const response = await postPost(
+      await postPost(
         { postType },
         {
           content: data.content,
@@ -47,7 +48,8 @@ export const usePostEditorForm = () => {
         }
       );
 
-      router.push(`/post/${response.data.id}`);
+      console.log('게시글 등록 성공');
+      router.push(`/`);
     } catch (e: any) {
       console.log('게시글 업로드 실패:', e);
     }

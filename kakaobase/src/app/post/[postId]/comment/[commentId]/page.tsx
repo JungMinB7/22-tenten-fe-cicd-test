@@ -23,7 +23,8 @@ export default function Page({ params }: { params: { commentId: number } }) {
       </div>
     );
 
-  if (!post || error) return <div>게시글을 찾을 수 없습니다.</div>;
+  if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
+  if (error) return <div>오류입니다.</div>;
 
   return (
     <div className="flex flex-col h-screen">

@@ -1,8 +1,10 @@
 import {
   deleteCommentLike,
   deletePostLike,
+  deleteRecommentLike,
   likeComment,
   likePost,
+  likeRecomment,
 } from '@/apis/like';
 import { useState } from 'react';
 
@@ -17,21 +19,28 @@ export function useLikeToggle(
 
   const toggleLike = async () => {
     try {
-      let reponse = {};
       if (type === 'post') {
         if (isLiked) {
-          reponse = await deletePostLike({ id });
+          await deletePostLike({ id });
           setLikeCount((prev) => prev - 1);
         } else {
-          reponse = await likePost({ id });
+          await likePost({ id });
           setLikeCount((prev) => prev + 1);
         }
       } else if (type === 'comment') {
         if (isLiked) {
-          const reponse = await deleteCommentLike({ id });
+          await deleteCommentLike({ id });
           setLikeCount((prev) => prev - 1);
         } else {
-          const reponse = await likeComment({ id });
+          await likeComment({ id });
+          setLikeCount((prev) => prev + 1);
+        }
+      } else {
+        if (isLiked) {
+          await deleteRecommentLike({ id });
+          setLikeCount((prev) => prev - 1);
+        } else {
+          await likeRecomment({ id });
           setLikeCount((prev) => prev + 1);
         }
       }

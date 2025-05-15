@@ -1,21 +1,39 @@
+import { showYoutube } from '@/apis/youtubeSummary';
 import { useState } from 'react';
 
-export function useYoutubeHook() {
+export function useYoutubeHook(id: number) {
   const [isOpen, setOpen] = useState(false);
-  const summary =
-    '크리처보다는 도비죠. 아하하하하하하(아무튼 실성도비) 내용을 두 줄보다 길게 작성해 볼까나~~';
+  const [summary, setSummary] = useState('');
   const [summaryButton, setSummaryButton] = useState('요약 보기');
+  const [loading, setLoading] = useState(false);
 
-  function showSummary() {
-    setOpen((prev) => !prev);
-    if (isOpen) {
-      setSummaryButton('요약 보기');
+  async function showSummary() {
+    if (!isOpen) {
+      try {
+        setLoading(true);
+
+        const response = await showYoutube(id);
+        setOpen((prev) => !prev);
+        setSummaryButton('닫기');
+
+        if (response?.data.data.summary === null) setSummary('요약 없음');
+        else setSummary(response?.data.data.summary);
+
+        console.log(response?.data.data.summary);
+      } catch (e: any) {
+        console.log(e);
+        setSummaryButton('요약 보기');
+      } finally {
+        setLoading(false);
+      }
     } else {
-      setSummaryButton('닫기');
+      setOpen((prev) => !prev);
+      setSummaryButton('요약 보기');
     }
   }
 
   return {
+    loading,
     isOpen,
     summary,
     summaryButton,

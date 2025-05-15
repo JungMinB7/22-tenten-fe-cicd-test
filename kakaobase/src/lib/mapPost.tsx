@@ -1,47 +1,41 @@
-import type { PostState } from '@/stores/postStore';
+import {
+  PostEntity,
+  Post,
+  Comment,
+  Recomment,
+  PostType,
+} from '@/stores/postType';
 
-interface PostResponseDto {
-  id: number;
-  content?: string;
-  image_url?: string;
-  youtube_url?: string;
-  comment_count: number;
-  like_count: number;
-  is_liked: boolean;
-  is_mine: boolean;
-  created_at: string;
-  user: {
-    id: number;
-    nickname: string;
-    image_url: string | null;
-    is_following: boolean;
-  };
-}
-
-export function mapToPostState(post: PostResponseDto): PostState {
-  return {
+export function mapToPostEntity(post: any, type: PostType): PostEntity {
+  const base = {
     id: post.id,
     userId: post.user.id,
     nickname: post.user.nickname,
     userProfileUrl: post.user.image_url ?? '',
     isMine: post.is_mine,
-    type: 'post',
+    type,
     content: post.content ?? '',
-    ImageUrl: post.image_url ?? '',
-    youtubeUrl: post.youtube_url ?? '',
-    youtubeSummary: '',
-    commentCount: post.comment_count,
     likeCount: post.like_count,
-    isFollowing: post.user.is_following,
     isLiked: post.is_liked,
+    isFollowing: post.user.is_following,
     createdAt: post.created_at,
-    onClickFollow: () => {},
-    onClickReport: () => {},
-    onClickUser: () => {},
-    onClickPostCard: () => {},
-    onClickDelete: () => {},
-    onClickLike: () => {},
-    onClickYoutubeSummary: () => {},
-    setPostCardInfo: () => {},
   };
+
+  if (type === 'post') {
+    return {
+      ...base,
+      commentCount: post.comment_count,
+      youtubeUrl: post.youtube_url ?? '',
+      imageUrl: post.image_url ?? '',
+    } as Post;
+  }
+
+  if (type === 'comment') {
+    return {
+      ...base,
+      commentCount: post.recomment_count,
+    } as Comment;
+  }
+
+  return base as Recomment;
 }

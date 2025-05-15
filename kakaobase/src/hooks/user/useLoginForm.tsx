@@ -22,6 +22,7 @@ export default function useLoginForm() {
       password: '',
     },
   });
+  const { setError } = loginForm;
 
   const onSubmit = async (data: LoginFormData, autoLogin: boolean) => {
     const deviceId = localStorage.getItem('deviceId') || uuidv4();
@@ -37,11 +38,12 @@ export default function useLoginForm() {
 
     try {
       const response = await login(requestBody);
-      document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
-      document.cookie = `course=${response.data.class_name}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 or 1일
-      document.cookie = `nickname=${response.data.nickname}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 하기 or 1일
+      document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=1800`; //30분
+      document.cookie = `course=${response.data.class_name}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 14일
+      document.cookie = `nickname=${response.data.nickname}; path=/; max-age=1209600`;
+
       if (autoLogin) {
-        document.cookie = `autoLogin=true; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 하기 or 1일
+        document.cookie = `autoLogin=true; path=/; max-age=1209600`;
       } else {
         document.cookie = `autoLogin=false; path=/; max-age=0`; // 삭제
       }
@@ -51,8 +53,14 @@ export default function useLoginForm() {
         autoLogin: autoLogin,
       });
       router.push('/');
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      console.log(e.response.data);
+      if (e.response.data.error === 'invalid_password') {
+        setError('password', {
+          type: 'manual',
+          message: '이메일 또는 비밀번호를 확인해 주세요.',
+        });
+      }
     }
   };
 
