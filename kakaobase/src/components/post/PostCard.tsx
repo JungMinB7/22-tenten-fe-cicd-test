@@ -73,7 +73,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
                 )}
             </div>
           </div>
-          {post.type === 'post' && 'youtubeUrl' in post && post.youtubeUrl && (
+          {/* {post.type === 'post' && 'youtubeUrl' in post && post.youtubeUrl && (
             <div className="text-xs text-textColor">
               <div className="cursor-pointer" onClick={showSummary}>
                 {loading ? (
@@ -91,7 +91,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
               </div>
               {isOpen ? <div>{summary}</div> : null}
             </div>
-          )}
+          )} */}
           <CountsInfo post={post} />
         </div>
       </div>
