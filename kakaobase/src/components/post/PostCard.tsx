@@ -35,7 +35,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
           <div onClick={navDetail}>
             {!path.includes('post')
               ? post.content && (
-                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis">
+                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis break-all">
                     {post.content}
                   </div>
                 )
