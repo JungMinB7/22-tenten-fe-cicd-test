@@ -46,6 +46,9 @@ export default function CommentInput() {
             placeholder="댓글 내용을 작성하세요."
             value={comment}
             onChange={handleChange}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              e.key === 'Enter' && handleSubmit()
+            }
           />
           <Send
             className={`cursor-pointer transition ${
