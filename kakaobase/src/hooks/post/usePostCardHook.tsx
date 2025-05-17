@@ -14,48 +14,55 @@ export default function usePosts(limit: number) {
   const path = usePathname();
   const param = useParams();
 
-  const fetchPosts = useCallback(async () => {
-    if (loading || !hasMore) return;
-    const postId = Number(param.postId);
-    const commentId = Number(param.commentId);
+  const fetchPosts = useCallback(
+    async (reset: boolean = false) => {
+      if (!reset && loading) return;
 
-    try {
-      setLoading(true);
-      let data: PostEntity[] = [];
+      const postId = Number(param.postId);
+      const commentId = Number(param.commentId);
 
-      if (path.includes('comment')) {
-        data = await getRecomments(commentId, { limit, cursor });
-      } else if (path.includes('post')) {
-        data = await getComments(postId, { limit, cursor });
-      } else {
-        data = await getPosts({ limit, cursor });
+      try {
+        setLoading(true);
+
+        if (reset) {
+          setCursor(undefined);
+          setPosts([]);
+          setHasMore(true);
+        }
+
+        const currentCursor = reset ? undefined : cursor;
+        let data: PostEntity[] = [];
+
+        if (path.includes('comment')) {
+          data = await getRecomments(commentId, {
+            limit,
+            cursor: currentCursor,
+          });
+        } else if (path.includes('post')) {
+          data = await getComments(postId, { limit, cursor: currentCursor });
+        } else {
+          data = await getPosts({ limit, cursor: currentCursor });
+        }
+
+        if (reset) {
+          setPosts(data);
+        } else {
+          setPosts((prev) => [
+            ...prev,
+            ...data.filter((newPost) => !prev.some((p) => p.id === newPost.id)),
+          ]);
+        }
+
+        setCursor(data.length > 0 ? data[data.length - 1].id : undefined);
+        setHasMore(data.length === limit);
+      } catch (err) {
+        setError(err as Error);
+      } finally {
+        setLoading(false);
       }
+    },
+    [loading, limit, cursor, path, param]
+  );
 
-      if (data.length === 0) {
-        setHasMore(false);
-      } else {
-        setPosts((prev) => {
-          const newPosts = data.filter(
-            (newPost) => !prev.some((p) => p.id === newPost.id)
-          );
-          return [...prev, ...newPosts];
-        });
-
-        const lastId = data[data.length - 1].id;
-        setCursor(lastId);
-      }
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  }, [hasMore, loading, limit, cursor, path, param]);
-
-  return {
-    posts,
-    loading,
-    error,
-    hasMore,
-    fetchPosts,
-  };
+  return { posts, loading, error, hasMore, fetchPosts };
 }

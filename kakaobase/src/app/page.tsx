@@ -9,8 +9,8 @@ export default function Home() {
       <HeaderMain />
       {/* <PostCourseSelector /> */}
       <div
-        className="flex overflow-y-auto flex-grow flex-col mb-16"
-        id="scroll-area"
+        className="flex overflow-y-auto flex-grow flex-col mb-16 my-20"
+        data-scroll-area
       >
         <PostList />
       </div>
