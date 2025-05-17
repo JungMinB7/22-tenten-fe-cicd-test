@@ -55,7 +55,7 @@ export default function NavBar() {
   const accessToken = getClientCookie('accessToken');
 
   return (
-    <div className="sticky bottom-0 flex right-0 left-0">
+    <div className="flex fixed w-full max-w-[420px] border-t-[1px] bottom-0 mx-auto lg:self-start bg-bgColor text-textColor shadow-md">
       <div className="h-16 bg-bgColor flex justify-between items-end px-8 py-5 w-full z-50">
         <div className="flex gap-12">
           <NavItem icon={House} path="/" />

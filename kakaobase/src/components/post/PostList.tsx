@@ -9,7 +9,6 @@ import { usePathname, useRouter } from 'next/navigation';
 export default function PostList() {
   const path = usePathname();
   const { posts, loading, error, hasMore, fetchPosts } = usePosts(6);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
@@ -22,9 +21,8 @@ export default function PostList() {
   useEffect(() => {
     if (loading || !hasMore) return;
 
-    const container = containerRef.current;
     const sentinel = observerRef.current;
-    if (!container || !sentinel) return;
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -33,7 +31,7 @@ export default function PostList() {
         }
       },
       {
-        root: container,
+        root: document.querySelector('#scroll-area'),
         rootMargin: '0px 0px 20px 0px', //바닥에서 20px 위에 떨어진 스크롤 위치에서 추가 호출 발생
         threshold: 0,
       }
@@ -49,16 +47,13 @@ export default function PostList() {
   if (error) router.push('/login');
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col flex-1 min-h-0 overflow-y-auto"
-    >
+    <div className="flex flex-col flex-1 min-h-0">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
 
       {hasMore ? (
-        <div ref={observerRef} className="h-px" /> // 바닥 1px로 sentinel 감지
+        <div ref={observerRef} className="h-100" /> // 바닥 1px로 sentinel 감지
       ) : (
         <div className="text-center text-xs font-bold mb-8">
           마지막&nbsp;

@@ -29,9 +29,12 @@ export default function Page({ params }: { params: { commentId: number } }) {
   return (
     <div className="flex flex-col h-screen">
       <Header label="답글 상세" />
-      <PostCard post={post} />
-      <MiddleBar />
-      <div className="overflow-y-auto flex flex-grow">
+      <div
+        className="overflow-y-auto flex flex-col min-h-0 mb-20"
+        id="scroll-area"
+      >
+        <PostCard post={post} />
+        <MiddleBar />
         <PostList />
       </div>
       <CommentInput />
