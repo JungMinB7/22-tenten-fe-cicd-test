@@ -11,6 +11,7 @@ import {
 import clsx from 'clsx';
 import Image from 'next/image';
 import { getClientCookie } from '@/lib/getClientCookie';
+import { useEffect, useState } from 'react';
 
 function NavItem({ icon: Icon, path }: { icon: LucideIcon; path?: string }) {
   const pathName = usePathname();
@@ -32,27 +33,45 @@ function NavItem({ icon: Icon, path }: { icon: LucideIcon; path?: string }) {
 }
 
 function LoginProfile() {
-  const imageUrl = '';
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const url = localStorage.getItem('profileImage') || '';
+    setImageUrl(url);
+  }, []);
+
+  if (imageUrl === null) return null; // hydration mismatch 방지
+  if (imageUrl === '') {
+    return (
+      <div className="flex">
+        <NavItem icon={User} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex">
-      {imageUrl === '' ? (
-        <NavItem icon={User} />
-      ) : (
-        <Image
-          src={imageUrl}
-          width={12}
-          height={12}
-          alt="profile"
-          className="w-6 h-6 rounded-md transition-colors cursor-pointer"
-        />
-      )}
+      <Image
+        src={imageUrl}
+        width={12}
+        height={12}
+        alt="profile"
+        className="w-6 h-6 rounded-md transition-colors cursor-pointer"
+      />
     </div>
   );
 }
 
 export default function NavBar() {
   const router = useRouter();
-  const accessToken = getClientCookie('accessToken');
+  const [hasToken, setHasToken] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const accessToken = getClientCookie('accessToken');
+    setHasToken(!!accessToken);
+  }, []);
+
+  if (hasToken === null) return null; // hydration mismatch 방지
 
   return (
     <div className="flex fixed w-full max-w-[420px] border-t-[1px] bottom-0 mx-auto lg:self-start bg-bgColor text-textColor shadow-md">
@@ -71,11 +90,7 @@ export default function NavBar() {
         </button>
         <div className="flex gap-12">
           {/* <NavItem icon={Bell} path="/alarm" /> */}
-          {accessToken ? (
-            <LoginProfile />
-          ) : (
-            <NavItem icon={User} path="/login" />
-          )}
+          {hasToken ? <LoginProfile /> : <NavItem icon={User} path="/login" />}
         </div>
       </div>
     </div>
