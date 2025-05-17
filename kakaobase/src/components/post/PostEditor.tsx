@@ -32,7 +32,7 @@ function ContentInput({
       <textarea
         {...register('content')}
         placeholder="지금 무슨 일이 발생하고 있나요?"
-        className="w-full focus:outline-none bg-transparent text-xs resize-none max-h-60"
+        className="w-full focus:outline-none bg-transparent text-xs resize-none max-h-80"
         rows={1}
         onInput={(e) => {
           e.currentTarget.style.height = 'auto';
@@ -148,8 +148,8 @@ export default function PostEditor() {
   } = usePostEditorForm();
 
   return (
-    <div className="w-full h-full flex justify-center">
-      <div className="flex flex-col justify-between items-center h-full w-full py-10 text-textColor">
+    <div className="w-full flex justify-center">
+      <div className="flex flex-col items-center w-full gap-10 py-10 text-textColor">
         <div className="flex flex-col gap-6 w-full px-12">
           <ContentInput errors={errors} register={register} />
           <YoutubeInput errors={errors} register={register} />
