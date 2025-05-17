@@ -139,6 +139,7 @@ function ImageInput({
 
 export default function PostEditor() {
   const {
+    isLoading,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -156,6 +157,7 @@ export default function PostEditor() {
           <ImageInput errors={errors} watch={watch} setValue={setValue} />
         </div>
         <SubmitButton
+          isLoading={isLoading}
           text="게시글 업로드"
           onClick={handleSubmit(onSubmit)}
           disabled={!isValid}
