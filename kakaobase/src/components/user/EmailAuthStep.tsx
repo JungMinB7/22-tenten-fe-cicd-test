@@ -26,12 +26,17 @@ export default function EmailAuthStep() {
           label="이메일"
           placeholder="이메일을 입력하세요."
           type="text"
-          errorMessage={timer.isRunning ? timer.formatted : error}
+          errorMessage={
+            timer.isRunning
+              ? `${timer.formatted} 메일이 오지 않았다면, 스펨 메일함을 확인해 주세요.`
+              : error
+          }
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
             validateEmail(e.target.value);
           }}
+          className="whitespace-pre-line"
         />
         <SubmitButtonSmall
           label="전송"

@@ -35,7 +35,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
           <div onClick={navDetail}>
             {!path.includes('post')
               ? post.content && (
-                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis">
+                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis break-all">
                     {post.content}
                   </div>
                 )
@@ -77,14 +77,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
             <div className="text-xs text-textColor">
               <div className="cursor-pointer" onClick={showSummary}>
                 {loading ? (
-                  <div className="text-xs flex text-center items-center gap-4">
-                    <LoaderCircle
-                      width={12}
-                      height={12}
-                      className="animate-spin text-textColor"
-                    />{' '}
-                    로딩 중...
-                  </div>
+                  <LoadingSmall/>
                 ) : (
                   summaryButton
                 )}

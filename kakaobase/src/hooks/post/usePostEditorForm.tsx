@@ -6,6 +6,7 @@ import { postSchema } from '@/schemas/postSchema';
 import { usePostStore } from '@/stores/postStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,6 +17,7 @@ export const usePostEditorForm = () => {
   const content = usePostStore((state) => state.content);
   const youtubeUrl = usePostStore((state) => state.youtubeUrl);
   const imageUrl = usePostStore((state) => state.imageUrl);
+  const [isLoading, setLoading] = useState(false);
 
   const methods = useForm<NewPostData>({
     resolver: zodResolver(postSchema),
@@ -33,6 +35,7 @@ export const usePostEditorForm = () => {
     if (!postType) postType = 'ALL';
 
     try {
+      setLoading(true);
       let imageUrl = '';
       if (data.imageFile) {
         imageUrl = await postToS3(data.imageFile, 'post_image');
@@ -52,6 +55,8 @@ export const usePostEditorForm = () => {
       router.push(`/`);
     } catch (e: any) {
       console.log('게시글 업로드 실패:', e);
+    } finally {
+      setLoading(true);
     }
   };
 
@@ -62,5 +67,6 @@ export const usePostEditorForm = () => {
     youtubeUrl,
     content,
     setValue: methods.setValue,
+    isLoading,
   };
 };

@@ -8,7 +8,10 @@ export default function Home() {
     <main className="flex flex-col h-screen scroll-none ">
       <HeaderMain />
       {/* <PostCourseSelector /> */}
-      <div className="flex overflow-y-auto flex-grow">
+      <div
+        className="flex overflow-y-auto flex-grow flex-col mb-16 my-20"
+        data-scroll-area
+      >
         <PostList />
       </div>
       <NavBar />

@@ -4,6 +4,7 @@ import UserInput from '../inputs/UserInput';
 import SubmitButton from '../common/SubmitButton';
 import useLoginForm from '@/hooks/user/useLoginForm';
 import { useState } from 'react';
+import CheckBoxInput from './CheckBoxInput';
 
 export default function LoginForm() {
   const {
@@ -38,15 +39,11 @@ export default function LoginForm() {
             {...register('password')}
           />
         </div>
-        <div className="flex gap-1 text-xs">
-          <input
-            type="checkbox"
-            checked={autoLogin}
-            onChange={(e) => setAutoLogin(e.target.checked)}
-            className="cursor-pointer"
-          />
-          자동 로그인
-        </div>
+        <CheckBoxInput
+          checked={autoLogin}
+          setCheckStatus={setAutoLogin}
+          label="자동 로그인"
+        />
         <div className="flex flex-col gap-[0.25rem] mt-4">
           <SubmitButton text="로그인" disabled={!isValid} type="submit" />
           <SubmitButton

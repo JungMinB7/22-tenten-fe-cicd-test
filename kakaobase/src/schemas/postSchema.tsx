@@ -9,10 +9,15 @@ export const postSchema = z
     youtubeUrl: z
       .string()
       .optional()
-      .refine((val) => !val || val.startsWith('https://www.youtube.com/'), {
-        message:
-          '유튜브 링크 형식이 올바르지 않습니다.(https://www.youtube.com/)',
-      }),
+      .refine(
+        (val) =>
+          !val ||
+          val.startsWith('https://www.youtube.com/') ||
+          val.startsWith('https://youtu.be/'),
+        {
+          message: '유튜브 링크 형식이 올바르지 않습니다.',
+        }
+      ),
     imageFile: z
       .instanceof(File)
       .optional()

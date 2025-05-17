@@ -1,10 +1,12 @@
 import { useRouter } from 'next/navigation';
+import LoadingSmall from './loading/LoadingSmall';
 
 interface SubmitButtonProps {
   onClick?: () => void;
   text: string;
   type?: 'submit' | 'button';
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 export default function SubmitButton({
@@ -12,6 +14,7 @@ export default function SubmitButton({
   disabled = false,
   type = 'submit',
   onClick,
+  isLoading,
 }: SubmitButtonProps) {
   const router = useRouter();
 
@@ -24,7 +27,7 @@ export default function SubmitButton({
             : 'bg-myBlue text-textOnBlue'
         }`}
       >
-        <div className="text-xs">{text}</div>
+        {isLoading ? <LoadingSmall /> : <div className="text-xs">{text}</div>}
       </div>
     </button>
   );
