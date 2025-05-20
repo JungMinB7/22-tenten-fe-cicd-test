@@ -39,13 +39,13 @@ export default function useLoginForm() {
     try {
       const response = await login(requestBody);
       document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=1800`; //30분
-      document.cookie = `course=${response.data.class_name}; path=/; max-age=1209600`; //refresh Token이랑 기간 동일하게 14일
-      document.cookie = `nickname=${response.data.nickname}; path=/; max-age=1209600`;
+      localStorage.setItem('myCourse', response.data.class_name);
+      localStorage.setItem('nickname', response.data.nickname);
 
       if (autoLogin) {
-        document.cookie = `autoLogin=true; path=/; max-age=1209600`;
+        localStorage.setItem('autoLogin', 'true');
       } else {
-        document.cookie = `autoLogin=false; path=/; max-age=0`; // 삭제
+        localStorage.setItem('autoLogin', 'false');
       }
       setUserInfo({
         course: response.data.class_name,
@@ -54,7 +54,6 @@ export default function useLoginForm() {
       });
       router.push('/');
     } catch (e: any) {
-      console.log(e.response.data);
       if (e.response.data.error === 'invalid_password') {
         setError('password', {
           type: 'manual',

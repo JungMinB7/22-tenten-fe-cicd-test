@@ -5,7 +5,7 @@ import getComments from '@/apis/commentList';
 import { getRecomments } from '@/apis/recomment';
 import type { PostEntity } from '@/stores/postType';
 
-export default function usePosts(limit: number) {
+export default function usePosts(limit: number, course: string) {
   const [posts, setPosts] = useState<PostEntity[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -41,7 +41,7 @@ export default function usePosts(limit: number) {
         } else if (path.includes('post')) {
           data = await getComments(postId, { limit, cursor: currentCursor });
         } else {
-          data = await getPosts({ limit, cursor: currentCursor });
+          data = await getPosts({ limit, cursor: currentCursor, course });
         }
 
         if (reset) {
@@ -61,7 +61,7 @@ export default function usePosts(limit: number) {
         setLoading(false);
       }
     },
-    [loading, limit, cursor, path, param]
+    [loading, limit, cursor, path, param, course]
   );
 
   return { posts, loading, error, hasMore, fetchPosts };

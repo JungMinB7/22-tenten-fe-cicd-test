@@ -1,6 +1,5 @@
 import postToS3 from '@/apis/imageS3';
 import { postPost } from '@/apis/post';
-import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { postSchema } from '@/schemas/postSchema';
 import { usePostStore } from '@/stores/postStore';
@@ -31,7 +30,7 @@ export const usePostEditorForm = () => {
   });
 
   const onSubmit = async (data: NewPostData) => {
-    let postType = getClientCookie('course') as PostType;
+    let postType = localStorage.getItem('currCourse') as PostType;
     if (!postType) postType = 'ALL';
 
     try {
@@ -51,7 +50,6 @@ export const usePostEditorForm = () => {
         }
       );
 
-      console.log('게시글 등록 성공');
       router.push(`/`);
     } catch (e: any) {
       console.log('게시글 업로드 실패:', e);

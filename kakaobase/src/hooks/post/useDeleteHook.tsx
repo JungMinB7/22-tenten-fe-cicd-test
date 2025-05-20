@@ -1,13 +1,12 @@
 import { deleteComment } from '@/apis/comment';
 import { deletePost } from '@/apis/post';
 import { deleteRecomment } from '@/apis/recomment';
-import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function useDeleteHook({ id, type }: { id: number; type: string }) {
-  let postType = getClientCookie('course') as PostType;
+  let postType = localStorage.getItem('currCourse') as PostType;
   if (!postType) postType = 'ALL';
 
   const router = useRouter();

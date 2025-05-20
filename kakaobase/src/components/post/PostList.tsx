@@ -5,19 +5,23 @@ import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
 import { usePathname, useRouter } from 'next/navigation';
 import Loading from '../common/loading/Loading';
+import useCourseSelectHook from '@/hooks/post/useCourseSelectHook';
 
 export default function PostList() {
   const path = usePathname();
-  const { posts, loading, error, hasMore, fetchPosts } = usePosts(6);
+  const router = useRouter();
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const router = useRouter();
 
-  // 마운트 시 한 번만 호출
+  const { course } = useCourseSelectHook();
+
+  // usePosts는 course를 deps로 사용
+  const { posts, loading, error, hasMore, fetchPosts } = usePosts(6, course);
+
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(true); // course 변경 시 reset
+  }, [course]);
 
   // 무한 스크롤 옵저버
   useEffect(() => {
