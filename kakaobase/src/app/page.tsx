@@ -1,4 +1,3 @@
-'use client';
 import HeaderMain from '@/components/common/header/HeaderMain';
 import NavBar from '@/components/common/NavBar';
 import PostCourseSelector from '@/components/post/PostCourseSelector';

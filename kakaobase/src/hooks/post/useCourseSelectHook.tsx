@@ -2,10 +2,13 @@ import { courseMapReverse } from '@/lib/courseMap';
 import { useEffect, useState } from 'react';
 
 export default function useCourseSelectHook() {
-  const [course, setCourse] = useState<string>(
-    localStorage.getItem('currCourse') || 'ALL'
-  );
-  const [myCourseLabel, setMyCourseLabel] = useState('기타 사용자');
+  const initialCourse =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('currCourse') || 'ALL'
+      : 'ALL'; // SSR 환경 보호
+
+  const [course, setCourse] = useState<string>(initialCourse);
+  const [myCourseLabel, setMyCourseLabel] = useState('전체');
 
   useEffect(() => {
     const curr = localStorage.getItem('currCourse');
@@ -16,7 +19,7 @@ export default function useCourseSelectHook() {
     if (myCourse) {
       setMyCourseLabel(courseMapReverse[myCourse]); //한국어로 매핑
     } else {
-      setMyCourseLabel('기타 사용자');
+      setMyCourseLabel('전체');
     }
   }, []);
 
