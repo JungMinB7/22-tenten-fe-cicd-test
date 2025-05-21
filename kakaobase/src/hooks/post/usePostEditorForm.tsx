@@ -54,7 +54,7 @@ export const usePostEditorForm = () => {
     } catch (e: any) {
       console.log('게시글 업로드 실패:', e);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
 
