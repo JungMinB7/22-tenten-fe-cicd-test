@@ -40,7 +40,7 @@ export default async function RootLayout({
                 className="w-[24rem] h-auto"
               />
             </div>
-            <div className="flex flex-col h-screen justify-center scrollbar-hide w-full max-w-[420px] mx-auto lg:ml-12 lg:self-start bg-bgColor text-textColor shadow-md">
+            <div className="flex flex-col h-screen justify-center scrollbar-hide w-full max-w-[480px] mx-auto lg:ml-12 lg:self-start bg-bgColor text-textColor shadow-md">
               {children}
             </div>
           </div>
