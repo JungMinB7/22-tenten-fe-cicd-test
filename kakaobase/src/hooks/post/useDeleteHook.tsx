@@ -6,13 +6,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function useDeleteHook({ id, type }: { id: number; type: string }) {
-  let postType = localStorage.getItem('currCourse') as PostType;
-  if (!postType) postType = 'ALL';
-
   const router = useRouter();
   const path = usePathname();
   const [isOpened, setOpen] = useState(false);
   async function deletePostExecute() {
+    let postType = localStorage.getItem('currCourse') as PostType;
+    if (!postType) postType = 'ALL';
     try {
       if (type === 'post') await deletePost({ postType, id });
       else if (type === 'comment') await deleteComment({ id });
