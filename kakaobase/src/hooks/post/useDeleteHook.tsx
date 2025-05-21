@@ -10,8 +10,10 @@ export function useDeleteHook({ id, type }: { id: number; type: string }) {
   const path = usePathname();
   const [isOpened, setOpen] = useState(false);
   async function deletePostExecute() {
-    let postType = localStorage.getItem('currCourse') as PostType;
-    if (!postType) postType = 'ALL';
+    const postType =
+      typeof window !== 'undefined'
+        ? (localStorage.getItem('currCourse') as PostType) || 'ALL'
+        : 'ALL';
     try {
       if (type === 'post') await deletePost({ postType, id });
       else if (type === 'comment') await deleteComment({ id });
