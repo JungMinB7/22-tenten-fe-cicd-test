@@ -14,7 +14,7 @@ export default function PostCourseSelector() {
         onChange={handleChange}
         defaultValue={course}
       >
-        <option value="ALL">기타 사용자</option>
+        <option value="ALL">전체</option>
         {localStorage.getItem('myCourse') !== 'ALL' && (
           <option value={localStorage.getItem('myCourse') || 'ALL'}>
             {myCourseLabel}

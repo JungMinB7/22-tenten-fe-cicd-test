@@ -17,7 +17,10 @@ export default function PostList() {
   const { course } = useCourseSelectHook();
 
   // usePosts는 course를 deps로 사용
-  const { posts, loading, error, hasMore, fetchPosts } = usePosts(6, course);
+  const { posts, loading, error, hasMore, fetchPosts } = usePosts(
+    6,
+    course ?? ''
+  );
 
   useEffect(() => {
     fetchPosts(true); // course 변경 시 reset
