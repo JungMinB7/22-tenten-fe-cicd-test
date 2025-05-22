@@ -6,7 +6,7 @@ import { UserProfile, UserInfo } from './UserInfo';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { extractYoutubeVideoId } from '@/lib/formatYoutube';
 import { PostEntity } from '@/stores/postType';
-import { LoaderCircle } from 'lucide-react';
+import LoadingSmall from '../common/loading/LoadingSmall';
 
 export default function PostCard({ post }: { post: PostEntity }) {
   const router = useRouter();
@@ -14,8 +14,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
 
   const postId = Number(params.postId);
 
-  const { loading, isOpen, summaryButton, summary, showSummary } =
-    useYoutubeHook(post.id);
+  const { loading, summary } = useYoutubeHook(post.id);
 
   const path = usePathname();
   function navDetail() {
@@ -40,7 +39,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
                   </div>
                 )
               : post.content && (
-                  <div className="w-full text-sm overflow-hidden cursor-pointer">
+                  <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis break-all">
                     {post.content}
                   </div>
                 )}
@@ -73,18 +72,11 @@ export default function PostCard({ post }: { post: PostEntity }) {
                 )}
             </div>
           </div>
-          {/* {post.type === 'post' && 'youtubeUrl' in post && post.youtubeUrl && (
+          {post.type === 'post' && 'youtubeUrl' in post && post.youtubeUrl && (
             <div className="text-xs text-textColor">
-              <div className="cursor-pointer" onClick={showSummary}>
-                {loading ? (
-                  <LoadingSmall/>
-                ) : (
-                  summaryButton
-                )}
-              </div>
-              {isOpen ? <div>{summary}</div> : null}
+              {loading ? <LoadingSmall /> : summary}
             </div>
-          )} */}
+          )}
           <CountsInfo post={post} />
         </div>
       </div>

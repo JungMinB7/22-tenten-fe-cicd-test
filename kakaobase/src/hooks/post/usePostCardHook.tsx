@@ -58,7 +58,7 @@ export default function usePosts(limit: number, course: string) {
         setHasMore(data.length === limit);
       } catch (e: any) {
         setError(e as Error);
-        if (e.response.data.error === 'unauthorized') {
+        if (e.response?.data?.error === 'unauthorized') {
           router.push('/login');
         } else {
           alert('문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
