@@ -9,11 +9,10 @@ import usePostDetail from '@/hooks/post/usePostCardDetail';
 
 export default function Page({ params }: { params: { postId: number } }) {
   const id = Number(params.postId);
-  const { post, loading, error } = usePostDetail({ id });
+  const { post, loading } = usePostDetail({ id });
 
   if (loading) return <Loading />;
   if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
-  if (error) return <div>오류입니다.</div>;
 
   return (
     <div className="flex flex-col h-screen">
