@@ -6,8 +6,17 @@ import CommentInput from '@/components/inputs/CommentInput';
 import PostCard from '@/components/post/PostCard';
 import PostList from '@/components/post/PostList';
 import usePostDetail from '@/hooks/post/usePostCardDetail';
+import { getClientCookie } from '@/lib/getClientCookie';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Page({ params }: { params: { commentId: number } }) {
+  const router = useRouter();
+  useEffect(() => {
+    const accessToken = getClientCookie('accessToken');
+    if (!accessToken) router.push('/login');
+  }, []);
+
   const id = Number(params.commentId);
   const { post, loading } = usePostDetail({ id });
 

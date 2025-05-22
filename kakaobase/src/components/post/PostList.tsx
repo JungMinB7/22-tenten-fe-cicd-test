@@ -3,14 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Loading from '../common/loading/Loading';
 import useCourseSelectHook from '@/hooks/post/useCourseSelectHook';
 import clsx from 'clsx';
 
 export default function PostList() {
   const path = usePathname();
-  const router = useRouter();
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -18,10 +17,7 @@ export default function PostList() {
   const { course } = useCourseSelectHook();
 
   // usePosts는 course를 deps로 사용
-  const { posts, loading, error, hasMore, fetchPosts } = usePosts(
-    6,
-    course ?? ''
-  );
+  const { posts, loading, hasMore, fetchPosts } = usePosts(6, course ?? '');
 
   useEffect(() => {
     fetchPosts(true); // course 변경 시 reset
@@ -83,8 +79,6 @@ export default function PostList() {
       scrollArea.removeEventListener('touchend', onTouchEnd);
     };
   }, [touchStartY, fetchPosts]);
-
-  if (error) router.push('/login');
 
   return (
     <div className="flex flex-col py-4">
