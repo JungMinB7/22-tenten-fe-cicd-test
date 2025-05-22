@@ -18,10 +18,12 @@ export default function Page({ params }: { params: { commentId: number } }) {
     <div className="flex flex-col h-screen">
       <Header label="답글 상세" />
       <div
-        className="overflow-y-auto flex flex-col min-h-0 my-20"
+        className="overflow-y-auto flex flex-col min-h-0 my-[4.5rem]"
         data-scroll-area
       >
-        <PostCard post={post} />
+        <div className="my-4">
+          <PostCard post={post} />
+        </div>
         <MiddleBar />
         <PostList />
       </div>

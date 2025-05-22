@@ -6,6 +6,7 @@ import PostCard from './PostCard';
 import { usePathname, useRouter } from 'next/navigation';
 import Loading from '../common/loading/Loading';
 import useCourseSelectHook from '@/hooks/post/useCourseSelectHook';
+import clsx from 'clsx';
 
 export default function PostList() {
   const path = usePathname();
@@ -86,7 +87,7 @@ export default function PostList() {
   if (error) router.push('/login');
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col py-4">
       {isRefreshing || (loading && <Loading />)}
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
@@ -95,7 +96,12 @@ export default function PostList() {
       {hasMore ? (
         <div ref={observerRef} className="h-px" /> // 바닥 1px로 sentinel 감지
       ) : (
-        <div className="text-center text-xs font-bold mb-8">
+        <div
+          className={clsx(
+            'text-center text-xs font-bold',
+            path === '/' && 'mb-8'
+          )}
+        >
           마지막&nbsp;
           {path.includes('comment')
             ? '대댓글'
