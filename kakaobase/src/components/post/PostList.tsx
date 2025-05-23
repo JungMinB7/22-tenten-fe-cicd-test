@@ -38,7 +38,7 @@ export default function PostList() {
       },
       {
         root: document.querySelector('[data-scroll-area]'),
-        rootMargin: '0px 0px 20px 0px', //바닥에서 20px 위에 떨어진 스크롤 위치에서 추가 호출 발생
+        rootMargin: '0px 0px 80px 0px', //바닥에서 20px 위에 떨어진 스크롤 위치에서 추가 호출 발생
         threshold: 0,
       }
     );

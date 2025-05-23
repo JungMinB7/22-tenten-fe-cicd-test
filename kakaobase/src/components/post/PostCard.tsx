@@ -49,7 +49,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
                     </div>
                   )
                 : post.content && (
-                    <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis break-all">
+                    <div className="w-full text-sm overflow-hidden cursor-pointer break-all">
                       {post.content}
                     </div>
                   )}
