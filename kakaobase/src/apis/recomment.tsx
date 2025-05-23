@@ -41,29 +41,3 @@ export async function deleteRecomment({ id }: { id: number }) {
     if (e instanceof Error) throw e;
   }
 }
-
-//대댓글 생성
-export async function postRecomment({
-  id,
-  content,
-}: {
-  id: number;
-  content: string;
-}) {
-  try {
-    const response = await api.post(
-      `/comments/${id}/recomments`,
-      {
-        content,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${getClientCookie('accessToken')}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (e: unknown) {
-    if (e instanceof Error) throw e;
-  }
-}
