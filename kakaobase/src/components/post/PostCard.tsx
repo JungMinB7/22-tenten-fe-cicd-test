@@ -1,21 +1,18 @@
 'use client';
 import Image from 'next/image';
-import { useYoutubeHook } from '@/hooks/post/useYoutubeHook';
 import CountsInfo from './CountsInfo';
 import { UserProfile, UserInfo } from './UserInfo';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { extractYoutubeVideoId } from '@/lib/formatYoutube';
 import { PostEntity } from '@/stores/postType';
-import LoadingSmall from '../common/loading/LoadingSmall';
 import clsx from 'clsx';
+import summaryCondition from '@/lib/summaryCondition';
 
 export default function PostCard({ post }: { post: PostEntity }) {
   const router = useRouter();
   const params = useParams();
 
   const postId = Number(params.postId);
-
-  const { loading, summary } = useYoutubeHook(post.id);
 
   const path = usePathname();
   function navDetail() {
@@ -70,7 +67,9 @@ export default function PostCard({ post }: { post: PostEntity }) {
                   )}
                 {post.type === 'post' &&
                   'youtubeUrl' in post &&
-                  post.youtubeUrl && (
+                  post.youtubeUrl &&
+                  post.youtubeSummary !== 'VIDEO_NOT_FOUND' &&
+                  post.youtubeSummary !== 'INVALID_YOUTUBE_URL' && (
                     <iframe
                       src={`https://www.youtube-nocookie.com/embed/${extractYoutubeVideoId(
                         post.youtubeUrl
@@ -86,9 +85,10 @@ export default function PostCard({ post }: { post: PostEntity }) {
             </div>
             {post.type === 'post' &&
               'youtubeUrl' in post &&
-              post.youtubeUrl && (
+              post.youtubeUrl &&
+              post.youtubeSummary && (
                 <div className="text-xs text-textColor">
-                  {loading ? <LoadingSmall /> : summary}
+                  {summaryCondition({ summary: post.youtubeSummary })}
                 </div>
               )}
             <CountsInfo post={post} />

@@ -27,6 +27,7 @@ export function mapToPostEntity(post: any, type: PostType): PostEntity {
       commentCount: post.comment_count,
       youtubeUrl: post.youtube_url ?? '',
       imageUrl: post.image_url ?? '',
+      youtubeSummary: post.youtube_summary ?? '',
     } as Post;
   }
 
