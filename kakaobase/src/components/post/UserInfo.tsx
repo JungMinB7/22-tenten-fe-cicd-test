@@ -11,11 +11,12 @@ import { PostEntity } from '@/stores/postType';
 export function UserProfile({ post }: { post: PostEntity }) {
   const router = useRouter();
   function navProfile() {
-    router.push(`/profile/${post.id}`);
+    router.push(`/profile/${post.userId}`);
   }
   return (
     <div
       className="flex w-8 h-7 rounded-lg bg-innerContainerColor justify-center items-center cursor-pointer"
+      onClick={(e) => e.stopPropagation()}
       //onClick={navProfile}
     >
       {post.userProfileUrl ? (
@@ -71,7 +72,10 @@ export function UserInfo({ post }: { post: PostEntity }) {
           <FollowButtonSmall isFollowing={post.isFollowing} />
         )} */}
       </div>
-      <div className="flex gap-2 align-center justify-center flex-shrink-0">
+      <div
+        className="flex gap-2 align-center justify-center flex-shrink-0"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex self-center text-xs">
           {formatDate(post.createdAt, isNarrow)}
         </div>

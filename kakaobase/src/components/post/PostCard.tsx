@@ -23,7 +23,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
     }
   }
   return (
-    <div className="flex" data-post-id={post.id}>
+    <div className="flex" data-post-id={post.id} onClick={navDetail}>
       <div className="flex mx-6 w-full my-2">
         <div
           className={clsx(
@@ -38,7 +38,7 @@ export default function PostCard({ post }: { post: PostEntity }) {
           <UserProfile post={post} />
           <div className="w-full flex flex-col gap-2 text-textColor">
             <UserInfo post={post} />
-            <div onClick={navDetail}>
+            <div>
               {!path.includes('post')
                 ? post.content && (
                     <div className="w-full text-sm overflow-hidden cursor-pointer line-clamp-2 text-ellipsis break-all">
