@@ -3,9 +3,11 @@ import SignupStep1Form from '@/components/user/SignupStep1Form';
 
 export default function Page() {
   return (
-    <div>
+    <div className="overflow-y-auto">
       <Header label="회원가입" />
-      <SignupStep1Form />
+      <div className="mt-20">
+        <SignupStep1Form />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import getPosts from '@/apis/postList';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import getComments from '@/apis/commentList';
 import { getRecomments } from '@/apis/recomment';
 import type { PostEntity } from '@/stores/postType';
@@ -13,6 +13,7 @@ export default function usePosts(limit: number, course: string) {
   const [cursor, setCursor] = useState<number | undefined>(undefined);
   const path = usePathname();
   const param = useParams();
+  const router = useRouter();
 
   const fetchPosts = useCallback(
     async (reset: boolean = false) => {
@@ -55,8 +56,14 @@ export default function usePosts(limit: number, course: string) {
 
         setCursor(data.length > 0 ? data[data.length - 1].id : undefined);
         setHasMore(data.length === limit);
-      } catch (err) {
-        setError(err as Error);
+      } catch (e: any) {
+        setError(e as Error);
+        if (e.response?.data?.error === 'unauthorized') {
+          router.push('/login');
+        } else {
+          alert('문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+          router.push('/');
+        }
       } finally {
         setLoading(false);
       }

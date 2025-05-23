@@ -68,19 +68,18 @@ export default function CountsInfo({ post }: { post: PostEntity }) {
   }
 
   return (
-    <div className="flex gap-4 text-sm">
+    <div className="flex gap-2 text-sm">
+      <LikeInfo
+        likeCount={likeCount}
+        condition={isLiked}
+        onClickFunction={toggleLike}
+      />
       {(post.type === 'post' || post.type === 'comment') && (
         <CommentInfo
           onClickFunction={navDetail}
           commentCount={'commentCount' in post ? post.commentCount : 0}
         />
       )}
-
-      <LikeInfo
-        likeCount={likeCount}
-        condition={isLiked}
-        onClickFunction={toggleLike}
-      />
     </div>
   );
 }

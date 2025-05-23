@@ -61,7 +61,7 @@ export async function getPost({ postType, id }: postParams) {
       },
     });
     return response.data.data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    if (e instanceof Error) throw e;
   }
 }

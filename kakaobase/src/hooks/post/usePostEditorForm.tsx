@@ -1,11 +1,12 @@
 import postToS3 from '@/apis/imageS3';
 import { postPost } from '@/apis/post';
+import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { postSchema } from '@/schemas/postSchema';
 import { usePostStore } from '@/stores/postStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -17,6 +18,12 @@ export const usePostEditorForm = () => {
   const youtubeUrl = usePostStore((state) => state.youtubeUrl);
   const imageUrl = usePostStore((state) => state.imageUrl);
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!getClientCookie('accessToken')) {
+      router.push('/login');
+    }
+  });
 
   const methods = useForm<NewPostData>({
     resolver: zodResolver(postSchema),
@@ -52,7 +59,12 @@ export const usePostEditorForm = () => {
 
       router.push(`/`);
     } catch (e: any) {
-      console.log('게시글 업로드 실패:', e);
+      if (e.response.data.error === 'unauthorized') {
+        router.push('/login');
+        alert('로그인이 필요합니다.');
+      } else {
+        console.log('게시글 업로드 실패:', e);
+      }
     } finally {
       setLoading(false);
     }

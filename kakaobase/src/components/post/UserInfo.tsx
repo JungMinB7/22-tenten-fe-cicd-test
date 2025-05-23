@@ -76,12 +76,19 @@ export function UserInfo({ post }: { post: PostEntity }) {
           {formatDate(post.createdAt, isNarrow)}
         </div>
         {post.isMine ? (
-          <Trash2
-            width={16}
-            height={16}
-            className="self-center cursor-pointer"
-            onClick={openModal}
-          />
+          !isOpened ? (
+            <Trash2
+              width={16}
+              height={16}
+              className="self-center cursor-pointer"
+              onClick={openModal}
+            />
+          ) : (
+            <DeleteModal
+              closeFunction={closeModal}
+              okFunction={deletePostExecute}
+            />
+          )
         ) : // <ShieldAlert
         //   width={16}
         //   height={16}
@@ -91,12 +98,6 @@ export function UserInfo({ post }: { post: PostEntity }) {
         //mvp 때 신고 페이지를 구현하지 않아 주석 처리
         null}
       </div>
-      {isOpened ? (
-        <DeleteModal
-          closeFunction={closeModal}
-          okFunction={deletePostExecute}
-        />
-      ) : null}
     </div>
   );
 }

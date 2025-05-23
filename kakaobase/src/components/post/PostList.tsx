@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import usePosts from '@/hooks/post/usePostCardHook';
 import PostCard from './PostCard';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Loading from '../common/loading/Loading';
 import useCourseSelectHook from '@/hooks/post/useCourseSelectHook';
+import clsx from 'clsx';
 
 export default function PostList() {
   const path = usePathname();
-  const router = useRouter();
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -17,10 +17,7 @@ export default function PostList() {
   const { course } = useCourseSelectHook();
 
   // usePosts는 course를 deps로 사용
-  const { posts, loading, error, hasMore, fetchPosts } = usePosts(
-    6,
-    course ?? ''
-  );
+  const { posts, loading, hasMore, fetchPosts } = usePosts(6, course ?? '');
 
   useEffect(() => {
     fetchPosts(true); // course 변경 시 reset
@@ -83,10 +80,8 @@ export default function PostList() {
     };
   }, [touchStartY, fetchPosts]);
 
-  if (error) router.push('/login');
-
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col py-4">
       {isRefreshing || (loading && <Loading />)}
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
@@ -95,7 +90,12 @@ export default function PostList() {
       {hasMore ? (
         <div ref={observerRef} className="h-px" /> // 바닥 1px로 sentinel 감지
       ) : (
-        <div className="text-center text-xs font-bold mb-8">
+        <div
+          className={clsx(
+            'text-center text-xs font-bold',
+            path === '/' && 'mb-8'
+          )}
+        >
           마지막&nbsp;
           {path.includes('comment')
             ? '대댓글'

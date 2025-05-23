@@ -15,7 +15,7 @@ export default function SubmitButtonSmall({
       onClick={() => {
         if (!disabled) onClick?.();
       }}
-      className={`h-4 w-12 align-center rounded-full ${
+      className={`flex h-4 w-12 justify-center rounded-full ${
         disabled
           ? 'bg-myLightBlue text-textOnLight cursor-not-allowed'
           : 'bg-myBlue text-textOnBlue'

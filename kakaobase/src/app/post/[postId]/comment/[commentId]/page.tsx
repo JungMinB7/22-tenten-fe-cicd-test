@@ -6,23 +6,33 @@ import CommentInput from '@/components/inputs/CommentInput';
 import PostCard from '@/components/post/PostCard';
 import PostList from '@/components/post/PostList';
 import usePostDetail from '@/hooks/post/usePostCardDetail';
+import { getClientCookie } from '@/lib/getClientCookie';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Page({ params }: { params: { commentId: number } }) {
+  const router = useRouter();
+  useEffect(() => {
+    const accessToken = getClientCookie('accessToken');
+    if (!accessToken) router.push('/login');
+  }, []);
+
   const id = Number(params.commentId);
-  const { post, loading, error } = usePostDetail({ id });
+  const { post, loading } = usePostDetail({ id });
 
   if (loading) return <Loading />;
   if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
-  if (error) return <div>오류입니다.</div>;
 
   return (
     <div className="flex flex-col h-screen">
       <Header label="답글 상세" />
       <div
-        className="overflow-y-auto flex flex-col min-h-0 my-20"
+        className="overflow-y-auto flex flex-col min-h-0 my-[4.5rem]"
         data-scroll-area
       >
-        <PostCard post={post} />
+        <div className="my-4">
+          <PostCard post={post} />
+        </div>
         <MiddleBar />
         <PostList />
       </div>

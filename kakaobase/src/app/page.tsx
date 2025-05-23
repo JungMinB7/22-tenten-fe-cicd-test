@@ -5,11 +5,11 @@ import PostList from '@/components/post/PostList';
 
 export default function Home() {
   return (
-    <main className="flex flex-col h-screen scroll-none ">
+    <main className="flex flex-col h-screen scroll-none">
       <HeaderMain />
       <PostCourseSelector />
       <div
-        className="flex overflow-y-auto flex-grow flex-col mb-16"
+        className="flex overflow-y-auto flex-grow flex-col mb-12"
         data-scroll-area
       >
         <PostList />

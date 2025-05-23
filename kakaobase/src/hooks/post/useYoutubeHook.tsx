@@ -1,42 +1,45 @@
 import { showYoutube } from '@/apis/youtubeSummary';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useYoutubeHook(id: number) {
-  const [isOpen, setOpen] = useState(false);
   const [summary, setSummary] = useState('');
-  const [summaryButton, setSummaryButton] = useState('요약 보기');
   const [loading, setLoading] = useState(false);
 
   async function showSummary() {
-    if (!isOpen) {
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
+      const response = await showYoutube(id);
 
-        const response = await showYoutube(id);
-        setOpen((prev) => !prev);
-        setSummaryButton('닫기');
-
-        if (response?.data.data.summary === null) setSummary('요약 없음');
-        else setSummary(response?.data.data.summary);
-
-        console.log(response?.data.data.summary);
-      } catch (e: any) {
-        console.log(e);
-        setSummaryButton('요약 보기');
-      } finally {
-        setLoading(false);
+      if (response?.data.data.summary === null) setSummary('요약 없음');
+      else setSummary(response?.data.data.summary);
+    } catch (e: any) {
+      const err = e.response.data.error;
+      const msg = e.response.data.message;
+      if (
+        err === 'youtube_subtitle_not_found' ||
+        err === 'video_not_found' ||
+        err === 'unsupported_subtitle_language' ||
+        err === 'video_private' ||
+        err === 'video_not_found'
+      ) {
+        setSummary(msg);
+      } else {
+        setSummary(
+          '유튜브 요약에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+        );
       }
-    } else {
-      setOpen((prev) => !prev);
-      setSummaryButton('요약 보기');
+    } finally {
+      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    showSummary();
+  }, []);
+
   return {
     loading,
-    isOpen,
     summary,
-    summaryButton,
     showSummary,
   };
 }

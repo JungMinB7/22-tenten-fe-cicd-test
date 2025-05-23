@@ -54,11 +54,15 @@ export default function useLoginForm() {
       });
       router.push('/');
     } catch (e: any) {
-      if (e.response.data.error === 'invalid_password') {
+      const errorCode = e?.response?.data?.error;
+      if (errorCode === 'invalid_password') {
         setError('password', {
           type: 'manual',
           message: '이메일 또는 비밀번호를 확인해 주세요.',
         });
+      } else {
+        if (errorCode === undefined) alert(e);
+        else alert(errorCode);
       }
     }
   };
