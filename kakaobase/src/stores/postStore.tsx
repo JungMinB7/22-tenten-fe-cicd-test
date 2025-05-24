@@ -27,6 +27,9 @@ interface PostStore {
     youtubeUrl?: string;
     imageUrl?: string;
   }) => void;
+  // appendComment: (comment: Comment) => void;
+  // appendRecomment: (commentId: number, recomment: Recomment) => void;
+
   resetEditor: () => void;
 
   // 기타 유틸
@@ -77,4 +80,17 @@ export const usePostStore = create<PostStore>((set) => ({
       postDetail: null,
       commentDetail: null,
     }),
+
+  // appendComment: (comment: Comment) =>
+  //   set((state) => ({
+  //     commentList: [...state.commentList, comment],
+  //   })),
+
+  // appendRecomment: (commentId: number, recomment: Recomment) =>
+  //   set((state) => ({
+  //     recommentList: {
+  //       ...state.recommentList,
+  //       [commentId]: [...(state.recommentList[commentId] || []), recomment],
+  //     },
+  //   })),
 }));

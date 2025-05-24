@@ -17,7 +17,8 @@ export function useLikeToggle(
   const [isLiked, setLiked] = useState(initial);
   const [likeCount, setLikeCount] = useState(likeCnt);
 
-  const toggleLike = async () => {
+  const toggleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     try {
       if (type === 'post') {
         if (isLiked) {

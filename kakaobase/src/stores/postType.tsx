@@ -18,6 +18,7 @@ export interface Post extends BasePost {
   commentCount: number;
   youtubeUrl?: string;
   imageUrl?: string;
+  youtubeSummary?: string;
 }
 
 export interface Comment extends BasePost {

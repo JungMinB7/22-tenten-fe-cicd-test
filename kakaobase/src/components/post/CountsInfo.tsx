@@ -1,23 +1,12 @@
 import { useLikeToggle } from '@/hooks/user/useLikeHook';
 import { PostEntity } from '@/stores/postType';
 import { Heart, MessageCircle } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import React from 'react';
 
-function CommentInfo({
-  commentCount,
-  onClickFunction,
-}: {
-  commentCount: number;
-  onClickFunction: () => void;
-}) {
+function CommentInfo({ commentCount }: { commentCount: number }) {
   return (
     <div className="flex gap-1 justify-center">
-      <MessageCircle
-        width={24}
-        height={24}
-        onClick={onClickFunction}
-        className="cursor-pointer"
-      />
+      <MessageCircle width={24} height={24} className="cursor-pointer" />
       <div className="w-12 self-center">{commentCount}</div>
     </div>
   );
@@ -30,14 +19,17 @@ function LikeInfo({
 }: {
   likeCount: number;
   condition: boolean;
-  onClickFunction: () => void;
+  onClickFunction: (e: React.MouseEvent<SVGElement>) => void;
 }) {
   return (
     <div className="flex gap-1">
       <Heart
         width={24}
         height={24}
-        onClick={onClickFunction}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickFunction(e);
+        }}
         fill={condition ? '#ff465c' : 'transparent'}
         strokeWidth={condition ? 0 : 2}
         className="cursor-pointer"
@@ -48,24 +40,12 @@ function LikeInfo({
 }
 
 export default function CountsInfo({ post }: { post: PostEntity }) {
-  const router = useRouter();
-  const params = useParams();
-  const postId = params.postId;
-
   const { isLiked, likeCount, toggleLike } = useLikeToggle(
     post.isLiked,
     post.likeCount,
     post.id,
     post.type
   );
-
-  function navDetail() {
-    if (post.type === 'comment') {
-      router.push(`/post/${postId}/comment/${post.id}`);
-    } else {
-      router.push(`/post/${post.id}`);
-    }
-  }
 
   return (
     <div className="flex gap-2 text-sm">
@@ -76,7 +56,6 @@ export default function CountsInfo({ post }: { post: PostEntity }) {
       />
       {(post.type === 'post' || post.type === 'comment') && (
         <CommentInfo
-          onClickFunction={navDetail}
           commentCount={'commentCount' in post ? post.commentCount : 0}
         />
       )}
