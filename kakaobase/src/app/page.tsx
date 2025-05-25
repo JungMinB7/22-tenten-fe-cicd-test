@@ -1,7 +1,8 @@
 import HeaderMain from '@/components/common/header/HeaderMain';
 import NavBar from '@/components/common/NavBar';
+import ListRouter from '@/components/post/ListRouter';
 import PostCourseSelector from '@/components/post/PostCourseSelector';
-import PostList from '@/components/post/PostList';
+import PostList from '@/components/post/list/PostList';
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
         className="flex overflow-y-auto flex-grow flex-col mb-12"
         data-scroll-area
       >
-        <PostList />
+        <ListRouter />
       </div>
       <NavBar />
     </main>

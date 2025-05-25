@@ -17,6 +17,8 @@ export default function PostCard({ post }: { post: PostEntity }) {
   const path = usePathname();
   function navDetail() {
     if (post.type === 'post') {
+      sessionStorage.setItem('scrollToPostId', String(post.id));
+      sessionStorage.setItem('scrollPosition', String(window.scrollY));
       router.push(`/post/${post.id}`);
     } else if (post.type === 'comment') {
       router.push(`/post/${postId}/comment/${post.id}`);
