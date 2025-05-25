@@ -1,7 +1,7 @@
 'use client';
 
 import UserInput from '../inputs/UserInput';
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/button/SubmitButton';
 import useLoginForm from '@/hooks/user/useLoginForm';
 import { useState } from 'react';
 import CheckBoxInput from './CheckBoxInput';

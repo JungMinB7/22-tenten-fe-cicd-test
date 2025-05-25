@@ -1,5 +1,6 @@
 import postToS3 from '@/apis/imageS3';
 import { postPost } from '@/apis/post';
+import { queryClient } from '@/app/providers';
 import { getClientCookie } from '@/lib/getClientCookie';
 import { PostType } from '@/lib/postType';
 import { postSchema } from '@/schemas/postSchema';
@@ -57,6 +58,7 @@ export const usePostEditorForm = () => {
         }
       );
 
+      await queryClient.invalidateQueries({ queryKey: ['posts'] });
       router.push(`/`);
     } catch (e: any) {
       if (e.response.data.error === 'unauthorized') {

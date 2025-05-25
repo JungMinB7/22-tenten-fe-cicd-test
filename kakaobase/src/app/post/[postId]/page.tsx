@@ -3,8 +3,9 @@ import Header from '@/components/common/header/Header';
 import Loading from '@/components/common/loading/Loading';
 import MiddleBar from '@/components/common/MiddleBar';
 import CommentInput from '@/components/inputs/CommentInput';
+import ListRouter from '@/components/post/ListRouter';
 import PostCard from '@/components/post/PostCard';
-import PostList from '@/components/post/PostList';
+import PostList from '@/components/post/list/PostList';
 import usePostDetail from '@/hooks/post/usePostCardDetail';
 import { getClientCookie } from '@/lib/getClientCookie';
 import { useRouter } from 'next/navigation';
@@ -34,7 +35,7 @@ export default function Page({ params }: { params: { postId: number } }) {
           <PostCard post={post} />
         </div>
         <MiddleBar />
-        <PostList />
+        <ListRouter />
       </div>
       <CommentInput />
     </div>

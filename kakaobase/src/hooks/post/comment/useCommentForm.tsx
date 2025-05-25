@@ -1,4 +1,5 @@
 import { postComment } from '@/apis/comment';
+import { queryClient } from '@/app/providers';
 import { useParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -22,14 +23,15 @@ export default function useCommentForm() {
           content: comment,
           parent_id: commentId,
         });
+        queryClient.invalidateQueries({ queryKey: ['recomments'] });
       } else {
         await postComment({ postId, content: comment });
+        queryClient.invalidateQueries({ queryKey: ['comments'] });
       }
     } catch (e: any) {
       console.log(e);
     } finally {
       setComment('');
-      window.location.reload(); // 나중에 바꿔야 함
     }
   };
 
