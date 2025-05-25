@@ -1,4 +1,4 @@
-import SubmitButtonSmall2 from '../common/SubmitButtonSmall2';
+import SubmitButtonSmall2 from './SubmitButtonSmall2';
 
 export default function DeleteModal({
   closeFunction,

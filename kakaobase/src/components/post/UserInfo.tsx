@@ -4,7 +4,7 @@ import formatDate from '@/lib/formatDate';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useDeleteHook } from '@/hooks/post/useDeleteHook';
-import DeleteModal from './DeleteModal';
+import DeleteModal from '../common/DeleteSemiModal';
 import { useEffect, useState } from 'react';
 import { PostEntity } from '@/stores/postType';
 
