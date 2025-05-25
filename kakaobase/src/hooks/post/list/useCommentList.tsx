@@ -11,11 +11,6 @@ export default function useCommentList({
 }: {
   postId: number;
 }): UseInfiniteQueryResult<InfiniteData<PostEntity[]>, Error> {
-  const course =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('currCourse') || 'ALL'
-      : 'ALL';
-
   return useInfiniteQuery<
     PostEntity[],
     Error,
@@ -28,7 +23,6 @@ export default function useCommentList({
       const response = await getComments(postId, {
         limit: 6,
         cursor: pageParam,
-        course: course,
       });
       return response;
     },
