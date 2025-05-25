@@ -1,7 +1,7 @@
 'use client';
 
 import { Image, Youtube } from 'lucide-react';
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/button/SubmitButton';
 import { NewPostData, usePostEditorForm } from '@/hooks/post/usePostEditorForm';
 import { useEffect, useState } from 'react';
 import {

@@ -1,6 +1,6 @@
 'use client';
 
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/button/SubmitButton';
 import CourseSelector from '../inputs/CourseSelector';
 import UserInput from '../inputs/UserInput';
 import { useSignupForm } from '@/hooks/user/useSingupStep2';

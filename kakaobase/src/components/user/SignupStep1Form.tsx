@@ -1,7 +1,7 @@
 'use client';
 
 import { usePasswordStep } from '@/hooks/user/usePasswordStep';
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/button/SubmitButton';
 import EmailAuthStep from './EmailAuthStep';
 import PasswordStep from './PasswordStep';
 import { useSignupStep1 } from '@/hooks/user/useSignupStep1';

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import LoadingSmall from './loading/LoadingSmall';
+import LoadingSmall from '../loading/LoadingSmall';
 
 interface SubmitButtonProps {
   onClick?: () => void;

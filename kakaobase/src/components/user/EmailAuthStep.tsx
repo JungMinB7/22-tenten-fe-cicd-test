@@ -1,5 +1,5 @@
 import { useEmailAuth } from '@/hooks/auth/useEmailAuth';
-import SubmitButtonSmall from '../common/SubmitButtonSmall';
+import SubmitButtonSmall from '../common/button/SubmitButtonSmall';
 import UserInput from '../inputs/UserInput';
 
 export default function EmailAuthStep() {
