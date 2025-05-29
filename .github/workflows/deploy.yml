@@ -106,7 +106,6 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          cd kakaobase
           FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}
           FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:${{ steps.tag.outputs.DOCKER_TAG }}-${{ github.sha }}
           FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:latest
