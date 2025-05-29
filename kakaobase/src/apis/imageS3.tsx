@@ -18,7 +18,7 @@ export default async function postToS3(
 
   await fetch(url, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/octet-stream' },
+    headers: { 'Content-Type': file.type },
     body: file,
     mode: 'cors',
   }).catch((error) => {
