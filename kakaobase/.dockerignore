@@ -1,0 +1,12 @@
+node_modules
+.next
+.env
+*.log
+.git
+.vscode
+coverage
+
+# CI/CD outputs
+bundle/
+deploy.zip
+imageDetail.json

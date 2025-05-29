@@ -1,0 +1,172 @@
+name: Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+      - release/**
+      - main
+
+jobs:
+  # ✅ 1. Checkout
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+  # ✅ 2. Setup Node.js
+  setup:
+    runs-on: ubuntu-latest
+    needs: checkout
+    defaults:
+      run:
+        working-directory: ./kakaobase
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.13.1'
+
+      - name: Install Dependencies
+        run: npm ci
+
+#   # ✅ 3. Lint & Format Check (develop, release/** 브랜치에서만 실행)
+#   lint:
+#     if: startsWith(github.ref, 'refs/heads/develop') || startsWith(github.ref, 'refs/heads/release/')
+#     runs-on: ubuntu-latest
+#     needs: setup
+#     defaults:
+#       run:
+#         working-directory: ./kakaobase
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Lint
+#         run: npm run lint
+
+#   # ✅ 4. Unit Test (release/** 브랜치에서만 실행)
+#   unit-test:
+#     if: startsWith(github.ref, 'refs/heads/release/')
+#     runs-on: ubuntu-latest
+#     needs: lint
+#     defaults:
+#       run:
+#         working-directory: ./kakaobase
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Run Unit Tests
+#         run: npm test
+
+#   # ✅ 5. Integration Test (release/** 브랜치에서만 실행)
+#   integration-test:
+#     if: startsWith(github.ref, 'refs/heads/release/')
+#     runs-on: ubuntu-latest
+#     needs: unit-test
+#     defaults:
+#       run:
+#         working-directory: ./kakaobase
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Run Integration Tests (Cypress Example)
+#         run: npm run test:integration
+
+  # ✅ 6. Build & Deploy (release/** 또는 main 브랜치에서 실행, Blue/Green)
+  build:
+    if: startsWith(github.ref, 'refs/heads/release/') || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Determine Docker Tag
+        id: tag
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "DOCKER_TAG=prod" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
+            echo "DOCKER_TAG=release" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push Docker image
+        working-directory: ./kakaobase
+        run: |
+          FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}
+          FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:${{ steps.tag.outputs.DOCKER_TAG }}-${{ github.sha }}
+          FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:latest
+          docker build -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST -f Dockerfile .
+          docker push $FE_IMAGE_SHA
+          docker push $FE_IMAGE_LATEST
+          echo "{\"frontendImage\":\"$FE_IMAGE_SHA\"}" > imageDetail.json
+
+      - name: Prepare deploy bundle
+        working-directory: ./kakaobase
+        run: |
+          mkdir bundle
+          cp appspec.yml scripts/* imageDetail.json bundle/
+          zip -r fe-deploy.zip bundle
+
+      - name: Upload to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl private
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: ./kakaobase/fe-deploy.zip
+          DEST_DIR: deploy/
+
+    #   - name: Determine Deployment Target
+    #     id: target
+    #     run: |
+    #       if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+    #         echo "APP_NAME=frontend-prod" >> $GITHUB_OUTPUT
+    #         echo "DEPLOY_GROUP=frontend-prod-group" >> $GITHUB_OUTPUT
+    #       elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
+    #         echo "APP_NAME=frontend-release" >> $GITHUB_OUTPUT
+    #         echo "DEPLOY_GROUP=frontend-release-group" >> $GITHUB_OUTPUT
+    #       else
+    #         echo "No deployment target for this branch."
+    #         exit 1
+    #       fi
+
+    #   - name: Trigger CodeDeploy (Blue/Green)
+    #     uses: webfactory/create-aws-codedeploy-deployment@v1
+    #     with:
+    #       application-name: ${{ steps.target.outputs.APP_NAME }}
+    #       deployment-group: ${{ steps.target.outputs.DEPLOY_GROUP }}
+    #       deployment-config: CodeDeployDefault.BlueGreen
+    #       wait-until-deployment-ready: true
+    #       s3-bucket: ${{ secrets.S3_BUCKET }}
+    #       s3-key: deploy/fe-deploy.zip
+    #       bundle-type: zip
+
+  # ✅ 7. Discord Notification on Failure
+  notify-on-fail:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Notification (on failure)
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "content": "🚨 **FE CI 실패**\n브랜치: `${{ github.ref_name }}`\n워크플로우: `${{ github.workflow }}`\n확인이 필요합니다."
+               }' \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
