@@ -108,7 +108,7 @@ jobs:
           FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}
           FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:${{ steps.tag.outputs.DOCKER_TAG }}-${{ github.sha }}
           FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:latest
-          docker build -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST -f Dockerfile .
+          docker build -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST -f .
           docker push $FE_IMAGE_SHA
           docker push $FE_IMAGE_LATEST
           echo "{\"frontendImage\":\"$FE_IMAGE_SHA\"}" > imageDetail.json
