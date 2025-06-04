@@ -130,8 +130,8 @@ jobs:
         id: target
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            echo "APP_NAME=frontend-prod" >> "$GITHUB_OUTPUT"
-            echo "DEPLOY_GROUP=frontend-prod-group" >> "$GITHUB_OUTPUT"
+            echo "APP_NAME="kakaobase-bluegreen-deploy" >> "$GITHUB_OUTPUT"
+            echo "DEPLOY_GROUP="kakaobase-bluegreen-deploy-group" >> "$GITHUB_OUTPUT"
           elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
             echo "APP_NAME=frontend-release" >> "$GITHUB_OUTPUT"
             echo "DEPLOY_GROUP=frontend-release-group" >> "$GITHUB_OUTPUT"
