@@ -124,7 +124,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp ./kakaobase/fe-deploy.zip s3://${{ secrets.S3_BUCKET }}/deploy/fe-deploy.zip
+          aws s3 cp ./kakaobase/fe-deploy.zip ${{ secrets.S3_BUCKET }}/fe-deploy.zip
 
       - name: Determine Deployment Target
         id: target
