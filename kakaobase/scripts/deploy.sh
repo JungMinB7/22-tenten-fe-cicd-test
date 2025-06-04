@@ -3,13 +3,12 @@ cd /home/ubuntu/app
 
 FE_IMAGE_LATEST=$(jq -r .frontendImage imageDetail.json)
 
-usermod -aG docker ubuntu
 echo "Pulling FE image: $FE_IMAGE_LATEST"
-docker pull $FE_IMAGE_LATEST
-docker stop frontend || true
-docker rm frontend || true
+sudo docker pull $FE_IMAGE_LATEST
+sudo docker stop frontend || true
+sudo docker rm frontend || true
 
-docker run -d \
+sudo docker run -d \
   --name frontend \
   -p 3000:3000 \
   --restart always \
