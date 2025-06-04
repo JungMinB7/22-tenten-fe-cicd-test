@@ -119,7 +119,7 @@ jobs:
         working-directory: ./kakaobase
         run: |
           mkdir bundle
-          cp appspec.yml scripts/* imageDetail.json bundle/
+          cp appspec.yml scripts imageDetail.json bundle/
           zip -r fe-deploy.zip bundle
 
       - name: Upload to S3
