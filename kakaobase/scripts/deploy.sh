@@ -19,7 +19,7 @@ sudo docker rm frontend || true
 # 🚀 새 컨테이너 실행
 sudo docker run -d \
   --name frontend \
-  -p 3000:3000 \
+  -p 80:3000 \
   --restart always \
   --env NEXT_PUBLIC_API_URL=https://kakaobase.com/api \
   --env NODE_ENV=production \
