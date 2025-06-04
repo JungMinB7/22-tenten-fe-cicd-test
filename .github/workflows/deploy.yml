@@ -123,41 +123,35 @@ jobs:
           zip -r fe-deploy.zip bundle
 
       - name: Upload to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl private
-        env:
-          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: ./kakaobase/fe-deploy.zip
-          DEST_DIR: deploy/
+        run: |
+          aws s3 cp ./kakaobase/fe-deploy.zip s3://${{ secrets.S3_BUCKET }}/deploy/fe-deploy.zip
 
       - name: Determine Deployment Target
         id: target
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            echo "APP_NAME=frontend-prod" >> $GITHUB_OUTPUT
-            echo "DEPLOY_GROUP=frontend-prod-group" >> $GITHUB_OUTPUT
+            echo "APP_NAME=frontend-prod" >> "$GITHUB_OUTPUT"
+            echo "DEPLOY_GROUP=frontend-prod-group" >> "$GITHUB_OUTPUT"
           elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
-            echo "APP_NAME=frontend-release" >> $GITHUB_OUTPUT
-            echo "DEPLOY_GROUP=frontend-release-group" >> $GITHUB_OUTPUT
+            echo "APP_NAME=frontend-release" >> "$GITHUB_OUTPUT"
+            echo "DEPLOY_GROUP=frontend-release-group" >> "$GITHUB_OUTPUT"
           else
-            echo "No deployment target for this branch."
+            echo "No deployment target for this branch." >&2
             exit 1
           fi
 
-      - name: Trigger CodeDeploy (Blue/Green)
-        uses: webfactory/create-aws-codedeploy-deployment@v1 
-        with:
-          application-name: ${{ steps.target.outputs.APP_NAME }}
-          deployment-group: ${{ steps.target.outputs.DEPLOY_GROUP }}
-          deployment-config: CodeDeployDefault.BlueGreen
-          wait-until-deployment-ready: true
-          s3-bucket: ${{ secrets.S3_BUCKET }}
-          s3-key: deploy/fe-deploy.zip
-          bundle-type: zip
+      - name: Trigger CodeDeploy Deployment (Blue/Green)
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ steps.target.outputs.APP_NAME }} \
+            --deployment-group-name ${{ steps.target.outputs.DEPLOY_GROUP }} \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=deploy/fe-deploy.zip,bundleType=zip \
+            --region ${{ secrets.AWS_REGION }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
   # ✅ 7. Discord Notification on Failure
   notify-on-fail:
