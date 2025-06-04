@@ -134,30 +134,30 @@ jobs:
           SOURCE_DIR: ./kakaobase/fe-deploy.zip
           DEST_DIR: deploy/
 
-    #   - name: Determine Deployment Target
-    #     id: target
-    #     run: |
-    #       if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-    #         echo "APP_NAME=frontend-prod" >> $GITHUB_OUTPUT
-    #         echo "DEPLOY_GROUP=frontend-prod-group" >> $GITHUB_OUTPUT
-    #       elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
-    #         echo "APP_NAME=frontend-release" >> $GITHUB_OUTPUT
-    #         echo "DEPLOY_GROUP=frontend-release-group" >> $GITHUB_OUTPUT
-    #       else
-    #         echo "No deployment target for this branch."
-    #         exit 1
-    #       fi
+      - name: Determine Deployment Target
+        id: target
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "APP_NAME=frontend-prod" >> $GITHUB_OUTPUT
+            echo "DEPLOY_GROUP=frontend-prod-group" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF}" =~ ^refs/heads/release/ ]]; then
+            echo "APP_NAME=frontend-release" >> $GITHUB_OUTPUT
+            echo "DEPLOY_GROUP=frontend-release-group" >> $GITHUB_OUTPUT
+          else
+            echo "No deployment target for this branch."
+            exit 1
+          fi
 
-    #   - name: Trigger CodeDeploy (Blue/Green)
-    #     uses: webfactory/create-aws-codedeploy-deployment@v1
-    #     with:
-    #       application-name: ${{ steps.target.outputs.APP_NAME }}
-    #       deployment-group: ${{ steps.target.outputs.DEPLOY_GROUP }}
-    #       deployment-config: CodeDeployDefault.BlueGreen
-    #       wait-until-deployment-ready: true
-    #       s3-bucket: ${{ secrets.S3_BUCKET }}
-    #       s3-key: deploy/fe-deploy.zip
-    #       bundle-type: zip
+      - name: Trigger CodeDeploy (Blue/Green)
+        uses: webfactory/create-aws-codedeploy-deployment@v1 
+        with:
+          application-name: ${{ steps.target.outputs.APP_NAME }}
+          deployment-group: ${{ steps.target.outputs.DEPLOY_GROUP }}
+          deployment-config: CodeDeployDefault.BlueGreen
+          wait-until-deployment-ready: true
+          s3-bucket: ${{ secrets.S3_BUCKET }}
+          s3-key: deploy/fe-deploy.zip
+          bundle-type: zip
 
   # ✅ 7. Discord Notification on Failure
   notify-on-fail:

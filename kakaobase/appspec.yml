@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/app
+
+hooks:
+  AfterInstall:
+    - location: scripts/deploy.sh
+      runas: ubuntu
+
+  ValidateService:
+    - location: scripts/health_check.sh
+      runas: ubuntu
