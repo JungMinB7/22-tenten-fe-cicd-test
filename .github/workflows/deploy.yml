@@ -118,9 +118,10 @@ jobs:
       - name: Prepare deploy bundle
         working-directory: ./kakaobase
         run: |
-          mkdir bundle
-          cp appspec.yml scripts imageDetail.json bundle/
-          zip -r fe-deploy.zip bundle
+          mkdir -p bundle/scripts
+          cp appspec.yml imageDetail.json bundle/
+          cp -r scripts/* bundle/scripts/
+          cd bundle && zip -r ../fe-deploy.zip . && cd ..
 
       - name: Upload to S3
         run: |
