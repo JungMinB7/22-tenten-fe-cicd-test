@@ -166,4 +166,4 @@ jobs:
                -d '{
                  "content": "🚨 **FE CI 실패**\n브랜치: `${{ github.ref_name }}`\n워크플로우: `${{ github.workflow }}`\n확인이 필요합니다."
                }' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+               ${{ secrets.DISCORD_WEBHOOK_URL }}##
