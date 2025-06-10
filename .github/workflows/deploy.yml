@@ -147,7 +147,7 @@ jobs:
             --application-name ${{ steps.target.outputs.APP_NAME }} \
             --deployment-group-name ${{ steps.target.outputs.DEPLOY_GROUP }} \
             --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --s3-location bucket=${{ secrets.S3_BUCKET }},key=deploy/fe-deploy.zip,bundleType=zip \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=fe/fe-deploy.zip,bundleType=zip \
             --region ${{ secrets.AWS_REGION }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
