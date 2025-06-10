@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=80
+PORT=3000
 
 
 for i in {1..10}; do
