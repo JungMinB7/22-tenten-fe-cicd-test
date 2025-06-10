@@ -155,16 +155,29 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
   # ✅ 7. Discord Notification on Failure
-  notify-on-fail:
-    if: failure()
+  notify:
+    name: Discord Notification
+    needs: build
+    if: always()
     runs-on: ubuntu-latest
+
     steps:
-      - name: Discord Notification (on failure)
+      - name: Send Discord Notification
         run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{
-                 "content": "🚨 **FE CI 실패**\n브랜치: `${{ github.ref_name }}`\n워크플로우: `${{ github.workflow }}`\n확인이 필요합니다."
-               }' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
-               
+          if [ "${{ needs.build.result }}" == "success" ]; then
+            STATUS="✅ Spring 배포 성공"
+            COLOR="5763719"
+          else
+            STATUS="❌ Spring 배포 실패"
+            COLOR="15158332"
+          fi
+          
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"$STATUS: ${{ github.workflow }}\",
+                \"description\": \"브랜치: \`${{ github.ref_name }}\`\n커밋한 사람: \`${{ github.actor }}\`\n[👉 액션 보기](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\",
+                \"color\": $COLOR
+              }]
+            }" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
