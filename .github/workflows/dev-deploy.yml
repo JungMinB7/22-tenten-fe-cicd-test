@@ -1,0 +1,66 @@
+name: Frontend dev-CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  # ✅ 1. Checkout
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+  # ✅ 2. Setup Node.js
+  setup:
+    runs-on: ubuntu-latest
+    needs: checkout
+    defaults:
+      run:
+        working-directory: ./kakaobase
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.13.1'
+
+      - name: Install Dependencies
+        run: npm ci
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ 1. Configure AWS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # ✅ 2. Docker Login to ECR
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # ✅ 3. Build and Push Docker Image
+      - name: Build and Push Docker Image
+        working-directory: ./kakaobase
+        run: |
+          docker build -t $ECR_REPO:$IMAGE_TAG .
+          docker push $ECR_REPO:$IMAGE_TAG
+
+      # ✅ 4. SSH into EC2 and run container
+      - name: Deploy to EC2 (Dev)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEV_EC2_HOST }} # dev ec2 ip
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }} # .pem 
+          script: |
+            docker pull $ECR_REPO:$IMAGE_TAG
+            docker stop next-dev || true && docker rm next-dev || true
+            docker run -d --name next-dev -p 3000:3000 $ECR_REPO:$IMAGE_TAG

@@ -4,9 +4,7 @@ set -e
 cd /home/ubuntu/app
 
 # 🔐 ECR 로그인 (IAM Role 기반 권한 필요)
-echo "Logging into ECR..."
-aws ecr get-login-password --region ap-northeast-2 | \
-  sudo docker login --username AWS --password-stdin 698446906145.dkr.ecr.ap-northeast-2.amazonaws.com/kakaobase-fe
+
 # 📦 이미지 정보 읽기
 FE_IMAGE_LATEST=$(jq -r .frontendImage imageDetail.json)
 echo "Pulling FE image: $FE_IMAGE_LATEST"
