@@ -111,7 +111,7 @@ jobs:
           docker build -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST .
           docker push $FE_IMAGE_SHA
           docker push $FE_IMAGE_LATEST
-          echo "{\"frontendImage\":\"$FE_IMAGE_SHA\"}" > imageDetail.json
+          echo "{\"frontendImage\":\"$FE_IMAGE_SHA\", \"ecrRepo\":\"$FRONTEND_IMAGE_BASE\"}" > imageDetail.json
 
       - name: Prepare deploy bundle
         working-directory: ./kakaobase
@@ -163,7 +163,7 @@ jobs:
       - name: Send Discord Notification
         run: |
           if [ "${{ needs.build.result }}" == "success" ]; then
-            STATUS="✅ Spring 배포 성공"
+            STATUS="✅ Next.js 배포 성공"
             COLOR="5763719"
           else
             STATUS="❌ Spring 배포 실패"
