@@ -71,6 +71,7 @@ jobs:
             --parameters 'commands=[
               "set -e",
               "FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}",
+              "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}",
               "FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:dev-${{ github.sha }}",
               "docker pull $FE_IMAGE_SHA",
               "docker stop next-dev || true",
