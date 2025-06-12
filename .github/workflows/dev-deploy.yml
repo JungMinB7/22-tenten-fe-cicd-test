@@ -65,7 +65,7 @@ jobs:
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-            --instance-ids ${{ secrets.DEV_EC2_INSTANCE_ID }} \ 
+            --instance-ids ${{ secrets.DEV_EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Dev Next.js container" \
             --parameters commands="
