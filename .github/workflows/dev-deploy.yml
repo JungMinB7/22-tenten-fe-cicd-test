@@ -61,11 +61,11 @@ jobs:
           docker build -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST .
           docker push $FE_IMAGE_SHA
           docker push $FE_IMAGE_LATEST
-
+## SSM 배포
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-            --instance-ids ${{ secrets.DEV_EC2_INSTANCE_ID }} \
+            --instance-ids ${{ secrets.DEV_EC2_INSTANCE_ID }} \ 
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Dev Next.js container" \
             --parameters commands="
