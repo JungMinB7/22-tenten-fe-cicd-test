@@ -62,18 +62,19 @@ jobs:
           docker push $FE_IMAGE_SHA
           docker push $FE_IMAGE_LATEST
 ## SSM 배포
-      - name: Deploy via SSM
+      - name: Deploy via SSM (Safe Script Mode)
         run: |
           aws ssm send-command \
             --instance-ids ${{ secrets.DEV_EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Dev Next.js container" \
-            --parameters commands="[
-              \"FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}\",
-              \"FE_IMAGE_SHA=\\\"$FRONTEND_IMAGE_BASE:dev-${{ github.sha }}\\\"\",
-              \"docker pull $FE_IMAGE_SHA\",
-              \"docker stop next-dev || true\",
-              \"docker rm next-dev || true\",
-              \"docker run -d --name next-dev -p 3000:3000 $FE_IMAGE_SHA\"
-            ]" \
+            --parameters 'commands=[
+              "set -e",
+              "FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}",
+              "FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:dev-${{ github.sha }}",
+              "docker pull $FE_IMAGE_SHA",
+              "docker stop next-dev || true",
+              "docker rm next-dev || true",
+              "docker run -d --name next-dev -p 3000:3000 $FE_IMAGE_SHA"
+            ]' \
             --region ${{ secrets.AWS_REGION }}
