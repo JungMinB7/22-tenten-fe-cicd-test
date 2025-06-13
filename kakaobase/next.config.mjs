@@ -9,12 +9,14 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'https://dev.kakaobase.com/api/:path*',
+        source: '/:path*',
+        destination: 'https://dev.kakaobase.com/:path*',
       },
     ];
   },
 };
 
 export default nextConfig;
+
+
 
