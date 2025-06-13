@@ -10,13 +10,14 @@ const nextConfig = {
     return [
       {
         source: '/:path*',
-        destination: 'https://dev.kakaobase.com/:path*',
+        destination: 'https://dev.kakaobase.com/api/:path*',
       },
     ];
   },
 };
 
 export default nextConfig;
+
 
 
 
