@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 
 ARG NEXT_PUBLIC_API_BASE_URL
-ENV NEXT_PUBLIC_API_BASE_URL=https://api-dev.kakaobase.com/
+ENV NEXT_PUBLIC_API_BASE_URL=https://dev.kakaobase.com/api
 
 # .dockerignore 반드시 설정되어 있어야 함 (node_modules, .git 등)
 RUN npm run build
@@ -22,7 +22,7 @@ FROM node:22.13.1-alpine AS runner
 
 ENV NODE_ENV=production
 # API_BASE_URL은 build-time보다 runtime에 환경변수로 넘기는 것이 더 유연함
-ENV NEXT_PUBLIC_API_BASE_URL=https://api-dev.kakaobase.com/
+ENV NEXT_PUBLIC_API_BASE_URL=https://dev.kakaobase.com/api
 
 WORKDIR /app
 
