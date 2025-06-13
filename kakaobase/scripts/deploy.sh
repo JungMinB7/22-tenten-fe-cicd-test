@@ -7,6 +7,7 @@ cd /home/ubuntu/app
 echo "Logging into ECR..."
 ECR_REPO=$(jq -r .ecrRepo imageDetail.json)
 AWS_REGION=$(jq -r .awsRegion imageDetail.json)
+PROD_API_URL=$(jq -r .prodApiUr imageDetail.json)
 aws ecr get-login-password --region "$AWS_REGION" | \
   sudo docker login --username AWS --password-stdin "$ECR_REPO"
   
@@ -23,7 +24,7 @@ sudo docker run -d \
   --name frontend \
   -p 3000:3000 \
   --restart always \
-  --env NEXT_PUBLIC_API_URL=https://kakaobase.com/api \
+  --env NEXT_PUBLIC_API_URL=$PROD_API_URL \
   --env NODE_ENV=production \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
