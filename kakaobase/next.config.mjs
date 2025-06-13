@@ -9,7 +9,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
+        source: '/api/:path*',
         destination: 'https://dev.kakaobase.com/api/:path*',
       },
     ];
