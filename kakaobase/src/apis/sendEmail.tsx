@@ -7,7 +7,7 @@ interface EmailVerification {
 
 export default async function sendEmail({ email, purpose }: EmailVerification) {
   try {
-    await api.post('/users/email/verification-requests', {
+    await api.post('users/email/verification-requests', {
       email,
       purpose,
     });
