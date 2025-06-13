@@ -5,15 +5,7 @@ const nextConfig = {
   },
   experimental: {
     logging: true,
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://dev.kakaobase.com/api/:path*',
-      },
-    ];
-  },
+  }
 };
 
 export default nextConfig;
