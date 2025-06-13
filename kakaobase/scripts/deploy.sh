@@ -7,7 +7,7 @@ cd /home/ubuntu/app
 echo "Logging into ECR..."
 ECR_REPO=$(jq -r .ecrRepo imageDetail.json)
 AWS_REGION=$(jq -r .awsRegion imageDetail.json)
-PROD_API_URL=$(jq -r .prodApiUr imageDetail.json)
+PROD_API_URL=$(jq -r .prodApiUrl imageDetail.json)
 aws ecr get-login-password --region "$AWS_REGION" | \
   sudo docker login --username AWS --password-stdin "$ECR_REPO"
   
