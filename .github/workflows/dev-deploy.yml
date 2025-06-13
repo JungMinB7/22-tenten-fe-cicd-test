@@ -76,6 +76,6 @@ jobs:
               "docker pull $FE_IMAGE_SHA",
               "docker stop next-dev || true",
               "docker rm next-dev || true",
-              "docker run -d --name next-dev -p 3000:3000 -e NEXT_PUBLIC_API_BASE_URL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} $FE_IMAGE_SHA"
+              "docker run -d --name next-dev -p 3000:3000 -e NEXT_PUBLIC_API_BASE_URL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} $FE_IMAGE_SHA" 
             ]' \
             --region ${{ secrets.AWS_REGION }}
