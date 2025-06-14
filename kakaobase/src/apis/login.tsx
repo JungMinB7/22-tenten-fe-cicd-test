@@ -17,13 +17,13 @@ interface LoginResponse {
 }
 
 export async function login(payload: LoginRequest): Promise<LoginResponse> {
-  const response = await api.post('auth/tokens', payload);
+  const response = await api.post('/auth/tokens', payload);
   return response.data;
 }
 
 export async function refreshLogin() {
   try {
-    const response = await api.post('auth/tokens/refresh');
+    const response = await api.post('/auth/tokens/refresh');
     document.cookie = `accessToken=${response.data.access_token}; path=/; secure; samesite=strict; max-age=3600`;
     return response.data;
   } catch (e: unknown) {
