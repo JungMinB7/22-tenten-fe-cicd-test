@@ -57,7 +57,7 @@ jobs:
         run: |
           FRONTEND_IMAGE_BASE=${{ secrets.ECR_REGISTRY }}/${{ secrets.FRONTEND_REPO }}
           FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:${{ steps.tag.outputs.DOCKER_TAG }}-${{ github.sha }}
-          FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:dev-latest
+          FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:latest
           docker build \
             --build-arg NEXT_PUBLIC_API_BASE_URL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} \
             -t $FE_IMAGE_SHA -t $FE_IMAGE_LATEST .
@@ -78,6 +78,14 @@ jobs:
               "docker pull $FE_IMAGE_SHA",
               "docker stop next-dev || true",
               "docker rm next-dev || true",
-              "docker run -d --name next-dev -p 3000:3000 $FE_IMAGE_SHA" 
+              "sudo docker run -d \
+                  --name next-dev \
+                  -p 3000:3000 \
+                  --restart always \
+                  --env NEXT_PUBLIC_API_URL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} \
+                  --env NODE_ENV=production \
+                  --log-opt max-size=10m \
+                  --log-opt max-file=3 \
+                  "$FE_IMAGE_LATEST""
             ]' \
             --region ${{ secrets.AWS_REGION }}
