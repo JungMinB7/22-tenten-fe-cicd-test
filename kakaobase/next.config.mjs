@@ -19,9 +19,10 @@ const nextConfig = {
   experimental: {
     logging: true,
   },
-  env: {
-    NEXT_PUBLIC_API_BASE_URL: '__NEXT_PUBLIC_API_BASE_URL__',
-  },
 };
 
 export default nextConfig;
+
+
+
+
