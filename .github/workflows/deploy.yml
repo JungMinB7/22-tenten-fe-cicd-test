@@ -109,8 +109,8 @@ jobs:
           FE_IMAGE_SHA=$FRONTEND_IMAGE_BASE:${{ steps.tag.outputs.DOCKER_TAG }}-${{ github.sha }}
           FE_IMAGE_LATEST=$FRONTEND_IMAGE_BASE:latest
           docker build \
-          --build-arg NEXT_PUBLIC_API_BASE_URL=${{ secrets.PROD_NEXT_PUBLIC_API_BASE_URL }} \
-          IMAGE_SHA -t $FE_IMAGE_LATEST .
+            --build-arg NEXT_PUBLIC_API_BASE_URL=${{ secrets.PROD_NEXT_PUBLIC_API_BASE_URL }} \
+            IMAGE_SHA -t $FE_IMAGE_LATEST .
           docker push $FE_IMAGE_SHA
           docker push $FE_IMAGE_LATEST
           echo "{\"frontendImage\":\"$FE_IMAGE_SHA\", \"ecrRepo\":\"$FRONTEND_IMAGE_BASE\", \"awsRegion\":\"${{ secrets.AWS_REGION }}\", \"prodApiUrl\":\"${{ secrets.PROD_NEXT_PUBLIC_API_BASE_URL }}\""}" > imageDetail.json
@@ -168,7 +168,7 @@ jobs:
             STATUS="✅ Next.js 배포 성공"
             COLOR="5763719"
           else
-            STATUS="❌ Spring 배포 실패"
+            STATUS="❌ Next.js 배포 실패"
             COLOR="15158332"
           fi
           
