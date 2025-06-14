@@ -24,7 +24,7 @@ sudo docker run -d \
   --name frontend \
   -p 3000:3000 \
   --restart always \
-  --env NEXT_PUBLIC_API_URL=$PROD_API_URL \
+  --env NEXT_PUBLIC_API_URL="$PROD_API_URL" \
   --env NODE_ENV=production \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
