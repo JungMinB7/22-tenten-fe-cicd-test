@@ -86,6 +86,6 @@ jobs:
                   --env NODE_ENV=production \
                   --log-opt max-size=10m \
                   --log-opt max-file=3 \
-                  "$FE_IMAGE_LATEST""
+                  $FE_IMAGE_LATEST"
             ]' \
             --region ${{ secrets.AWS_REGION }}
