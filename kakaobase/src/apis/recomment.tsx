@@ -13,7 +13,7 @@ export async function getRecomments(
     const params: Record<string, any> = {};
     if (limit !== undefined) params.limit = limit;
     if (cursor !== undefined) params.cursor = cursor;
-    const response = await api.get(`/comments/${commentId}/recomments`, {
+    const response = await api.get(`comments/${commentId}/recomments`, {
       params,
       headers: {
         Authorization: `Bearer ${getClientCookie('accessToken')}`,

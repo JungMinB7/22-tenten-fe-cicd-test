@@ -48,7 +48,7 @@ export const useSignupForm = () => {
       const response = await signup(request);
       console.log(response);
 
-      router.push('/login');
+      router.push('login');
     } catch (e: any) {
       console.log(e.response);
     }

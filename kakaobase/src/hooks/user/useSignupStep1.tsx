@@ -9,7 +9,7 @@ export const useSignupStep1 = () => {
 
   const onSubmitStep1 = (password: string) => {
     setStep1({ email, password });
-    router.push('/signup/step2');
+    router.push('signup/step2');
   };
 
   return {

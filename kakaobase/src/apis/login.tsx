@@ -17,7 +17,7 @@ interface LoginResponse {
 }
 
 export async function login(payload: LoginRequest): Promise<LoginResponse> {
-  const response = await api.post('/auth/tokens', payload);
+  const response = await api.post('auth/tokens', payload);
   return response.data;
 }
 

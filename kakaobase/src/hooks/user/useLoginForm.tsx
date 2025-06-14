@@ -71,7 +71,7 @@ export default function useLoginForm() {
     ...loginForm,
     onSubmit,
     goToSignup: () => {
-      router.push('/signup/step1');
+      router.push('signup/step1');
     },
   };
 }
