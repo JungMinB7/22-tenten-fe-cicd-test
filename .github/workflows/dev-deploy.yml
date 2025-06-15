@@ -83,7 +83,7 @@ jobs:
                   -p 3000:3000 \
                   --restart always \
                   --env NODE_ENV=production \
-                  --env NEXT_PUBLIC_API_BASE_URLL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} \
+                  --env NEXT_PUBLIC_API_BASE_URL=${{ secrets.DEV_NEXT_PUBLIC_API_BASE_URL }} \
                   --env NODE_ENV=production \
                   --log-opt max-size=10m \
                   --log-opt max-file=3 \
