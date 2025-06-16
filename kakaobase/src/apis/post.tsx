@@ -10,7 +10,7 @@ interface postParams {
 //게시글 삭제
 export async function deletePost({ postType, id }: postParams) {
   try {
-    const response = await api.delete(`posts/${postType}/${id}`, {
+    const response = await api.delete(`/posts/${postType}/${id}`, {
       headers: {
         Authorization: `Bearer ${getClientCookie('accessToken')}`,
       },

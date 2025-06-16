@@ -40,7 +40,7 @@ export async function postComment({
 }) {
   try {
     const response = await api.post(
-      `posts/${postId}/comments`,
+      `/posts/${postId}/comments`,
       {
         content,
         parent_id,

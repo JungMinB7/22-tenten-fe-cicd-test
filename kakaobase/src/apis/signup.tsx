@@ -11,7 +11,7 @@ interface SignupRequest {
 
 export default async function signup(payload: SignupRequest): Promise<void> {
   try {
-    await api.post('users', payload);
+    await api.post('/users', payload);
   } catch (e: unknown) {
     if (e instanceof Error) {
       throw e;

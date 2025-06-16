@@ -10,7 +10,7 @@ export default async function postCodeVerification({
   code,
 }: codeVerification) {
   try {
-    await api.post('users/email/verification', { email, code });
+    await api.post('/users/email/verification', { email, code });
   } catch (e: unknown) {
     if (e instanceof Error) throw e;
   }
